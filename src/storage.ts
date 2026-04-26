@@ -1,7 +1,14 @@
-import type { ModuleProgress, ProgressState, ThoughtNode, ThoughtState } from "./types";
+import type {
+  ModuleProgress,
+  ProgressState,
+  ThoughtMetaState,
+  ThoughtNode,
+  ThoughtState,
+} from "./types";
 
 const PROGRESS_KEY = "edgion.progress.v1";
 const THOUGHTS_KEY = "edgion.thoughts.v1";
+const THOUGHT_META_KEY = "edgion.thoughtMeta.v1";
 
 export const emptyThought: ThoughtNode = {
   claim: "",
@@ -41,6 +48,11 @@ export const saveProgress = (progress: ProgressState) => writeJson(PROGRESS_KEY,
 export const loadThoughts = () => readJson<ThoughtState>(THOUGHTS_KEY, {});
 
 export const saveThoughts = (thoughts: ThoughtState) => writeJson(THOUGHTS_KEY, thoughts);
+
+export const loadThoughtMeta = () => readJson<ThoughtMetaState>(THOUGHT_META_KEY, {});
+
+export const saveThoughtMeta = (thoughtMeta: ThoughtMetaState) =>
+  writeJson(THOUGHT_META_KEY, thoughtMeta);
 
 export const defaultProgress = (): ModuleProgress => ({
   read: false,
