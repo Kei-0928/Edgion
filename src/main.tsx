@@ -27,11 +27,21 @@ import {
   defaultProgress,
   emptyThought,
   loadProgress,
+  loadThoughtMeta,
   loadThoughts,
   saveProgress,
+  saveThoughtMeta,
   saveThoughts,
 } from "./storage";
-import type { ModuleProgress, NavigationItem, NewsModule, ThoughtNode, ViewId } from "./types";
+import type {
+  ModuleProgress,
+  NavigationItem,
+  NewsModule,
+  ThoughtMetaState,
+  ThoughtNode,
+  ThoughtState,
+  ViewId,
+} from "./types";
 import "./styles.css";
 
 const navItems: NavigationItem[] = [
@@ -62,11 +72,88 @@ const getScore = (module: NewsModule, moduleProgress: ModuleProgress) =>
 const countThoughtFields = (thought: ThoughtNode) =>
   Object.values(thought).filter((value) => value.trim().length > 0).length;
 
+type ProgressRange = "today" | "month" | "all";
+
+type ProgressStats = {
+  readCount: number;
+  quizCorrect: number;
+  quizTotal: number;
+  thoughtCount: number;
+};
+
+const sameDay = (date: Date, reference: Date) =>
+  date.getFullYear() === reference.getFullYear() &&
+  date.getMonth() === reference.getMonth() &&
+  date.getDate() === reference.getDate();
+
+const sameMonth = (date: Date, reference: Date) =>
+  date.getFullYear() === reference.getFullYear() && date.getMonth() === reference.getMonth();
+
+const isInRange = (isoDate: string | undefined, range: ProgressRange) => {
+  if (range === "all") {
+    return true;
+  }
+
+  if (!isoDate) {
+    return false;
+  }
+
+  const date = new Date(isoDate);
+  if (Number.isNaN(date.getTime())) {
+    return false;
+  }
+
+  const now = new Date();
+  return range === "today" ? sameDay(date, now) : sameMonth(date, now);
+};
+
+const getProgressStats = (
+  progress: Record<string, ModuleProgress>,
+  thoughts: ThoughtState,
+  thoughtMeta: ThoughtMetaState,
+  range: ProgressRange,
+): ProgressStats => {
+  const readCount = newsModules.filter((module) => {
+    const moduleProgress = getModuleProgress(progress, module.id);
+    return moduleProgress.read && isInRange(moduleProgress.readAt ?? moduleProgress.completedAt, range);
+  }).length;
+
+  const quizCorrect = newsModules.reduce((total, module) => {
+    const moduleProgress = getModuleProgress(progress, module.id);
+    if (!isInRange(moduleProgress.quizUpdatedAt ?? moduleProgress.completedAt, range)) {
+      return total;
+    }
+
+    return total + getScore(module, moduleProgress);
+  }, 0);
+
+  const quizTotal =
+    range === "all"
+      ? newsModules.reduce((total, module) => total + module.quizItems.length, 0)
+      : newsModules.reduce((total, module) => {
+          const moduleProgress = getModuleProgress(progress, module.id);
+          return isInRange(moduleProgress.quizUpdatedAt ?? moduleProgress.completedAt, range)
+            ? total + module.quizItems.length
+            : total;
+        }, 0);
+
+  const thoughtCount = newsModules.reduce((total, module) => {
+    if (!isInRange(thoughtMeta[module.id]?.updatedAt, range)) {
+      return total;
+    }
+
+    return total + countThoughtFields(thoughts[module.id] ?? emptyThought);
+  }, 0);
+
+  return { readCount, quizCorrect, quizTotal, thoughtCount };
+};
+
 function App() {
   const [activeView, setActiveView] = useState<ViewId>("home");
   const [selectedModuleId, setSelectedModuleId] = useState(newsModules[0].id);
   const [progress, setProgress] = useState(loadProgress);
   const [thoughts, setThoughts] = useState(loadThoughts);
+  const [thoughtMeta, setThoughtMeta] = useState(loadThoughtMeta);
 
   const selectedModule = useMemo(
     () => newsModules.find((module) => module.id === selectedModuleId) ?? newsModules[0],
@@ -76,21 +163,10 @@ function App() {
   const selectedProgress = getModuleProgress(progress, selectedModule.id);
   const selectedThought = thoughts[selectedModule.id] ?? emptyThought;
 
-  const stats = useMemo(() => {
-    const readCount = newsModules.filter((module) => getModuleProgress(progress, module.id).read)
-      .length;
-    const quizCorrect = newsModules.reduce(
-      (total, module) => total + getScore(module, getModuleProgress(progress, module.id)),
-      0,
-    );
-    const quizTotal = newsModules.reduce((total, module) => total + module.quizItems.length, 0);
-    const thoughtCount = newsModules.reduce(
-      (total, module) => total + countThoughtFields(thoughts[module.id] ?? emptyThought),
-      0,
-    );
-
-    return { readCount, quizCorrect, quizTotal, thoughtCount };
-  }, [progress, thoughts]);
+  const stats = useMemo(
+    () => getProgressStats(progress, thoughts, thoughtMeta, "all"),
+    [progress, thoughts, thoughtMeta],
+  );
 
   useEffect(() => {
     saveProgress(progress);
@@ -99,6 +175,10 @@ function App() {
   useEffect(() => {
     saveThoughts(thoughts);
   }, [thoughts]);
+
+  useEffect(() => {
+    saveThoughtMeta(thoughtMeta);
+  }, [thoughtMeta]);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -121,15 +201,23 @@ function App() {
         [quizId]: answerIndex,
       },
       completedAt: now,
+      quizUpdatedAt: now,
     });
   };
 
   const updateThought = (field: keyof ThoughtNode, value: string) => {
+    const now = new Date().toISOString();
     setThoughts((current) => ({
       ...current,
       [selectedModule.id]: {
         ...(current[selectedModule.id] ?? emptyThought),
         [field]: value,
+      },
+    }));
+    setThoughtMeta((current) => ({
+      ...current,
+      [selectedModule.id]: {
+        updatedAt: now,
       },
     }));
   };
@@ -142,6 +230,10 @@ function App() {
     setThoughts((current) => ({
       ...current,
       [selectedModule.id]: emptyThought,
+    }));
+    setThoughtMeta((current) => ({
+      ...current,
+      [selectedModule.id]: {},
     }));
   };
 
@@ -225,6 +317,7 @@ function App() {
               updateSelectedProgress({
                 ...selectedProgress,
                 read: true,
+                readAt: new Date().toISOString(),
                 completedAt: new Date().toISOString(),
               })
             }
@@ -240,7 +333,12 @@ function App() {
         )}
 
         {activeView === "progress" && (
-          <ProgressView progress={progress} thoughts={thoughts} stats={stats} />
+          <ProgressView
+            progress={progress}
+            thoughts={thoughts}
+            thoughtMeta={thoughtMeta}
+            stats={stats}
+          />
         )}
       </main>
 
@@ -566,33 +664,86 @@ function ThoughtTreeView({
 function ProgressView({
   progress,
   thoughts,
+  thoughtMeta,
   stats,
 }: {
   progress: Record<string, ModuleProgress>;
   thoughts: Record<string, ThoughtNode>;
-  stats: { readCount: number; quizCorrect: number; quizTotal: number; thoughtCount: number };
+  thoughtMeta: ThoughtMetaState;
+  stats: ProgressStats;
 }) {
+  const [range, setRange] = useState<ProgressRange>("today");
+  const visibleStats = useMemo(
+    () => (range === "all" ? stats : getProgressStats(progress, thoughts, thoughtMeta, range)),
+    [progress, range, stats, thoughtMeta, thoughts],
+  );
+  const rangeLabel = range === "today" ? "今日" : range === "month" ? "今月" : "全期間";
+  const quizValue =
+    visibleStats.quizTotal === 0
+      ? `${visibleStats.quizCorrect}`
+      : `${visibleStats.quizCorrect}/${visibleStats.quizTotal}`;
+
   return (
     <section className="view-grid">
       <div className="content-header">
         <div>
           <p className="eyebrow">Learning loop</p>
           <h2>毎日の教養ログ</h2>
-          <p>読んだ量、試した量、考えた量を軽く見える化します。</p>
+          <p>{rangeLabel}の読んだ量、試した量、考えた量を軽く見える化します。</p>
         </div>
       </div>
 
-      <div className="metric-row">
-        <Metric icon={BookOpen} label="既読" value={`${stats.readCount}/${newsModules.length}`} />
-        <Metric icon={CircleHelp} label="クイズ" value={`${stats.quizCorrect}/${stats.quizTotal}`} />
-        <Metric icon={Brain} label="思考ノード" value={`${stats.thoughtCount}`} />
+      <div className="range-tabs" aria-label="ログの期間">
+        {[
+          ["today", "今日"],
+          ["month", "今月"],
+          ["all", "全期間"],
+        ].map(([id, label]) => (
+          <button
+            className={range === id ? "range-tab active" : "range-tab"}
+            key={id}
+            onClick={() => setRange(id as ProgressRange)}
+            type="button"
+          >
+            {label}
+          </button>
+        ))}
       </div>
+
+      <div className="metric-row">
+        <Metric icon={BookOpen} label="既読" value={`${visibleStats.readCount}`} />
+        <Metric icon={CircleHelp} label="クイズ" value={quizValue} />
+        <Metric icon={Brain} label="思考ノード" value={`${visibleStats.thoughtCount}`} />
+      </div>
+
+      <article className="log-summary">
+        <strong>{rangeLabel}のふり返り</strong>
+        <p>
+          {visibleStats.readCount + visibleStats.quizCorrect + visibleStats.thoughtCount > 0
+            ? "ニュースを読む、確かめる、自分の言葉にする流れが少しずつ積み上がっています。"
+            : "まだこの期間のログはありません。気になる教材を一つ選んで、背景から読んでみましょう。"}
+        </p>
+      </article>
 
       <div className="progress-list">
         {newsModules.map((module) => {
           const moduleProgress = getModuleProgress(progress, module.id);
           const score = getScore(module, moduleProgress);
           const thoughtCount = countThoughtFields(thoughts[module.id] ?? emptyThought);
+          const readValue = isInRange(moduleProgress.readAt ?? moduleProgress.completedAt, range)
+            ? moduleProgress.read
+              ? 100
+              : 0
+            : 0;
+          const quizValueForModule = isInRange(
+            moduleProgress.quizUpdatedAt ?? moduleProgress.completedAt,
+            range,
+          )
+            ? (score / module.quizItems.length) * 100
+            : 0;
+          const thoughtValue = isInRange(thoughtMeta[module.id]?.updatedAt, range)
+            ? (thoughtCount / 5) * 100
+            : 0;
 
           return (
             <article className="progress-card" key={module.id}>
@@ -601,9 +752,9 @@ function ProgressView({
                 <h3>{module.title}</h3>
               </div>
               <div className="progress-bars">
-                <ProgressBar label="Read" value={moduleProgress.read ? 100 : 0} />
-                <ProgressBar label="Quiz" value={(score / module.quizItems.length) * 100} />
-                <ProgressBar label="Tree" value={(thoughtCount / 5) * 100} />
+                <ProgressBar label="Read" value={readValue} />
+                <ProgressBar label="Quiz" value={quizValueForModule} />
+                <ProgressBar label="Tree" value={thoughtValue} />
               </div>
             </article>
           );
