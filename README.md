@@ -29,6 +29,8 @@ GitHub Pages URL:
 
 https://kei-0928.github.io/Edgion/
 
+Deployment is handled by GitHub Actions.
+
 ## Design notes
 
 The MVP intentionally uses built-in sample modules instead of live news APIs. The UI reads from a `NewsModule[]` data structure, so RSS, editorial CMS content, or a News API can be introduced later without redesigning the learning flow.
