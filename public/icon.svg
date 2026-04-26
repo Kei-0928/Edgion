@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Edgion icon</title>
+  <rect width="512" height="512" rx="96" fill="#111827"/>
+  <path d="M118 154c0-25 20-45 45-45h186c25 0 45 20 45 45v204c0 25-20 45-45 45H163c-25 0-45-20-45-45V154Z" fill="#fffdf8"/>
+  <path d="M165 170h182v38H165v-38Zm0 70h118v28H165v-28Zm0 54h182v28H165v-28Z" fill="#1f7a5f"/>
+  <path d="M326 232c35 0 63 28 63 63s-28 63-63 63-63-28-63-63 28-63 63-63Z" fill="#d95d39"/>
+  <path d="M324 261v41l34 20" fill="none" stroke="#fffdf8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
