@@ -421,6 +421,32 @@ p {
   gap: 12px;
 }
 
+.range-tabs {
+  display: inline-grid;
+  grid-template-columns: repeat(3, minmax(80px, 1fr));
+  gap: 6px;
+  width: min(420px, 100%);
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgb(255 253 248 / 0.72);
+}
+
+.range-tab {
+  min-height: 38px;
+  color: var(--muted);
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  font-weight: 900;
+}
+
+.range-tab.active {
+  color: white;
+  background: #111827;
+  box-shadow: 0 8px 20px rgb(17 24 39 / 0.12);
+}
+
 .metric-card {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -715,6 +741,22 @@ p {
 .progress-list {
   display: grid;
   gap: 12px;
+}
+
+.log-summary {
+  padding: 18px;
+  border: 1px solid rgb(222 214 200 / 0.84);
+  border-radius: 8px;
+  background: #f2fff9;
+}
+
+.log-summary strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.log-summary p {
+  margin-bottom: 0;
 }
 
 .progress-card {
