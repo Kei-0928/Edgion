@@ -2,14 +2,14 @@
   "name": "Edgion",
   "short_name": "Edgion",
   "description": "ニュースの背景知識を楽しく学び、考える力を育てる学習アプリ。",
-  "start_url": "/",
+  "start_url": "/Edgion/",
   "display": "standalone",
   "background_color": "#f6f3ec",
   "theme_color": "#111827",
   "lang": "ja",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "/Edgion/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
