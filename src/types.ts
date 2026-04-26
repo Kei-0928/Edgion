@@ -59,11 +59,15 @@ export type ModuleProgress = {
   review: boolean;
   quizAnswers: Record<string, number>;
   completedAt?: string;
+  readAt?: string;
+  quizUpdatedAt?: string;
 };
 
 export type ProgressState = Record<string, ModuleProgress>;
 
 export type ThoughtState = Record<string, ThoughtNode>;
+
+export type ThoughtMetaState = Record<string, { updatedAt?: string }>;
 
 export type ViewId = "home" | "learn" | "quiz" | "tree" | "progress";
 
