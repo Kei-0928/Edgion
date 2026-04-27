@@ -300,8 +300,8 @@ p {
 
 .module-chip {
   display: grid;
-  gap: 4px;
-  min-height: 108px;
+  gap: 8px;
+  min-height: 128px;
   padding: 14px;
   color: var(--ink);
   border: 1px solid var(--line);
@@ -313,6 +313,32 @@ p {
 .module-chip strong {
   font-size: 1rem;
   line-height: 1.35;
+}
+
+.module-chip-tags {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.module-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 8px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgb(255 253 248 / 0.82);
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.module-tag.read {
+  color: var(--green-strong);
+  border-color: rgb(31 122 95 / 0.28);
+  background: rgb(31 122 95 / 0.08);
 }
 
 .module-chip.active {

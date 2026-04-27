@@ -48,6 +48,7 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Refined the public Support / Privacy copy to better match the current MVP behavior.
 - Added a reusable module template for future built-in lessons.
 - Added a built-in module about food loss, discounting, and donation systems.
+- Added difficulty and read-state labels to module cards.
 
 ## Next Safe Task Candidates
 

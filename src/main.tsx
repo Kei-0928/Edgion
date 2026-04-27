@@ -373,6 +373,12 @@ function ModulePicker({
           >
             <span>{module.category}</span>
             <strong>{module.title}</strong>
+            <span className="module-chip-tags">
+              <span className="module-tag">{module.difficulty}</span>
+              <span className={moduleProgress.read ? "module-tag read" : "module-tag"}>
+                {moduleProgress.read ? "既読" : "未読"}
+              </span>
+            </span>
             <small>
               {module.readingTime} · {score}/{module.quizItems.length}
             </small>
