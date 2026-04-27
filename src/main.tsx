@@ -108,12 +108,28 @@ function App() {
   }, [thoughtMeta]);
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
+    if (!("serviceWorker" in navigator)) {
+      return;
+    }
+
+    if (import.meta.env.PROD) {
       navigator.serviceWorker
         .register(`${import.meta.env.BASE_URL}sw.js`, { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => undefined);
+      return;
     }
+
+    navigator.serviceWorker
+      .getRegistrations()
+      .then((registrations) =>
+        Promise.all(
+          registrations
+            .filter((registration) => registration.scope.includes(import.meta.env.BASE_URL))
+            .map((registration) => registration.unregister()),
+        ),
+      )
+      .catch(() => undefined);
   }, []);
 
   const updateSelectedProgress = (nextProgress: ModuleProgress) => {
