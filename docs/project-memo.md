@@ -41,6 +41,7 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Added a lightweight Review view for revisiting completed modules from Progress.
 - Added a compact reviewed-state badge to Progress module cards.
 - Refined PWA and social metadata for install/share previews.
+- Added 192px and 512px PNG app icons for PWA install surfaces.
 
 ## Next Safe Task Candidates
 

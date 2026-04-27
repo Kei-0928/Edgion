@@ -1,10 +1,12 @@
-const CACHE_NAME = "edgion-shell-v3";
+const CACHE_NAME = "edgion-shell-v4";
 const BASE_PATH = "/Edgion/";
 const APP_SHELL = [
   BASE_PATH,
   `${BASE_PATH}index.html`,
   `${BASE_PATH}manifest.webmanifest`,
   `${BASE_PATH}icon.svg`,
+  `${BASE_PATH}icon-192.png`,
+  `${BASE_PATH}icon-512.png`,
 ];
 
 self.addEventListener("install", (event) => {
