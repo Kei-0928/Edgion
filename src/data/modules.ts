@@ -113,6 +113,20 @@ export const newsModules: NewsModule[] = [
       },
     ],
     thoughtPrompts,
+    sourceNotes: [
+      {
+        title: "熱中症対策に関する用語",
+        publisher: "気象庁",
+        url: "https://www.jma.go.jp/jma/kishou/know/yougo_hp/nettyusho.html",
+        note: "暑さ指数、熱中症警戒アラートなどの用語確認に使う。",
+      },
+      {
+        title: "環境省熱中症予防情報サイトにおける暑さ指数等の情報提供について",
+        publisher: "環境省",
+        url: "https://www.env.go.jp/press/109512.html",
+        note: "暑熱環境、気候変動、ヒートアイランドと熱中症予防情報の関係を確認する。",
+      },
+    ],
   },
   {
     id: "ai-school",
@@ -193,6 +207,20 @@ export const newsModules: NewsModule[] = [
       },
     ],
     thoughtPrompts,
+    sourceNotes: [
+      {
+        title: "リーディングDXスクール 生成AIパイロット校",
+        publisher: "文部科学省",
+        url: "https://leadingdxschool.mext.go.jp/ai_school/",
+        note: "学校現場での生成AI活用とガイドラインの位置づけを確認する。",
+      },
+      {
+        title: "初等中等教育段階における生成AIの利活用に関するガイドライン",
+        publisher: "文部科学省",
+        url: "https://www.mext.go.jp/content/20241126-mxt_jogai01-000038813_001.pdf",
+        note: "生成AIの利活用に関する基本的な考え方と留意点を確認する。",
+      },
+    ],
   },
   {
     id: "population-local",
@@ -278,5 +306,19 @@ export const newsModules: NewsModule[] = [
       },
     ],
     thoughtPrompts,
+    sourceNotes: [
+      {
+        title: "コンパクトなまちづくりについて",
+        publisher: "国土交通省",
+        url: "https://www.mlit.go.jp/toshi/toshi_tk1_000016.html",
+        note: "人口減少、高齢化、生活機能、地域公共交通との関係を確認する。",
+      },
+      {
+        title: "立地適正化計画とコンパクト・プラス・ネットワーク",
+        publisher: "国土交通省",
+        url: "https://www.mlit.go.jp/en/toshi/city_plan/compactcity_network.html",
+        note: "都市機能誘導、公共交通、持続可能な都市構造の制度背景を確認する。",
+      },
+    ],
   },
 ];

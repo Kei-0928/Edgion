@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   CircleHelp,
   Compass,
+  ExternalLink,
   Flame,
   GraduationCap,
   History,
@@ -20,15 +21,26 @@ import {
   Route,
   Sparkles,
   Sprout,
+  Trash2,
   Trophy,
 } from "lucide-react";
 import { newsModules } from "./data/modules";
 import {
+  countThoughtFields,
+  getModuleProgress,
+  getProgressStats,
+  getScore,
+  isInRange,
+} from "./progress";
+import type { ProgressRange, ProgressStats } from "./progress";
+import {
   defaultProgress,
   emptyThought,
   loadProgress,
+  loadOnboardingComplete,
   loadThoughtMeta,
   loadThoughts,
+  saveOnboardingComplete,
   saveProgress,
   saveThoughtMeta,
   saveThoughts,
@@ -39,7 +51,6 @@ import type {
   NewsModule,
   ThoughtMetaState,
   ThoughtNode,
-  ThoughtState,
   ViewId,
 } from "./types";
 import "./styles.css";
@@ -59,101 +70,13 @@ const sectionIcons = {
   debate: MessageSquareText,
 };
 
-const getModuleProgress = (
-  progress: Record<string, ModuleProgress>,
-  moduleId: string,
-): ModuleProgress => progress[moduleId] ?? defaultProgress();
-
-const getScore = (module: NewsModule, moduleProgress: ModuleProgress) =>
-  module.quizItems.reduce((score, item) => {
-    return moduleProgress.quizAnswers[item.id] === item.answerIndex ? score + 1 : score;
-  }, 0);
-
-const countThoughtFields = (thought: ThoughtNode) =>
-  Object.values(thought).filter((value) => value.trim().length > 0).length;
-
-type ProgressRange = "today" | "month" | "all";
-
-type ProgressStats = {
-  readCount: number;
-  quizCorrect: number;
-  quizTotal: number;
-  thoughtCount: number;
-};
-
-const sameDay = (date: Date, reference: Date) =>
-  date.getFullYear() === reference.getFullYear() &&
-  date.getMonth() === reference.getMonth() &&
-  date.getDate() === reference.getDate();
-
-const sameMonth = (date: Date, reference: Date) =>
-  date.getFullYear() === reference.getFullYear() && date.getMonth() === reference.getMonth();
-
-const isInRange = (isoDate: string | undefined, range: ProgressRange) => {
-  if (range === "all") {
-    return true;
-  }
-
-  if (!isoDate) {
-    return false;
-  }
-
-  const date = new Date(isoDate);
-  if (Number.isNaN(date.getTime())) {
-    return false;
-  }
-
-  const now = new Date();
-  return range === "today" ? sameDay(date, now) : sameMonth(date, now);
-};
-
-const getProgressStats = (
-  progress: Record<string, ModuleProgress>,
-  thoughts: ThoughtState,
-  thoughtMeta: ThoughtMetaState,
-  range: ProgressRange,
-): ProgressStats => {
-  const readCount = newsModules.filter((module) => {
-    const moduleProgress = getModuleProgress(progress, module.id);
-    return moduleProgress.read && isInRange(moduleProgress.readAt ?? moduleProgress.completedAt, range);
-  }).length;
-
-  const quizCorrect = newsModules.reduce((total, module) => {
-    const moduleProgress = getModuleProgress(progress, module.id);
-    if (!isInRange(moduleProgress.quizUpdatedAt ?? moduleProgress.completedAt, range)) {
-      return total;
-    }
-
-    return total + getScore(module, moduleProgress);
-  }, 0);
-
-  const quizTotal =
-    range === "all"
-      ? newsModules.reduce((total, module) => total + module.quizItems.length, 0)
-      : newsModules.reduce((total, module) => {
-          const moduleProgress = getModuleProgress(progress, module.id);
-          return isInRange(moduleProgress.quizUpdatedAt ?? moduleProgress.completedAt, range)
-            ? total + module.quizItems.length
-            : total;
-        }, 0);
-
-  const thoughtCount = newsModules.reduce((total, module) => {
-    if (!isInRange(thoughtMeta[module.id]?.updatedAt, range)) {
-      return total;
-    }
-
-    return total + countThoughtFields(thoughts[module.id] ?? emptyThought);
-  }, 0);
-
-  return { readCount, quizCorrect, quizTotal, thoughtCount };
-};
-
 function App() {
   const [activeView, setActiveView] = useState<ViewId>("home");
   const [selectedModuleId, setSelectedModuleId] = useState(newsModules[0].id);
   const [progress, setProgress] = useState(loadProgress);
   const [thoughts, setThoughts] = useState(loadThoughts);
   const [thoughtMeta, setThoughtMeta] = useState(loadThoughtMeta);
+  const [showOnboarding, setShowOnboarding] = useState(() => !loadOnboardingComplete());
 
   const selectedModule = useMemo(
     () => newsModules.find((module) => module.id === selectedModuleId) ?? newsModules[0],
@@ -162,10 +85,11 @@ function App() {
 
   const selectedProgress = getModuleProgress(progress, selectedModule.id);
   const selectedThought = thoughts[selectedModule.id] ?? emptyThought;
+  const progressReferenceDate = useMemo(() => new Date(), []);
 
   const stats = useMemo(
-    () => getProgressStats(progress, thoughts, thoughtMeta, "all"),
-    [progress, thoughts, thoughtMeta],
+    () => getProgressStats(newsModules, progress, thoughts, thoughtMeta, "all", progressReferenceDate),
+    [progress, progressReferenceDate, thoughts, thoughtMeta],
   );
 
   useEffect(() => {
@@ -238,6 +162,25 @@ function App() {
     }));
   };
 
+  const completeOnboarding = () => {
+    saveOnboardingComplete(true);
+    setShowOnboarding(false);
+  };
+
+  const resetLearningData = () => {
+    const confirmed = window.confirm(
+      "学習データをすべてリセットします。既読、クイズ結果、思考メモは元に戻せません。",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setProgress({});
+    setThoughts({});
+    setThoughtMeta({});
+  };
+
   return (
     <div className="app-shell">
       <aside className="sidebar" aria-label="Primary navigation">
@@ -305,7 +248,9 @@ function App() {
           <HomeView
             selectedModule={selectedModule}
             selectedProgress={selectedProgress}
+            showOnboarding={showOnboarding}
             stats={stats}
+            onDismissOnboarding={completeOnboarding}
             onStart={() => setActiveView("learn")}
           />
         )}
@@ -335,10 +280,17 @@ function App() {
 
         {activeView === "progress" && (
           <ProgressView
+            onOpenModule={(moduleId) => {
+              setSelectedModuleId(moduleId);
+              setActiveView("learn");
+            }}
+            onStartLearning={() => setActiveView("learn")}
+            onResetLearningData={resetLearningData}
             progress={progress}
             thoughts={thoughts}
             thoughtMeta={thoughtMeta}
             stats={stats}
+            referenceDate={progressReferenceDate}
           />
         )}
       </main>
@@ -400,18 +352,65 @@ function ModulePicker({
 function HomeView({
   selectedModule,
   selectedProgress,
+  showOnboarding,
   stats,
+  onDismissOnboarding,
   onStart,
 }: {
   selectedModule: NewsModule;
   selectedProgress: ModuleProgress;
+  showOnboarding: boolean;
   stats: { readCount: number; quizCorrect: number; quizTotal: number; thoughtCount: number };
+  onDismissOnboarding: () => void;
   onStart: () => void;
 }) {
   const score = getScore(selectedModule, selectedProgress);
 
   return (
     <section className="view-grid home-grid">
+      {showOnboarding && (
+        <article className="onboarding-panel" aria-label="Edgionの使い方">
+          <div>
+            <p className="eyebrow">First loop</p>
+            <h2>4ステップでニュースを自分の考えにする</h2>
+          </div>
+          <ol className="onboarding-steps">
+            <li>
+              <BookOpen size={18} />
+              <span>背景を読む</span>
+            </li>
+            <li>
+              <CircleHelp size={18} />
+              <span>クイズで確かめる</span>
+            </li>
+            <li>
+              <Brain size={18} />
+              <span>思考ツリーを書く</span>
+            </li>
+            <li>
+              <Trophy size={18} />
+              <span>Progressで振り返る</span>
+            </li>
+          </ol>
+          <div className="onboarding-actions">
+            <button className="ghost-button" onClick={onDismissOnboarding} type="button">
+              あとでOK
+            </button>
+            <button
+              className="primary-button"
+              onClick={() => {
+                onDismissOnboarding();
+                onStart();
+              }}
+              type="button"
+            >
+              <ArrowRight size={17} />
+              <span>はじめる</span>
+            </button>
+          </div>
+        </article>
+      )}
+
       <div className="hero-panel">
         <div className="hero-copy">
           <span className="pill">
@@ -541,6 +540,22 @@ function LearnView({
           </div>
         </article>
       </div>
+
+      <article className="source-panel">
+        <div className="section-title">
+          <ExternalLink size={19} />
+          <h3>参考にした公的情報</h3>
+        </div>
+        <div className="source-list">
+          {module.sourceNotes.map((source) => (
+            <a href={source.url} key={source.url} rel="noreferrer" target="_blank">
+              <span>{source.publisher}</span>
+              <strong>{source.title}</strong>
+              <p>{source.note}</p>
+            </a>
+          ))}
+        </div>
+      </article>
     </section>
   );
 }
@@ -663,26 +678,39 @@ function ThoughtTreeView({
 }
 
 function ProgressView({
+  onOpenModule,
+  onStartLearning,
+  onResetLearningData,
   progress,
   thoughts,
   thoughtMeta,
   stats,
+  referenceDate,
 }: {
+  onOpenModule: (moduleId: string) => void;
+  onStartLearning: () => void;
+  onResetLearningData: () => void;
   progress: Record<string, ModuleProgress>;
   thoughts: Record<string, ThoughtNode>;
   thoughtMeta: ThoughtMetaState;
   stats: ProgressStats;
+  referenceDate: Date;
 }) {
   const [range, setRange] = useState<ProgressRange>("today");
   const visibleStats = useMemo(
-    () => (range === "all" ? stats : getProgressStats(progress, thoughts, thoughtMeta, range)),
-    [progress, range, stats, thoughtMeta, thoughts],
+    () =>
+      range === "all"
+        ? stats
+        : getProgressStats(newsModules, progress, thoughts, thoughtMeta, range, referenceDate),
+    [progress, range, referenceDate, stats, thoughtMeta, thoughts],
   );
   const rangeLabel = range === "today" ? "今日" : range === "month" ? "今月" : "全期間";
   const quizValue =
     visibleStats.quizTotal === 0
       ? `${visibleStats.quizCorrect}`
       : `${visibleStats.quizCorrect}/${visibleStats.quizTotal}`;
+  const hasActivity =
+    visibleStats.readCount + visibleStats.quizCorrect + visibleStats.thoughtCount > 0;
 
   return (
     <section className="view-grid">
@@ -692,6 +720,10 @@ function ProgressView({
           <h2>毎日の教養ログ</h2>
           <p>{rangeLabel}の読んだ量、試した量、考えた量を軽く見える化します。</p>
         </div>
+        <button className="ghost-button danger-button" onClick={onResetLearningData} type="button">
+          <Trash2 size={17} />
+          <span>学習データをリセット</span>
+        </button>
       </div>
 
       <div className="range-tabs" aria-label="ログの期間">
@@ -720,10 +752,16 @@ function ProgressView({
       <article className="log-summary">
         <strong>{rangeLabel}のふり返り</strong>
         <p>
-          {visibleStats.readCount + visibleStats.quizCorrect + visibleStats.thoughtCount > 0
+          {hasActivity
             ? "ニュースを読む、確かめる、自分の言葉にする流れが少しずつ積み上がっています。"
             : "まだこの期間のログはありません。気になる教材を一つ選んで、背景から読んでみましょう。"}
         </p>
+        {!hasActivity && (
+          <button className="primary-button log-summary-action" onClick={onStartLearning} type="button">
+            <BookOpen size={17} />
+            <span>教材を読む</span>
+          </button>
+        )}
       </article>
 
       <div className="progress-list">
@@ -731,7 +769,11 @@ function ProgressView({
           const moduleProgress = getModuleProgress(progress, module.id);
           const score = getScore(module, moduleProgress);
           const thoughtCount = countThoughtFields(thoughts[module.id] ?? emptyThought);
-          const readValue = isInRange(moduleProgress.readAt ?? moduleProgress.completedAt, range)
+          const readValue = isInRange(
+            moduleProgress.readAt ?? moduleProgress.completedAt,
+            range,
+            referenceDate,
+          )
             ? moduleProgress.read
               ? 100
               : 0
@@ -739,18 +781,30 @@ function ProgressView({
           const quizValueForModule = isInRange(
             moduleProgress.quizUpdatedAt ?? moduleProgress.completedAt,
             range,
+            referenceDate,
           )
             ? (score / module.quizItems.length) * 100
             : 0;
-          const thoughtValue = isInRange(thoughtMeta[module.id]?.updatedAt, range)
+          const thoughtValue = isInRange(thoughtMeta[module.id]?.updatedAt, range, referenceDate)
             ? (thoughtCount / 5) * 100
             : 0;
+          const hasModuleActivity = readValue + quizValueForModule + thoughtValue > 0;
 
           return (
             <article className="progress-card" key={module.id}>
-              <div>
-                <span>{module.category}</span>
-                <h3>{module.title}</h3>
+              <div className="progress-card-copy">
+                <div>
+                  <span>{module.category}</span>
+                  <h3>{module.title}</h3>
+                </div>
+                <button
+                  className="ghost-button progress-card-action"
+                  onClick={() => onOpenModule(module.id)}
+                  type="button"
+                >
+                  <BookOpen size={16} />
+                  <span>{hasModuleActivity ? "復習する" : "教材を見る"}</span>
+                </button>
               </div>
               <div className="progress-bars">
                 <ProgressBar label="Read" value={readValue} />

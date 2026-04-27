@@ -39,6 +39,18 @@ Local storage keys:
 
 - `edgion.progress.v1`
 - `edgion.thoughts.v1`
+- `edgion.thoughtMeta.v1`
+- `edgion.onboarding.v1`
+
+## Roadmap
+
+The path from Web/PWA MVP to TestFlight and App Store readiness is tracked in [docs/app-store-roadmap.md](docs/app-store-roadmap.md).
+
+Content creation rules for safe, original learning modules are tracked in [docs/content-guidelines.md](docs/content-guidelines.md).
+
+Progress calculation rules are documented in [docs/progress-spec.md](docs/progress-spec.md).
+
+Manual release checks are listed in [docs/qa-checklist.md](docs/qa-checklist.md).
 
 ## Future ideas
 

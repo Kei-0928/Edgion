@@ -9,6 +9,7 @@ import type {
 const PROGRESS_KEY = "edgion.progress.v1";
 const THOUGHTS_KEY = "edgion.thoughts.v1";
 const THOUGHT_META_KEY = "edgion.thoughtMeta.v1";
+const ONBOARDING_KEY = "edgion.onboarding.v1";
 
 export const emptyThought: ThoughtNode = {
   claim: "",
@@ -53,6 +54,11 @@ export const loadThoughtMeta = () => readJson<ThoughtMetaState>(THOUGHT_META_KEY
 
 export const saveThoughtMeta = (thoughtMeta: ThoughtMetaState) =>
   writeJson(THOUGHT_META_KEY, thoughtMeta);
+
+export const loadOnboardingComplete = () => readJson<boolean>(ONBOARDING_KEY, false);
+
+export const saveOnboardingComplete = (complete: boolean) =>
+  writeJson(ONBOARDING_KEY, complete);
 
 export const defaultProgress = (): ModuleProgress => ({
   read: false,

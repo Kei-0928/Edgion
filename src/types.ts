@@ -39,6 +39,13 @@ export type ThoughtNode = {
   nextQuestion: string;
 };
 
+export type SourceNote = {
+  title: string;
+  publisher: string;
+  url: string;
+  note: string;
+};
+
 export type NewsModule = {
   id: string;
   category: string;
@@ -52,6 +59,7 @@ export type NewsModule = {
   glossary: GlossaryItem[];
   quizItems: QuizItem[];
   thoughtPrompts: ThoughtPrompt[];
+  sourceNotes: SourceNote[];
 };
 
 export type ModuleProgress = {
