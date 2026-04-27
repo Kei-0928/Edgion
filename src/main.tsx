@@ -183,7 +183,8 @@ function App() {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
-        .register(`${import.meta.env.BASE_URL}sw.js`)
+        .register(`${import.meta.env.BASE_URL}sw.js`, { updateViaCache: "none" })
+        .then((registration) => registration.update())
         .catch(() => undefined);
     }
   }, []);
