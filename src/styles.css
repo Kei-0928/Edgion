@@ -564,6 +564,7 @@ p {
 .source-panel,
 .quiz-card,
 .thought-card,
+.review-card,
 .progress-card {
   border-radius: 8px;
 }
@@ -822,6 +823,56 @@ p {
   font-weight: 900;
 }
 
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.review-card {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 18px;
+}
+
+.review-card.wide {
+  grid-column: 1 / -1;
+}
+
+.review-card p {
+  margin-bottom: 0;
+}
+
+.review-action {
+  width: fit-content;
+  margin-top: 2px;
+}
+
+.review-thought-list {
+  display: grid;
+  gap: 10px;
+}
+
+.review-thought-list div {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fffaf0;
+}
+
+.review-thought-list span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--green);
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.review-thought-list p {
+  color: #3f4655;
+}
+
 .thought-card textarea {
   width: 100%;
   resize: vertical;
@@ -1034,6 +1085,7 @@ p {
   .background-grid,
   .onboarding-panel,
   .onboarding-steps,
+  .review-grid,
   .source-list,
   .thought-layout {
     grid-template-columns: 1fr;

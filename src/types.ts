@@ -77,7 +77,7 @@ export type ThoughtState = Record<string, ThoughtNode>;
 
 export type ThoughtMetaState = Record<string, { updatedAt?: string }>;
 
-export type ViewId = "home" | "learn" | "quiz" | "tree" | "progress";
+export type ViewId = "home" | "learn" | "quiz" | "tree" | "progress" | "review";
 
 export type NavigationItem = {
   id: ViewId;

@@ -52,6 +52,8 @@ Progress calculation rules are documented in [docs/progress-spec.md](docs/progre
 
 Manual release checks are listed in [docs/qa-checklist.md](docs/qa-checklist.md).
 
+Current privacy assumptions are summarized in [docs/privacy-notes.md](docs/privacy-notes.md).
+
 ## Future ideas
 
 - Add RSS or curated editorial imports

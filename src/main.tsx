@@ -17,6 +17,7 @@ import {
   Map,
   MessageSquareText,
   PanelTop,
+  RotateCcw,
   RefreshCw,
   Route,
   Sparkles,
@@ -181,6 +182,19 @@ function App() {
     setThoughtMeta({});
   };
 
+  const openReview = (moduleId: string) => {
+    setSelectedModuleId(moduleId);
+    setActiveView("review");
+  };
+
+  const markReviewed = () => {
+    updateSelectedProgress({
+      ...selectedProgress,
+      review: true,
+      completedAt: new Date().toISOString(),
+    });
+  };
+
   return (
     <div className="app-shell">
       <aside className="sidebar" aria-label="Primary navigation">
@@ -278,9 +292,22 @@ function App() {
           <ThoughtTreeView module={selectedModule} thought={selectedThought} onChange={updateThought} />
         )}
 
+        {activeView === "review" && (
+          <ReviewView
+            module={selectedModule}
+            progress={selectedProgress}
+            thought={selectedThought}
+            onMarkReviewed={markReviewed}
+            onOpenLearn={() => setActiveView("learn")}
+            onOpenQuiz={() => setActiveView("quiz")}
+            onOpenTree={() => setActiveView("tree")}
+          />
+        )}
+
         {activeView === "progress" && (
           <ProgressView
-            onOpenModule={(moduleId) => {
+            onOpenModule={(moduleId) => openReview(moduleId)}
+            onStartModule={(moduleId) => {
               setSelectedModuleId(moduleId);
               setActiveView("learn");
             }}
@@ -677,8 +704,105 @@ function ThoughtTreeView({
   );
 }
 
+function ReviewView({
+  module,
+  progress,
+  thought,
+  onMarkReviewed,
+  onOpenLearn,
+  onOpenQuiz,
+  onOpenTree,
+}: {
+  module: NewsModule;
+  progress: ModuleProgress;
+  thought: ThoughtNode;
+  onMarkReviewed: () => void;
+  onOpenLearn: () => void;
+  onOpenQuiz: () => void;
+  onOpenTree: () => void;
+}) {
+  const score = getScore(module, progress);
+  const thoughtCount = countThoughtFields(thought);
+  const hasQuizAnswers = Object.keys(progress.quizAnswers).length > 0;
+  const thoughtEntries = module.thoughtPrompts.map((prompt) => ({
+    ...prompt,
+    value: thought[prompt.label].trim(),
+  }));
+
+  return (
+    <section className="view-grid">
+      <div className="content-header">
+        <div>
+          <p className="eyebrow">Review loop</p>
+          <h2>学びを一度まとめる</h2>
+          <p>{module.title}で読んだこと、解いたこと、考えたことを短く見直します。</p>
+        </div>
+        <button className="primary-button" onClick={onMarkReviewed} type="button">
+          <CheckCircle2 size={17} />
+          <span>{progress.review ? "復習済み" : "復習済みにする"}</span>
+        </button>
+      </div>
+
+      <div className="review-grid">
+        <article className="review-card">
+          <div className="section-title">
+            <BookOpen size={19} />
+            <h3>背景の要点</h3>
+          </div>
+          <p>{module.summary}</p>
+          <button className="ghost-button review-action" onClick={onOpenLearn} type="button">
+            <BookOpen size={16} />
+            <span>背景を読み直す</span>
+          </button>
+        </article>
+
+        <article className="review-card">
+          <div className="section-title">
+            <CircleHelp size={19} />
+            <h3>クイズ結果</h3>
+          </div>
+          <p>
+            {hasQuizAnswers
+              ? `${module.quizItems.length}問中 ${score}問正解。解説をもう一度見ると、制度や論点のつながりを固めやすくなります。`
+              : "まだクイズに答えていません。背景を読んだあとに試すと、理解の抜けを見つけやすくなります。"}
+          </p>
+          <button className="ghost-button review-action" onClick={onOpenQuiz} type="button">
+            <CircleHelp size={16} />
+            <span>クイズを見る</span>
+          </button>
+        </article>
+
+        <article className="review-card wide">
+          <div className="section-title">
+            <Brain size={19} />
+            <h3>思考メモ</h3>
+          </div>
+          <p>
+            {thoughtCount > 0
+              ? `${thoughtCount}/5個のメモがあります。意見を強めるより、足りない根拠や反対意見を見つけるつもりで見直しましょう。`
+              : "まだ思考メモはありません。まずは仮の主張を一文で置いてみるだけでも十分です。"}
+          </p>
+          <div className="review-thought-list">
+            {thoughtEntries.map((entry) => (
+              <div key={entry.id}>
+                <span>{entry.title}</span>
+                <p>{entry.value || "未入力"}</p>
+              </div>
+            ))}
+          </div>
+          <button className="ghost-button review-action" onClick={onOpenTree} type="button">
+            <Brain size={16} />
+            <span>思考ツリーを編集</span>
+          </button>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function ProgressView({
   onOpenModule,
+  onStartModule,
   onStartLearning,
   onResetLearningData,
   progress,
@@ -688,6 +812,7 @@ function ProgressView({
   referenceDate,
 }: {
   onOpenModule: (moduleId: string) => void;
+  onStartModule: (moduleId: string) => void;
   onStartLearning: () => void;
   onResetLearningData: () => void;
   progress: Record<string, ModuleProgress>;
@@ -799,10 +924,12 @@ function ProgressView({
                 </div>
                 <button
                   className="ghost-button progress-card-action"
-                  onClick={() => onOpenModule(module.id)}
+                  onClick={() =>
+                    hasModuleActivity ? onOpenModule(module.id) : onStartModule(module.id)
+                  }
                   type="button"
                 >
-                  <BookOpen size={16} />
+                  {hasModuleActivity ? <RotateCcw size={16} /> : <BookOpen size={16} />}
                   <span>{hasModuleActivity ? "復習する" : "教材を見る"}</span>
                 </button>
               </div>

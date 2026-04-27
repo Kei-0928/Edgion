@@ -40,7 +40,8 @@ This roadmap keeps the current MVP stable while making the path to iOS explicit.
 
 - Keep the MVP usable without an account.
 - Do not add authentication, cloud sync, analytics, notifications, or payments without a separate design review.
-- Prepare a privacy policy before TestFlight or App Store submission.
+- Prepare a final privacy policy before TestFlight or App Store submission.
+- Keep `docs/privacy-notes.md` aligned with the app's actual data behavior until then.
 - Define how users can reset or delete locally stored learning data.
 
 ### Store Operations
@@ -113,11 +114,4 @@ Small, safe changes can proceed when they preserve the current MVP behavior:
 
 ## Next Recommended Task
 
-Add a first-run onboarding screen that briefly explains the Edgion learning loop:
-
-1. Read the background.
-2. Try the quiz.
-3. Build a thought tree.
-4. Check Progress.
-
-This is a small product-quality improvement that helps new users understand the app without requiring accounts, payments, database changes, or native iOS setup.
+Add a lightweight review mode for completed modules. Keep it local-only and reuse existing module data so it improves retention without introducing accounts, analytics, notifications, or native iOS setup.
