@@ -33,6 +33,8 @@ Each module should include:
 - Two to three quiz items with explanations.
 - Thought prompts that ask learners to build their own position.
 
+Use [module-template.md](module-template.md) when drafting a new built-in module.
+
 ## Source Notes
 
 For future modules, keep lightweight source notes during writing:

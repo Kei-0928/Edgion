@@ -46,8 +46,10 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Added a public support/privacy static page for future store-readiness work.
 - Added subtle in-app links to the public Support / Privacy page.
 - Refined the public Support / Privacy copy to better match the current MVP behavior.
+- Added a reusable module template for future built-in lessons.
 
 ## Next Safe Task Candidates
 
+- Draft one new built-in module with source notes using the module template.
 - Add focused tests for review-state display logic if the Progress UI grows more complex.
 - Add focused tests for storage helpers if the current localStorage behavior grows.

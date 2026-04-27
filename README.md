@@ -48,6 +48,8 @@ The path from Web/PWA MVP to TestFlight and App Store readiness is tracked in [d
 
 Content creation rules for safe, original learning modules are tracked in [docs/content-guidelines.md](docs/content-guidelines.md).
 
+New built-in module drafts can start from [docs/module-template.md](docs/module-template.md).
+
 Progress calculation rules are documented in [docs/progress-spec.md](docs/progress-spec.md).
 
 Manual release checks are listed in [docs/qa-checklist.md](docs/qa-checklist.md).
