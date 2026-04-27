@@ -40,8 +40,10 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Added privacy notes for the current local-only MVP behavior.
 - Added a lightweight Review view for revisiting completed modules from Progress.
 - Added a compact reviewed-state badge to Progress module cards.
+- Refined PWA and social metadata for install/share previews.
 
 ## Next Safe Task Candidates
 
+- Add a public support/privacy page route before TestFlight planning.
 - Add focused tests for review-state display logic if the Progress UI grows more complex.
 - Add focused tests for storage helpers if the current localStorage behavior grows.

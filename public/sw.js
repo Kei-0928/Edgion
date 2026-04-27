@@ -1,4 +1,4 @@
-const CACHE_NAME = "edgion-shell-v2";
+const CACHE_NAME = "edgion-shell-v3";
 const BASE_PATH = "/Edgion/";
 const APP_SHELL = [
   BASE_PATH,
