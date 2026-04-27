@@ -919,7 +919,15 @@ function ProgressView({
             <article className="progress-card" key={module.id}>
               <div className="progress-card-copy">
                 <div>
-                  <span>{module.category}</span>
+                  <div className="progress-card-meta">
+                    <span>{module.category}</span>
+                    {moduleProgress.review && (
+                      <span className="reviewed-badge">
+                        <CheckCircle2 size={14} />
+                        復習済み
+                      </span>
+                    )}
+                  </div>
                   <h3>{module.title}</h3>
                 </div>
                 <button

@@ -933,9 +933,31 @@ p {
   margin-bottom: 0;
 }
 
+.progress-card-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+}
+
 .progress-card-copy {
   display: grid;
   gap: 12px;
+}
+
+.reviewed-badge {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 8px;
+  color: var(--green-strong);
+  border: 1px solid rgb(31 122 95 / 0.28);
+  border-radius: 999px;
+  background: rgb(31 122 95 / 0.08);
+  font-size: 0.74rem;
+  font-weight: 900;
 }
 
 .progress-card-action {
