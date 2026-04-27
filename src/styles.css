@@ -293,7 +293,7 @@ p {
 
 .module-strip {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 12px;
   margin-bottom: 22px;
 }
@@ -1052,13 +1052,7 @@ p {
   }
 
   .module-strip {
-    overflow-x: auto;
-    display: flex;
-    padding-bottom: 5px;
-  }
-
-  .module-chip {
-    flex: 0 0 245px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .bottom-nav {
@@ -1169,6 +1163,10 @@ p {
 
   .hero-panel {
     padding: 18px;
+  }
+
+  .module-strip {
+    grid-template-columns: 1fr;
   }
 
   .signal-card {
