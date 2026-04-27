@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index,follow" />
+    <title>Edgion Support / Privacy</title>
+    <style>
+      :root {
+        color: #172033;
+        background: #f6f3ec;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        line-height: 1.65;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(760px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 48px 0;
+      }
+
+      h1,
+      h2,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 12px;
+        font-size: clamp(2rem, 8vw, 4rem);
+        line-height: 1.05;
+      }
+
+      h2 {
+        margin-top: 32px;
+      }
+
+      a {
+        color: #2d6cdf;
+      }
+
+      .eyebrow {
+        color: #1f7a5f;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .panel {
+        padding: 20px;
+        border: 1px solid rgb(222 214 200 / 0.84);
+        border-radius: 8px;
+        background: #fffdf8;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Edgion</p>
+      <h1>Support / Privacy</h1>
+      <p>
+        Edgionは、ニュースの背景知識、クイズ、思考ツリーを通じて理解と意見形成を支える学習アプリです。
+      </p>
+
+      <section class="panel" aria-labelledby="support">
+        <h2 id="support">サポート</h2>
+        <p>
+          現在のMVPでは、アカウント登録、課金、通知、クラウド同期は提供していません。問題がある場合は、
+          GitHubリポジトリのIssueまたは開発者へ連絡してください。
+        </p>
+        <p>
+          Repository:
+          <a href="https://github.com/Kei-0928/Edgion">https://github.com/Kei-0928/Edgion</a>
+        </p>
+      </section>
+
+      <section class="panel" aria-labelledby="privacy">
+        <h2 id="privacy">プライバシー</h2>
+        <p>
+          Edgionの現在のMVPは、学習状況、クイズ回答、思考メモ、オンボーディング完了状態をブラウザの
+          localStorageに保存します。これらは学習の続きやProgress表示のために使われます。
+        </p>
+        <p>
+          現時点では、氏名、メールアドレス、位置情報、決済情報、分析ID、クラウド同期された学習記録は収集しません。
+        </p>
+        <p>
+          学習データはアプリ内のProgress画面からリセットできます。外部リンクを開いた場合、そのリンク先サイトの
+          プライバシー方針が適用されます。
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

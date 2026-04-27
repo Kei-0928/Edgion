@@ -54,6 +54,8 @@ Manual release checks are listed in [docs/qa-checklist.md](docs/qa-checklist.md)
 
 Current privacy assumptions are summarized in [docs/privacy-notes.md](docs/privacy-notes.md).
 
+Public support and privacy information is available at `/Edgion/support.html`.
+
 ## Future ideas
 
 - Add RSS or curated editorial imports

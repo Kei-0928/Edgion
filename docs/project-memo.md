@@ -42,9 +42,11 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Added a compact reviewed-state badge to Progress module cards.
 - Refined PWA and social metadata for install/share previews.
 - Added 192px and 512px PNG app icons for PWA install surfaces.
+- Replaced the PWA icon artwork with the purple Edgion brand icon.
+- Added a public support/privacy static page for future store-readiness work.
 
 ## Next Safe Task Candidates
 
-- Add a public support/privacy page route before TestFlight planning.
+- Add a visible in-app link to the support/privacy page after reviewing placement.
 - Add focused tests for review-state display logic if the Progress UI grows more complex.
 - Add focused tests for storage helpers if the current localStorage behavior grows.
