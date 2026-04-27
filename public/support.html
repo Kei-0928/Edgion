@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="index,follow" />
-    <title>Edgion Support / Privacy</title>
+    <title>Edgion Support and Privacy</title>
     <style>
       :root {
         color: #172033;
@@ -45,6 +45,14 @@
         color: #2d6cdf;
       }
 
+      ul {
+        padding-left: 1.2rem;
+      }
+
+      li + li {
+        margin-top: 8px;
+      }
+
       .eyebrow {
         color: #1f7a5f;
         font-size: 0.78rem;
@@ -64,35 +72,48 @@
   <body>
     <main>
       <p class="eyebrow">Edgion</p>
-      <h1>Support / Privacy</h1>
+      <h1>Support and Privacy</h1>
       <p>
-        Edgionは、ニュースの背景知識、クイズ、思考ツリーを通じて理解と意見形成を支える学習アプリです。
+        Edgionは、ニュースの背景知識、クイズ、思考ツリーを通じて、理解と意見形成を支える学習アプリです。
+        このページでは、現在公開しているWeb/PWA版MVPのサポート情報とプライバシーに関する基本方針をまとめています。
       </p>
 
       <section class="panel" aria-labelledby="support">
         <h2 id="support">サポート</h2>
         <p>
-          現在のMVPでは、アカウント登録、課金、通知、クラウド同期は提供していません。問題がある場合は、
-          GitHubリポジトリのIssueまたは開発者へ連絡してください。
+          不具合の報告、内容に関する質問、改善提案は、GitHubリポジトリから受け付けています。
+          現在のMVPでは、アカウント登録、課金、通知、クラウド同期は提供していません。
         </p>
         <p>
           Repository:
           <a href="https://github.com/Kei-0928/Edgion">https://github.com/Kei-0928/Edgion</a>
+        </p>
+        <p>
+          返信や対応を保証するものではありませんが、報告内容は今後の改善の参考にします。
         </p>
       </section>
 
       <section class="panel" aria-labelledby="privacy">
         <h2 id="privacy">プライバシー</h2>
         <p>
-          Edgionの現在のMVPは、学習状況、クイズ回答、思考メモ、オンボーディング完了状態をブラウザの
-          localStorageに保存します。これらは学習の続きやProgress表示のために使われます。
+          Edgionの現在のWeb/PWA版MVPは、学習の続きを表示するために、次の情報を利用者のブラウザ内に保存します。
+        </p>
+        <ul>
+          <li>既読状態、クイズ回答、復習状態、学習日時</li>
+          <li>思考ツリーに入力したメモ</li>
+          <li>初回オンボーディングを完了したかどうか</li>
+        </ul>
+        <p>
+          これらの情報は、ブラウザのlocalStorageに保存されます。現在のMVPでは、Edgionのサーバーへ送信したり、
+          クラウド同期したりする仕組みはありません。
         </p>
         <p>
           現時点では、氏名、メールアドレス、位置情報、決済情報、分析ID、クラウド同期された学習記録は収集しません。
+          また、広告配信や行動分析のための外部トラッキングも導入していません。
         </p>
         <p>
-          学習データはアプリ内のProgress画面からリセットできます。外部リンクを開いた場合、そのリンク先サイトの
-          プライバシー方針が適用されます。
+          学習データは、アプリ内のProgress画面からリセットできます。外部リンクを開いた場合、そのリンク先サイトの
+          プライバシー方針が適用されます。このページの内容は、機能追加に合わせて更新されることがあります。
         </p>
       </section>
     </main>

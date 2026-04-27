@@ -1,10 +1,10 @@
 # Edgion Privacy Notes
 
-This note is a working draft for future TestFlight and App Store preparation. It is not a final legal privacy policy.
+This note tracks the privacy behavior of the current Web/PWA MVP and supports future TestFlight and App Store preparation. The public-facing summary is available in `public/support.html`. This is not a final legal privacy policy.
 
 ## Current MVP Behavior
 
-Edgion currently works without an account, backend server, analytics service, payment system, or live news API. Learning data stays on the user's device through browser `localStorage`.
+Edgion currently works without an account, backend server, analytics service, payment system, push notifications, cloud sync, or live news API. Learning data stays on the user's device through browser `localStorage`.
 
 ## Data Stored Locally
 
@@ -15,7 +15,7 @@ The MVP stores these local keys:
 - `edgion.thoughtMeta.v1`: thought-tree update timestamps.
 - `edgion.onboarding.v1`: whether the first-run onboarding has been completed.
 
-These values are used only to restore the learner's progress and make the Progress screen useful.
+These values are used only to restore the learner's progress, support the Review view, and make the Progress screen useful.
 
 ## Data Not Collected In The MVP
 
@@ -27,16 +27,21 @@ The current MVP does not collect or transmit:
 - Analytics or advertising identifiers.
 - Cloud-synced learning records.
 - User-generated posts or shared public content.
+- Browser history, contacts, photos, or device identifiers.
 
 ## User Control
 
-Learners can reset local learning data from the Progress screen. This clears progress, quiz results, thought notes, and thought metadata from the current browser storage.
+Learners can reset local learning data from the Progress screen. This clears progress, quiz results, review state, thought notes, and thought metadata from the current browser storage.
 
 The reset action does not clear onboarding completion because onboarding is not part of the learning record.
 
 ## External Links
 
 Learn modules may show source-note links to official or public information pages. Opening those links takes the learner to an external website, where that website's own privacy practices apply.
+
+## Current Public Support Surface
+
+The public support and privacy page is available at `/Edgion/support.html`. For now, the GitHub repository is listed as the support contact surface because no formal support email or organization account has been confirmed.
 
 ## Future Review Triggers
 
@@ -59,3 +64,4 @@ Before TestFlight or App Store submission, confirm:
 - App Store privacy nutrition labels match the implementation.
 - The support URL and privacy policy URL are stable public pages.
 - Local data reset behavior is documented clearly enough for reviewers and learners.
+- Any support contact listed publicly has been approved for that purpose.

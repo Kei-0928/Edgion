@@ -45,9 +45,9 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Replaced the PWA icon artwork with the purple Edgion brand icon.
 - Added a public support/privacy static page for future store-readiness work.
 - Added subtle in-app links to the public Support / Privacy page.
+- Refined the public Support / Privacy copy to better match the current MVP behavior.
 
 ## Next Safe Task Candidates
 
-- Expand the Support / Privacy page only after the support contact and final policy wording are confirmed.
 - Add focused tests for review-state display logic if the Progress UI grows more complex.
 - Add focused tests for storage helpers if the current localStorage behavior grows.
