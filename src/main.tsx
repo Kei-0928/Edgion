@@ -359,32 +359,74 @@ function ModulePicker({
   onSelect: (moduleId: string) => void;
   progress: Record<string, ModuleProgress>;
 }) {
+  const [categoryFilter, setCategoryFilter] = useState("すべて");
+  const [difficultyFilter, setDifficultyFilter] = useState<NewsModule["difficulty"] | "すべて">("すべて");
+  const categories = useMemo(() => ["すべて", ...new Set(newsModules.map((module) => module.category))], []);
+  const difficulties = useMemo(
+    () => ["すべて", ...new Set(newsModules.map((module) => module.difficulty))] as const,
+    [],
+  );
+  const filteredModules = newsModules.filter((module) => {
+    const matchesCategory = categoryFilter === "すべて" || module.category === categoryFilter;
+    const matchesDifficulty = difficultyFilter === "すべて" || module.difficulty === difficultyFilter;
+    return matchesCategory && matchesDifficulty;
+  });
+
   return (
-    <section className="module-strip" aria-label="教材を選ぶ">
-      {newsModules.map((module) => {
-        const moduleProgress = getModuleProgress(progress, module.id);
-        const score = getScore(module, moduleProgress);
-        return (
-          <button
-            className={selectedModuleId === module.id ? "module-chip active" : "module-chip"}
-            key={module.id}
-            onClick={() => onSelect(module.id)}
-            type="button"
-          >
-            <span>{module.category}</span>
-            <strong>{module.title}</strong>
-            <span className="module-chip-tags">
-              <span className="module-tag">{module.difficulty}</span>
-              <span className={moduleProgress.read ? "module-tag read" : "module-tag"}>
-                {moduleProgress.read ? "既読" : "未読"}
+    <section className="module-picker" aria-label="教材を選ぶ">
+      <div className="module-filters" aria-label="教材フィルター">
+        <div className="filter-group" aria-label="カテゴリ">
+          {categories.map((category) => (
+            <button
+              className={categoryFilter === category ? "filter-chip active" : "filter-chip"}
+              key={category}
+              onClick={() => setCategoryFilter(category)}
+              type="button"
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        <div className="filter-group" aria-label="難易度">
+          {difficulties.map((difficulty) => (
+            <button
+              className={difficultyFilter === difficulty ? "filter-chip active" : "filter-chip"}
+              key={difficulty}
+              onClick={() => setDifficultyFilter(difficulty)}
+              type="button"
+            >
+              {difficulty}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="module-strip">
+        {filteredModules.map((module) => {
+          const moduleProgress = getModuleProgress(progress, module.id);
+          const score = getScore(module, moduleProgress);
+          return (
+            <button
+              className={selectedModuleId === module.id ? "module-chip active" : "module-chip"}
+              key={module.id}
+              onClick={() => onSelect(module.id)}
+              type="button"
+            >
+              <span>{module.category}</span>
+              <strong>{module.title}</strong>
+              <span className="module-chip-tags">
+                <span className="module-tag">{module.difficulty}</span>
+                <span className={moduleProgress.read ? "module-tag read" : "module-tag"}>
+                  {moduleProgress.read ? "既読" : "未読"}
+                </span>
               </span>
-            </span>
-            <small>
-              {module.readingTime} · {score}/{module.quizItems.length}
-            </small>
-          </button>
-        );
-      })}
+              <small>
+                {module.readingTime} · {score}/{module.quizItems.length}
+              </small>
+            </button>
+          );
+        })}
+      </div>
     </section>
   );
 }
