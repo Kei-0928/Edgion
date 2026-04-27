@@ -64,6 +64,8 @@ const navItems: NavigationItem[] = [
   { id: "progress", label: "Progress", icon: Trophy },
 ];
 
+const supportUrl = `${import.meta.env.BASE_URL}support.html`;
+
 const sectionIcons = {
   history: History,
   system: Layers3,
@@ -228,6 +230,10 @@ function App() {
         <div className="sidebar-card">
           <span>今日の問い</span>
           <strong>{selectedModule.leadQuestion}</strong>
+          <a className="support-link" href={supportUrl}>
+            <ExternalLink size={15} />
+            <span>Support / Privacy</span>
+          </a>
         </div>
       </aside>
 
@@ -263,6 +269,7 @@ function App() {
             selectedModule={selectedModule}
             selectedProgress={selectedProgress}
             showOnboarding={showOnboarding}
+            supportUrl={supportUrl}
             stats={stats}
             onDismissOnboarding={completeOnboarding}
             onStart={() => setActiveView("learn")}
@@ -380,6 +387,7 @@ function HomeView({
   selectedModule,
   selectedProgress,
   showOnboarding,
+  supportUrl,
   stats,
   onDismissOnboarding,
   onStart,
@@ -387,6 +395,7 @@ function HomeView({
   selectedModule: NewsModule;
   selectedProgress: ModuleProgress;
   showOnboarding: boolean;
+  supportUrl: string;
   stats: { readCount: number; quizCorrect: number; quizTotal: number; thoughtCount: number };
   onDismissOnboarding: () => void;
   onStart: () => void;
@@ -494,6 +503,11 @@ function HomeView({
           Edgionは、ニュースを「知って終わり」にせず、背景知識、確認クイズ、意見の骨組みまで一つの流れで扱います。
         </p>
       </div>
+
+      <a className="support-strip" href={supportUrl}>
+        <ExternalLink size={17} />
+        <span>Support / Privacy</span>
+      </a>
     </section>
   );
 }

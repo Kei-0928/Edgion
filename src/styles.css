@@ -171,6 +171,34 @@ button {
   line-height: 1.45;
 }
 
+.support-link,
+.support-strip {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.support-link {
+  margin-top: 14px;
+}
+
+.support-link:hover,
+.support-strip:hover {
+  color: var(--green-strong);
+}
+
+.support-strip {
+  width: fit-content;
+  padding: 10px 12px;
+  border: 1px solid rgb(222 214 200 / 0.84);
+  border-radius: 8px;
+  background: rgb(255 253 248 / 0.72);
+}
+
 .main {
   width: min(1180px, 100%);
   margin: 0 auto;
