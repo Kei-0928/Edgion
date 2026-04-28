@@ -871,6 +871,19 @@ p {
   gap: 16px;
 }
 
+.thought-status {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+}
+
+.thought-status small,
+.thought-helper small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
 .tree-rail {
   display: grid;
   justify-items: center;
@@ -916,6 +929,12 @@ p {
 
 .thought-card span {
   font-weight: 900;
+}
+
+.thought-helper {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .review-grid {
@@ -1208,6 +1227,10 @@ p {
 
   .tree-rail {
     display: none;
+  }
+
+  .thought-status {
+    justify-items: start;
   }
 
   .quiz-heading {

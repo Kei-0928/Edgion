@@ -73,6 +73,25 @@ const sectionIcons = {
   debate: MessageSquareText,
 };
 
+const formatSavedAt = (isoDate: string | undefined) => {
+  if (!isoDate) {
+    return "まだメモは保存されていません";
+  }
+
+  const date = new Date(isoDate);
+
+  if (Number.isNaN(date.getTime())) {
+    return "保存時刻を確認できません";
+  }
+
+  return `保存済み ${date.toLocaleString("ja-JP", {
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })}`;
+};
+
 function App() {
   const [activeView, setActiveView] = useState<ViewId>("home");
   const [selectedModuleId, setSelectedModuleId] = useState(newsModules[0].id);
@@ -312,7 +331,12 @@ function App() {
         )}
 
         {activeView === "tree" && (
-          <ThoughtTreeView module={selectedModule} thought={selectedThought} onChange={updateThought} />
+          <ThoughtTreeView
+            module={selectedModule}
+            savedAt={thoughtMeta[selectedModule.id]?.updatedAt}
+            thought={selectedThought}
+            onChange={updateThought}
+          />
         )}
 
         {activeView === "review" && (
@@ -734,13 +758,17 @@ function QuizView({
 
 function ThoughtTreeView({
   module,
+  savedAt,
   thought,
   onChange,
 }: {
   module: NewsModule;
+  savedAt?: string;
   thought: ThoughtNode;
   onChange: (field: keyof ThoughtNode, value: string) => void;
 }) {
+  const savedLabel = formatSavedAt(savedAt);
+
   return (
     <section className="view-grid">
       <div className="content-header">
@@ -749,7 +777,10 @@ function ThoughtTreeView({
           <h2>意見の枝を育てる</h2>
           <p>{module.leadQuestion}</p>
         </div>
-        <span className="mini-status">{countThoughtFields(thought)}/5 nodes</span>
+        <div className="thought-status">
+          <span className="mini-status">{countThoughtFields(thought)}/5 nodes</span>
+          <small>{savedLabel}</small>
+        </div>
       </div>
 
       <div className="thought-layout">
@@ -764,18 +795,28 @@ function ThoughtTreeView({
         </div>
 
         <div className="thought-stack">
-          {module.thoughtPrompts.map((prompt) => (
-            <label className="thought-card" key={prompt.id}>
-              <span>{prompt.title}</span>
-              <small>{prompt.prompt}</small>
-              <textarea
-                onChange={(event) => onChange(prompt.label, event.target.value)}
-                placeholder="ここに自分の言葉でメモ"
-                rows={4}
-                value={thought[prompt.label]}
-              />
-            </label>
-          ))}
+          {module.thoughtPrompts.map((prompt) => {
+            const value = thought[prompt.label];
+            const characterCount = value.trim().length;
+            const hint = characterCount >= 40 ? "考えの芯が見えてきました" : "まずは40字くらいで十分";
+
+            return (
+              <label className="thought-card" key={prompt.id}>
+                <span>{prompt.title}</span>
+                <small>{prompt.prompt}</small>
+                <textarea
+                  onChange={(event) => onChange(prompt.label, event.target.value)}
+                  placeholder="ここに自分の言葉でメモ"
+                  rows={4}
+                  value={value}
+                />
+                <span className="thought-helper">
+                  <small>{characterCount}字</small>
+                  <small>{hint}</small>
+                </span>
+              </label>
+            );
+          })}
         </div>
       </div>
     </section>
