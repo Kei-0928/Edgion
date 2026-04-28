@@ -6,7 +6,9 @@ Use this checklist before publishing important MVP updates. It focuses on the cu
 
 - Open the app from the public GitHub Pages URL.
 - Confirm Home loads without a blank screen.
+- Confirm the visible app version matches `package.json`.
 - Confirm the module picker shows all built-in modules.
+- Confirm category and difficulty filters narrow the module picker.
 - Confirm bottom navigation works on a narrow mobile viewport.
 
 ## Onboarding
@@ -32,14 +34,24 @@ Use this checklist before publishing important MVP updates. It focuses on the cu
 ## Thought Tree
 
 - Enter text in at least two thought fields.
+- Confirm character counts and writing hints appear below textareas.
+- Confirm the saved-at status appears after editing.
 - Reload the page and confirm text is restored.
 - Confirm Progress thought count updates for the current range.
+
+## Review
+
+- Open Review from Learn, Quiz, and Thought Tree.
+- Confirm Review summarizes read state, quiz score, and thought notes.
+- Tap `復習済みにする` and confirm the reviewed badge appears in Progress.
+- Confirm Review links back to Learn, Quiz, and Tree.
 
 ## Progress
 
 - Check `今日`, `今月`, and `全期間`.
 - Confirm empty states show `教材を読む`.
 - Confirm `教材を読む` opens Learn.
+- Confirm module cards show read, reviewed, quiz, and thought activity states.
 - Confirm `学習データをリセット` shows a confirmation dialog before clearing learning data.
 - After confirming reset, verify read, quiz, and thought counts return to zero.
 
@@ -47,6 +59,7 @@ Use this checklist before publishing important MVP updates. It focuses on the cu
 
 - Open the public URL after a fresh deployment.
 - Confirm the app does not show a blank screen.
+- Confirm local development does not keep serving an old app shell after reload.
 - If the app was previously installed or cached, reload once and confirm the latest app shell appears.
 - Confirm `manifest.webmanifest` and `sw.js` are reachable under `/Edgion/`.
 
