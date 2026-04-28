@@ -65,6 +65,7 @@ const navItems: NavigationItem[] = [
 ];
 
 const supportUrl = `${import.meta.env.BASE_URL}support.html`;
+const appVersion = __APP_VERSION__;
 
 const sectionIcons = {
   history: History,
@@ -241,7 +242,7 @@ function App() {
           </div>
           <div>
             <p>Edgion</p>
-            <span>News literacy studio</span>
+            <span>News literacy studio · v{appVersion}</span>
           </div>
         </div>
 
@@ -275,7 +276,10 @@ function App() {
       <main className="main">
         <header className="topbar">
           <div>
-            <p className="eyebrow">Background-first news learning</p>
+            <div className="eyebrow-row">
+              <p className="eyebrow">Background-first news learning</p>
+              <span className="version-chip">v{appVersion}</span>
+            </div>
             <h1>ニュースを、考える材料に変える。</h1>
           </div>
           <div className="topbar-actions">
