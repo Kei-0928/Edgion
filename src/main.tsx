@@ -412,15 +412,22 @@ function ModulePicker({
 }) {
   const [categoryFilter, setCategoryFilter] = useState("すべて");
   const [difficultyFilter, setDifficultyFilter] = useState<NewsModule["difficulty"] | "すべて">("すべて");
+  const [readFilter, setReadFilter] = useState<"すべて" | "未読" | "既読">("すべて");
   const categories = useMemo(() => ["すべて", ...new Set(newsModules.map((module) => module.category))], []);
   const difficulties = useMemo(
     () => ["すべて", ...new Set(newsModules.map((module) => module.difficulty))] as const,
     [],
   );
+  const readFilters = ["すべて", "未読", "既読"] as const;
   const filteredModules = newsModules.filter((module) => {
+    const moduleProgress = getModuleProgress(progress, module.id);
     const matchesCategory = categoryFilter === "すべて" || module.category === categoryFilter;
     const matchesDifficulty = difficultyFilter === "すべて" || module.difficulty === difficultyFilter;
-    return matchesCategory && matchesDifficulty;
+    const matchesReadState =
+      readFilter === "すべて" ||
+      (readFilter === "未読" && !moduleProgress.read) ||
+      (readFilter === "既読" && moduleProgress.read);
+    return matchesCategory && matchesDifficulty && matchesReadState;
   });
 
   return (
@@ -450,9 +457,27 @@ function ModulePicker({
             </button>
           ))}
         </div>
+        <div className="filter-group" aria-label="学習状態">
+          {readFilters.map((readState) => (
+            <button
+              className={readFilter === readState ? "filter-chip active" : "filter-chip"}
+              key={readState}
+              onClick={() => setReadFilter(readState)}
+              type="button"
+            >
+              {readState}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="module-strip">
+        {filteredModules.length === 0 && (
+          <div className="module-empty-state">
+            <strong>条件に合う教材はありません</strong>
+            <p>フィルターをゆるめると、別のテーマが見つかります。</p>
+          </div>
+        )}
         {filteredModules.map((module) => {
           const moduleProgress = getModuleProgress(progress, module.id);
           const score = getScore(module, moduleProgress);

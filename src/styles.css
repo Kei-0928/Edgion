@@ -358,6 +358,27 @@ p {
   gap: 12px;
 }
 
+.module-empty-state {
+  display: grid;
+  gap: 4px;
+  min-height: 112px;
+  place-content: center;
+  padding: 18px;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: rgb(255 253 248 / 0.62);
+  text-align: center;
+}
+
+.module-empty-state strong {
+  color: var(--ink);
+}
+
+.module-empty-state p {
+  margin-bottom: 0;
+}
+
 .module-chip {
   display: grid;
   gap: 8px;
