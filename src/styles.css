@@ -518,6 +518,12 @@ p {
   font-weight: 800;
 }
 
+.library-status {
+  color: var(--ink);
+  border-color: rgb(222 214 200 / 0.9);
+  background: rgb(255 253 248 / 0.86);
+}
+
 .signal-map {
   position: relative;
   min-height: 330px;
@@ -591,7 +597,7 @@ p {
 
 .metric-row {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 

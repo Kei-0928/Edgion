@@ -500,6 +500,8 @@ function HomeView({
   onStart: () => void;
 }) {
   const score = getScore(selectedModule, selectedProgress);
+  const selectedModuleIndex = newsModules.findIndex((module) => module.id === selectedModule.id);
+  const modulePosition = selectedModuleIndex >= 0 ? selectedModuleIndex + 1 : 1;
 
   return (
     <section className="view-grid home-grid">
@@ -550,7 +552,7 @@ function HomeView({
         <div className="hero-copy">
           <span className="pill">
             <Sparkles size={15} />
-            新しい教養の習慣
+            {newsModules.length}本の教養ライブラリ
           </span>
           <h2>{selectedModule.title}</h2>
           <p>{selectedModule.summary}</p>
@@ -561,6 +563,9 @@ function HomeView({
             </button>
             <span className="mini-status">
               Quiz {score}/{selectedModule.quizItems.length}
+            </span>
+            <span className="mini-status library-status">
+              {modulePosition}/{newsModules.length}
             </span>
           </div>
         </div>
@@ -591,6 +596,7 @@ function HomeView({
         <Metric icon={BookOpen} label="既読教材" value={`${stats.readCount}/${newsModules.length}`} />
         <Metric icon={CheckCircle2} label="正解数" value={`${stats.quizCorrect}/${stats.quizTotal}`} />
         <Metric icon={Brain} label="思考メモ" value={`${stats.thoughtCount}`} />
+        <Metric icon={Layers3} label="教材数" value={`${newsModules.length}`} />
       </div>
 
       <div className="focus-panel">
@@ -599,7 +605,7 @@ function HomeView({
           <h3>{selectedModule.leadQuestion}</h3>
         </div>
         <p>
-          Edgionは、ニュースを「知って終わり」にせず、背景知識、確認クイズ、意見の骨組みまで一つの流れで扱います。
+          Edgionは、6本のニュース背景教材を起点に、背景知識、確認クイズ、意見の骨組みまで一つの流れで扱います。
         </p>
       </div>
 
@@ -990,6 +996,7 @@ function ProgressView({
     visibleStats.quizTotal === 0
       ? `${visibleStats.quizCorrect}`
       : `${visibleStats.quizCorrect}/${visibleStats.quizTotal}`;
+  const readLibraryValue = `${visibleStats.readCount}/${newsModules.length}`;
   const hasActivity =
     visibleStats.readCount + visibleStats.quizCorrect + visibleStats.thoughtCount > 0;
 
@@ -1025,17 +1032,18 @@ function ProgressView({
       </div>
 
       <div className="metric-row">
-        <Metric icon={BookOpen} label="既読" value={`${visibleStats.readCount}`} />
+        <Metric icon={BookOpen} label="既読" value={readLibraryValue} />
         <Metric icon={CircleHelp} label="クイズ" value={quizValue} />
         <Metric icon={Brain} label="思考ノード" value={`${visibleStats.thoughtCount}`} />
+        <Metric icon={Layers3} label="教材数" value={`${newsModules.length}`} />
       </div>
 
       <article className="log-summary">
         <strong>{rangeLabel}のふり返り</strong>
         <p>
           {hasActivity
-            ? "ニュースを読む、確かめる、自分の言葉にする流れが少しずつ積み上がっています。"
-            : "まだこの期間のログはありません。気になる教材を一つ選んで、背景から読んでみましょう。"}
+            ? `${newsModules.length}本の教材のうち、${visibleStats.readCount}本に読んだログがあります。次は未読のテーマを一つ選ぶと、教養の範囲が広がります。`
+            : `まだこの期間のログはありません。${newsModules.length}本の教材から気になるテーマを一つ選んで、背景から読んでみましょう。`}
         </p>
         {!hasActivity && (
           <button className="primary-button log-summary-action" onClick={onStartLearning} type="button">

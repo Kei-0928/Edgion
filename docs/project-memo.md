@@ -57,6 +57,7 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Updated the QA checklist to cover filters, Review, version display, and local cache behavior.
 - Added a built-in module about 18-year-old adulthood, contracts, and consumer trouble.
 - Added a built-in module about 18-year-old voting rights and civic participation.
+- Refined Home and Progress copy to reflect the six-module learning library.
 
 ## Next Safe Task Candidates
 
