@@ -643,6 +643,14 @@ p {
   padding: 6px 0 4px;
 }
 
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
 .content-header p {
   max-width: 740px;
   margin-bottom: 0;
@@ -1188,7 +1196,8 @@ p {
   }
 
   .topbar-actions,
-  .hero-actions {
+  .hero-actions,
+  .header-actions {
     justify-content: start;
   }
 

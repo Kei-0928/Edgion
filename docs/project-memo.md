@@ -52,6 +52,7 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Added lightweight category and difficulty filters to the module picker.
 - Limited service worker registration to production and unregister it during local development.
 - Added thought tree character guidance and a saved-at status.
+- Added lightweight Review navigation from Learn, Quiz, and Thought Tree.
 
 ## Next Safe Task Candidates
 

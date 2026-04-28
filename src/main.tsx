@@ -323,11 +323,17 @@ function App() {
                 completedAt: new Date().toISOString(),
               })
             }
+            onOpenReview={() => setActiveView("review")}
           />
         )}
 
         {activeView === "quiz" && (
-          <QuizView module={selectedModule} progress={selectedProgress} onAnswer={setQuizAnswer} />
+          <QuizView
+            module={selectedModule}
+            progress={selectedProgress}
+            onAnswer={setQuizAnswer}
+            onOpenReview={() => setActiveView("review")}
+          />
         )}
 
         {activeView === "tree" && (
@@ -336,6 +342,7 @@ function App() {
             savedAt={thoughtMeta[selectedModule.id]?.updatedAt}
             thought={selectedThought}
             onChange={updateThought}
+            onOpenReview={() => setActiveView("review")}
           />
         )}
 
@@ -604,10 +611,12 @@ function LearnView({
   module,
   progress,
   onMarkRead,
+  onOpenReview,
 }: {
   module: NewsModule;
   progress: ModuleProgress;
   onMarkRead: () => void;
+  onOpenReview: () => void;
 }) {
   return (
     <section className="view-grid">
@@ -617,10 +626,16 @@ function LearnView({
           <h2>{module.title}</h2>
           <p>{module.summary}</p>
         </div>
-        <button className="primary-button" onClick={onMarkRead} type="button">
-          <CheckCircle2 size={17} />
-          <span>{progress.read ? "既読済み" : "既読にする"}</span>
-        </button>
+        <div className="header-actions">
+          <button className="primary-button" onClick={onMarkRead} type="button">
+            <CheckCircle2 size={17} />
+            <span>{progress.read ? "既読済み" : "既読にする"}</span>
+          </button>
+          <button className="ghost-button" onClick={onOpenReview} type="button">
+            <ArrowRight size={17} />
+            <span>Reviewへ</span>
+          </button>
+        </div>
       </div>
 
       <div className="background-grid">
@@ -693,12 +708,16 @@ function QuizView({
   module,
   progress,
   onAnswer,
+  onOpenReview,
 }: {
   module: NewsModule;
   progress: ModuleProgress;
   onAnswer: (quizId: string, answerIndex: number) => void;
+  onOpenReview: () => void;
 }) {
   const score = getScore(module, progress);
+  const answeredCount = Object.keys(progress.quizAnswers).length;
+  const reviewLabel = answeredCount >= module.quizItems.length ? "Reviewでまとめる" : "Reviewへ";
 
   return (
     <section className="view-grid">
@@ -708,8 +727,14 @@ function QuizView({
           <h2>理解を小さく試す</h2>
           <p>背景を読んだあと、制度や論点のつながりをクイズで確認します。</p>
         </div>
-        <div className="score-badge">
-          {score}/{module.quizItems.length}
+        <div className="header-actions">
+          <div className="score-badge">
+            {score}/{module.quizItems.length}
+          </div>
+          <button className="ghost-button" onClick={onOpenReview} type="button">
+            <ArrowRight size={17} />
+            <span>{reviewLabel}</span>
+          </button>
         </div>
       </div>
 
@@ -761,13 +786,17 @@ function ThoughtTreeView({
   savedAt,
   thought,
   onChange,
+  onOpenReview,
 }: {
   module: NewsModule;
   savedAt?: string;
   thought: ThoughtNode;
   onChange: (field: keyof ThoughtNode, value: string) => void;
+  onOpenReview: () => void;
 }) {
   const savedLabel = formatSavedAt(savedAt);
+  const hasThought = countThoughtFields(thought) > 0;
+  const reviewLabel = hasThought ? "Reviewでまとめる" : "Reviewへ";
 
   return (
     <section className="view-grid">
@@ -780,6 +809,10 @@ function ThoughtTreeView({
         <div className="thought-status">
           <span className="mini-status">{countThoughtFields(thought)}/5 nodes</span>
           <small>{savedLabel}</small>
+          <button className="ghost-button" onClick={onOpenReview} type="button">
+            <ArrowRight size={17} />
+            <span>{reviewLabel}</span>
+          </button>
         </div>
       </div>
 
