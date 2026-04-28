@@ -30,6 +30,15 @@ export const getScore = (module: NewsModule, moduleProgress: ModuleProgress) =>
     return moduleProgress.quizAnswers[item.id] === item.answerIndex ? score + 1 : score;
   }, 0);
 
+export const getNextReviewModule = (
+  modules: NewsModule[],
+  progress: Record<string, ModuleProgress>,
+) =>
+  modules.find((module) => {
+    const moduleProgress = getModuleProgress(progress, module.id);
+    return moduleProgress.read && !moduleProgress.review;
+  });
+
 export const countThoughtFields = (thought: ThoughtNode | undefined) =>
   thought ? Object.values(thought).filter((value) => value.trim().length > 0).length : 0;
 

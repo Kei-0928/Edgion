@@ -29,6 +29,7 @@ import { newsModules } from "./data/modules";
 import {
   countThoughtFields,
   getModuleProgress,
+  getNextReviewModule,
   getProgressStats,
   getScore,
   isInRange,
@@ -1022,11 +1023,15 @@ function ProgressView({
       ? `${visibleStats.quizCorrect}`
       : `${visibleStats.quizCorrect}/${visibleStats.quizTotal}`;
   const readLibraryValue = `${visibleStats.readCount}/${newsModules.length}`;
+  const reviewedCount = newsModules.filter(
+    (module) => getModuleProgress(progress, module.id).review,
+  ).length;
   const hasActivity =
     visibleStats.readCount + visibleStats.quizCorrect + visibleStats.thoughtCount > 0;
   const nextUnreadModule = newsModules.find(
     (module) => !getModuleProgress(progress, module.id).read,
   );
+  const nextReviewModule = getNextReviewModule(newsModules, progress);
   const nextLearningModule = nextUnreadModule ?? newsModules[0];
 
   return (
@@ -1064,15 +1069,17 @@ function ProgressView({
         <Metric icon={BookOpen} label="既読" value={readLibraryValue} />
         <Metric icon={CircleHelp} label="クイズ" value={quizValue} />
         <Metric icon={Brain} label="思考ノード" value={`${visibleStats.thoughtCount}`} />
-        <Metric icon={Layers3} label="教材数" value={`${newsModules.length}`} />
+        <Metric icon={RotateCcw} label="復習済み" value={`${reviewedCount}/${newsModules.length}`} />
       </div>
 
       <article className="log-summary">
         <strong>{rangeLabel}のふり返り</strong>
         <p>
-          {hasActivity
-            ? `${newsModules.length}本の教材のうち、${visibleStats.readCount}本に読んだログがあります。次は未読のテーマを一つ選ぶと、教養の範囲が広がります。`
-            : `まだこの期間のログはありません。${newsModules.length}本の教材から気になるテーマを一つ選んで、背景から読んでみましょう。`}
+          {!hasActivity
+            ? `まだこの期間のログはありません。${newsModules.length}本の教材から気になるテーマを一つ選んで、背景から読んでみましょう。`
+            : nextReviewModule
+              ? `${visibleStats.readCount}本に読んだログがあります。次は「${nextReviewModule.title}」を復習すると、考えたことを定着させやすくなります。`
+              : `${newsModules.length}本の教材のうち、${visibleStats.readCount}本に読んだログがあります。次は未読のテーマを一つ選ぶと、教養の範囲が広がります。`}
         </p>
         <div className="log-summary-actions">
           {!hasActivity && (
@@ -1083,6 +1090,16 @@ function ProgressView({
             >
               <BookOpen size={17} />
               <span>{nextUnreadModule ? "未読教材を読む" : "教材を読む"}</span>
+            </button>
+          )}
+          {hasActivity && nextReviewModule && (
+            <button
+              className="primary-button"
+              onClick={() => onOpenModule(nextReviewModule.id)}
+              type="button"
+            >
+              <RotateCcw size={17} />
+              <span>復習する</span>
             </button>
           )}
           {hasActivity && nextUnreadModule && (

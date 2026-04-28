@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   countThoughtFields,
+  getNextReviewModule,
   getProgressStats,
   getScore,
   isInRange,
@@ -68,6 +69,41 @@ describe("progress helpers", () => {
         evidence: "統計を確認したい",
       }),
     ).toBe(2);
+  });
+
+  it("finds the first read module that has not been reviewed", () => {
+    const secondModule = {
+      ...moduleFixture,
+      id: "module-b",
+      title: "復習候補",
+    };
+
+    expect(
+      getNextReviewModule([moduleFixture, secondModule], {
+        "module-a": {
+          read: true,
+          review: true,
+          quizAnswers: {},
+        },
+        "module-b": {
+          read: true,
+          review: false,
+          quizAnswers: {},
+        },
+      }),
+    ).toEqual(secondModule);
+  });
+
+  it("returns undefined when there are no review candidates", () => {
+    expect(
+      getNextReviewModule([moduleFixture], {
+        "module-a": {
+          read: true,
+          review: true,
+          quizAnswers: {},
+        },
+      }),
+    ).toBeUndefined();
   });
 
   it("checks date ranges against a fixed reference date", () => {

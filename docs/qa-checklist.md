@@ -79,3 +79,48 @@ npm run build
 ```
 
 All commands should pass before publishing.
+
+## TestFlight Candidate QA Record
+
+Use this section when the Web/PWA build is close to a native iOS wrapper or TestFlight candidate. Record actual devices and results instead of treating the checklist as a memory aid.
+
+- Date:
+- Build or commit:
+- Tester:
+- Public URL or local build:
+- Result: Pass / Needs fixes / Blocked
+- Notes:
+
+### Device Coverage
+
+- iPhone small screen, such as iPhone SE size:
+  - Device / simulator:
+  - iOS version:
+  - Browser or shell:
+  - Result:
+- iPhone standard or large screen:
+  - Device / simulator:
+  - iOS version:
+  - Browser or shell:
+  - Result:
+- Desktop browser smoke test:
+  - Browser:
+  - Result:
+
+### iOS And PWA Checks
+
+- Safari opens the app without a blank screen.
+- Add to Home Screen creates an icon with the expected name and artwork.
+- The home-screen app opens in standalone display mode.
+- Safe-area spacing does not hide navigation or primary actions.
+- Text entry in Thought Tree remains usable when the iOS keyboard is open.
+- Offline reload shows the cached app shell or a recoverable state.
+- Returning online reloads the latest deployed app after one refresh.
+- A previously installed or cached build does not keep serving stale content after deployment.
+
+### Store-Readiness Notes
+
+- Support / Privacy link is reachable from the app.
+- Local data reset behavior is verified before any reviewer build.
+- No login, payment, analytics, push notification, cloud sync, or live news feature has been added without a separate review.
+- Any App Store Connect, Bundle ID, signing, certificate, or TestFlight setup remains outside this checklist until explicitly approved.

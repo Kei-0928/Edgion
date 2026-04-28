@@ -46,6 +46,10 @@ Local storage keys:
 
 The path from Web/PWA MVP to TestFlight and App Store readiness is tracked in [docs/app-store-roadmap.md](docs/app-store-roadmap.md).
 
+App Store Connect metadata preparation is drafted in [docs/app-store-metadata.md](docs/app-store-metadata.md).
+
+PWA and HTML metadata readiness notes are tracked in [docs/pwa-metadata-audit.md](docs/pwa-metadata-audit.md).
+
 Content creation rules for safe, original learning modules are tracked in [docs/content-guidelines.md](docs/content-guidelines.md).
 
 New built-in module drafts can start from [docs/module-template.md](docs/module-template.md).

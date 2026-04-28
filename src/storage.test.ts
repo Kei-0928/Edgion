@@ -41,6 +41,14 @@ const setWindowStorage = (storage: TestStorage) => {
   });
 };
 
+const createFailingStorage = (): TestStorage => ({
+  getItem: () => null,
+  setItem: () => {
+    throw new Error("storage unavailable");
+  },
+  setRaw: () => undefined,
+});
+
 describe("storage helpers", () => {
   let storage: TestStorage;
 
@@ -106,6 +114,107 @@ describe("storage helpers", () => {
     expect(loadProgress()).toEqual({});
     expect(loadThoughts()).toEqual({});
     expect(loadThoughtMeta()).toEqual({});
+  });
+
+  it("normalizes malformed progress records", () => {
+    storage.setRaw(
+      PROGRESS_KEY,
+      JSON.stringify({
+        "climate-cities": {
+          read: true,
+          review: "yes",
+          quizAnswers: {
+            "climate-q1": 0,
+            "climate-q2": "1",
+          },
+          readAt: "2026-04-27T00:00:00.000Z",
+          quizUpdatedAt: 123,
+        },
+        "ai-school": {
+          read: "true",
+        },
+        broken: null,
+      }),
+    );
+
+    expect(loadProgress()).toEqual({
+      "climate-cities": {
+        read: true,
+        review: false,
+        quizAnswers: {
+          "climate-q1": 0,
+        },
+        readAt: "2026-04-27T00:00:00.000Z",
+      },
+      "ai-school": {
+        read: false,
+        review: false,
+        quizAnswers: {},
+      },
+    });
+  });
+
+  it("normalizes malformed thought records", () => {
+    storage.setRaw(
+      THOUGHTS_KEY,
+      JSON.stringify({
+        "climate-cities": {
+          claim: "都市の暑さ対策は必要",
+          reasons: 123,
+          evidence: "公的情報を確認したい",
+          counterpoint: null,
+        },
+        broken: "not a thought",
+      }),
+    );
+
+    expect(loadThoughts()).toEqual({
+      "climate-cities": {
+        claim: "都市の暑さ対策は必要",
+        reasons: "",
+        evidence: "公的情報を確認したい",
+        counterpoint: "",
+        nextQuestion: "",
+      },
+    });
+  });
+
+  it("normalizes malformed thought metadata records", () => {
+    storage.setRaw(
+      THOUGHT_META_KEY,
+      JSON.stringify({
+        "climate-cities": {
+          updatedAt: "2026-04-27T00:00:00.000Z",
+        },
+        "ai-school": {
+          updatedAt: 123,
+        },
+        broken: null,
+      }),
+    );
+
+    expect(loadThoughtMeta()).toEqual({
+      "climate-cities": {
+        updatedAt: "2026-04-27T00:00:00.000Z",
+      },
+    });
+  });
+
+  it("keeps save helpers safe when storage writes fail", () => {
+    setWindowStorage(createFailingStorage());
+
+    expect(() =>
+      saveProgress({
+        "climate-cities": {
+          read: true,
+          review: false,
+          quizAnswers: {},
+        },
+      }),
+    ).not.toThrow();
+    expect(() => saveThoughts({})).not.toThrow();
+    expect(() => saveThoughtMeta({})).not.toThrow();
+    expect(() => saveOnboardingComplete(true)).not.toThrow();
   });
 
   it("round trips onboarding completion", () => {
