@@ -1024,6 +1024,10 @@ function ProgressView({
   const readLibraryValue = `${visibleStats.readCount}/${newsModules.length}`;
   const hasActivity =
     visibleStats.readCount + visibleStats.quizCorrect + visibleStats.thoughtCount > 0;
+  const nextUnreadModule = newsModules.find(
+    (module) => !getModuleProgress(progress, module.id).read,
+  );
+  const nextLearningModule = nextUnreadModule ?? newsModules[0];
 
   return (
     <section className="view-grid">
@@ -1070,12 +1074,34 @@ function ProgressView({
             ? `${newsModules.length}本の教材のうち、${visibleStats.readCount}本に読んだログがあります。次は未読のテーマを一つ選ぶと、教養の範囲が広がります。`
             : `まだこの期間のログはありません。${newsModules.length}本の教材から気になるテーマを一つ選んで、背景から読んでみましょう。`}
         </p>
-        {!hasActivity && (
-          <button className="primary-button log-summary-action" onClick={onStartLearning} type="button">
-            <BookOpen size={17} />
-            <span>教材を読む</span>
-          </button>
-        )}
+        <div className="log-summary-actions">
+          {!hasActivity && (
+            <button
+              className="primary-button"
+              onClick={() => onStartModule(nextLearningModule.id)}
+              type="button"
+            >
+              <BookOpen size={17} />
+              <span>{nextUnreadModule ? "未読教材を読む" : "教材を読む"}</span>
+            </button>
+          )}
+          {hasActivity && nextUnreadModule && (
+            <button
+              className="ghost-button"
+              onClick={() => onStartModule(nextUnreadModule.id)}
+              type="button"
+            >
+              <BookOpen size={17} />
+              <span>次の未読教材へ</span>
+            </button>
+          )}
+          {!hasActivity && !nextUnreadModule && (
+            <button className="ghost-button" onClick={onStartLearning} type="button">
+              <Layers3 size={17} />
+              <span>教材一覧を見る</span>
+            </button>
+          )}
+        </div>
       </article>
 
       <div className="progress-list">

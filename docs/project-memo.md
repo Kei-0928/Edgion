@@ -59,6 +59,7 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Added a built-in module about 18-year-old voting rights and civic participation.
 - Refined Home and Progress copy to reflect the six-module learning library.
 - Added unread/read filters and an empty state to the module picker.
+- Added a Progress shortcut to continue with the next unread module.
 
 ## Next Safe Task Candidates
 

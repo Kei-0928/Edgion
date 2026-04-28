@@ -1085,7 +1085,10 @@ p {
   margin-bottom: 0;
 }
 
-.log-summary-action {
+.log-summary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 14px;
 }
 
