@@ -129,9 +129,12 @@ Owner-only blockers before calling v0.2 complete:
 ### v0.3: Strengthen Learning Loops
 
 - Add a simple review mode for previously read modules.
+- Add a Progress-based Insight Map that shows how the learner's social understanding grows across modules.
 - Add optional daily or weekly learning goals without notifications.
 - Improve thought tree summaries so learners can revisit their opinion.
 - Add content source notes to modules.
+
+Status: the Review loop, source notes, reviewed-state persistence, and a first Progress Insight Map MVP are implemented locally. The Insight Map currently uses the existing six modules as knowledge nodes and derives state from local read, quiz, thought, and review data without a new storage key. Daily or weekly goals remain deferred because they need a separate product decision and should not introduce notifications.
 
 ### v0.4: Prepare For iOS Packaging
 

@@ -111,11 +111,11 @@ Use this record when checking the production build locally. Codex can run these 
 
 ### Latest Local Result
 
-- Date: 2026-04-29
-- Commit: `9bb8b2f`
-- Preview URL: `http://127.0.0.1:4173/Edgion/`
+- Date: 2026-04-30
+- Commit: `7a16c4d`
+- Preview URL: `http://127.0.0.1:4174/Edgion/`
 - Tester: Codex
-- Result: Blocked
+- Result: Pass for local production preview / Blocked for real iPhone and offline cache storage checks
 - Notes:
   - `npm test`, `npm run lint`, and `npm run build` passed before preview.
   - `/Edgion/`, `/Edgion/manifest.webmanifest`, `/Edgion/sw.js`, `/Edgion/support.html`, built JS, and built CSS returned HTTP 200 in production preview.
@@ -123,6 +123,10 @@ Use this record when checking the production build locally. Codex can run these 
   - The app opened with title `Edgion`.
   - Browser navigation from `/Edgion/` to `/Edgion/support.html` and back to `/Edgion/` kept the app shell available.
   - Browser reload kept the app available and showed the main navigation.
+  - Progress showed `社会理解の地図` with six Insight Map nodes and status labels.
+  - At a narrow mobile viewport, Insight Map nodes stacked without observed text overlap.
+  - Tapping an untouched Insight Map node opened the module learning view.
+  - Marking a module reviewed persisted after reload and appeared again in Progress.
   - No browser console errors were observed after load and reload.
   - Offline reload and Cache Storage contents could not be verified with the current browser automation surface, so this record remains blocked.
   - Installed PWA behavior and iOS Safari Add to Home Screen remain user-only real-device checks.

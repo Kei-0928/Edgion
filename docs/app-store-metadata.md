@@ -127,7 +127,7 @@ Suggested first screenshot set:
 - Learn view showing background cards.
 - Quiz view after answering a question.
 - Thought Tree view with sample notes.
-- Progress view showing read, quiz, and thought activity.
+- Progress view showing read, quiz, thought activity, and the Insight Map / `社会理解の地図`.
 - Support / Privacy page if reviewers need a visible privacy surface.
 
 Capture rules:

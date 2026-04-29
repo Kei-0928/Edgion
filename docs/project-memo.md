@@ -60,10 +60,12 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Refined Home and Progress copy to reflect the six-module learning library.
 - Added unread/read filters and an empty state to the module picker.
 - Added a Progress shortcut to continue with the next unread module.
+- Added the first Progress Insight Map / Knowledge Panel MVP so the six modules appear as knowledge nodes.
+- Added `reviewedAt` metadata for newly completed review actions while keeping existing review records compatible.
 
 ## Next Safe Task Candidates
 
+- Record public GitHub Pages and real iPhone QA for the Insight Map once the latest local branch is deployed.
 - Add one more youth-relevant built-in module after source review.
 - Draft one new built-in module with source notes using the module template.
 - Add focused tests for review-state display logic if the Progress UI grows more complex.
-- Add focused tests for storage helpers if the current localStorage behavior grows.
