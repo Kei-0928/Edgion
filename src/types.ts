@@ -70,6 +70,7 @@ export type ModuleProgress = {
   completedAt?: string;
   readAt?: string;
   quizUpdatedAt?: string;
+  reviewedAt?: string;
 };
 
 export type ProgressState = Record<string, ModuleProgress>;

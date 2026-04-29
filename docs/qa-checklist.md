@@ -44,6 +44,7 @@ Use this checklist before publishing important MVP updates. It focuses on the cu
 - Open Review from Learn, Quiz, and Thought Tree.
 - Confirm Review summarizes read state, quiz score, and thought notes.
 - Tap `復習済みにする` and confirm the reviewed badge appears in Progress.
+- Reload the app and confirm the reviewed state still appears.
 - Confirm Review links back to Learn, Quiz, and Tree.
 
 ## Progress

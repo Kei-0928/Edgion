@@ -89,6 +89,10 @@ const normalizeProgress = (value: unknown): ProgressState => {
       normalized.quizUpdatedAt = moduleProgress.quizUpdatedAt;
     }
 
+    if (typeof moduleProgress.reviewedAt === "string") {
+      normalized.reviewedAt = moduleProgress.reviewedAt;
+    }
+
     normalizedProgress[moduleId] = normalized;
   });
 

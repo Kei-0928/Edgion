@@ -57,6 +57,12 @@ Timestamp source:
 
 Older thought notes without `thoughtMeta` only appear in the `all` view if future migration logic is added. The current MVP intentionally avoids guessing timestamps for older notes.
 
+## Review State
+
+Review completion is stored as `review: true`. Newer records also store `reviewedAt` as the ISO timestamp for the review action.
+
+Current Progress and Insight Map displays treat review state as all-time because older records can be reviewed without `reviewedAt`. Do not infer `reviewedAt` from `completedAt`; that field may refer to read, quiz, or review activity depending on when the record was written.
+
 ## Empty State
 
 The Progress empty state appears when:

@@ -79,9 +79,10 @@ describe("storage helpers", () => {
     saveProgress({
       "climate-cities": {
         read: true,
-        review: false,
+        review: true,
         quizAnswers: { "heat-1": 1 },
         readAt: "2026-04-27T00:00:00.000Z",
+        reviewedAt: "2026-04-28T00:00:00.000Z",
       },
     });
     saveThoughts({
@@ -98,6 +99,7 @@ describe("storage helpers", () => {
     });
 
     expect(loadProgress()["climate-cities"]?.quizAnswers["heat-1"]).toBe(1);
+    expect(loadProgress()["climate-cities"]?.reviewedAt).toBe("2026-04-28T00:00:00.000Z");
     expect(loadThoughts()["climate-cities"]?.claim).toBe(
       "暑さ対策は都市政策として考えるべき",
     );
@@ -129,9 +131,11 @@ describe("storage helpers", () => {
           },
           readAt: "2026-04-27T00:00:00.000Z",
           quizUpdatedAt: 123,
+          reviewedAt: "2026-04-28T00:00:00.000Z",
         },
         "ai-school": {
           read: "true",
+          reviewedAt: 456,
         },
         broken: null,
       }),
@@ -145,6 +149,7 @@ describe("storage helpers", () => {
           "climate-q1": 0,
         },
         readAt: "2026-04-27T00:00:00.000Z",
+        reviewedAt: "2026-04-28T00:00:00.000Z",
       },
       "ai-school": {
         read: false,

@@ -10,7 +10,7 @@ Edgion currently works without an account, backend server, analytics service, pa
 
 The MVP stores these local keys:
 
-- `edgion.progress.v1`: read state, quiz answers, review state, and activity timestamps.
+- `edgion.progress.v1`: read state, quiz answers, review state, and activity timestamps including review timestamps.
 - `edgion.thoughts.v1`: the learner's thought-tree notes.
 - `edgion.thoughtMeta.v1`: thought-tree update timestamps.
 - `edgion.onboarding.v1`: whether the first-run onboarding has been completed.

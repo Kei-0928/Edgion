@@ -29,6 +29,7 @@ type ModuleProgress = {
   completedAt?: string;
   readAt?: string;
   quizUpdatedAt?: string;
+  reviewedAt?: string;
 };
 ```
 
@@ -46,7 +47,9 @@ Current writers use ISO strings from `new Date().toISOString()` for timestamps.
 
 - Marking a module read sets `read`, `readAt`, and `completedAt`.
 - Answering a quiz sets `quizAnswers[quizId]`, `completedAt`, and `quizUpdatedAt`.
-- Marking review complete sets `review` and `completedAt`.
+- Marking review complete sets `review`, `completedAt`, and `reviewedAt`.
+
+`reviewedAt` was added after the first review-loop MVP. Older `review: true` records may not have it, and code should not infer it from `completedAt` because `completedAt` has also been used for read and quiz activity.
 
 ## Thoughts Shape
 
@@ -112,7 +115,7 @@ Progress normalization:
 - `read` is kept only when it is a boolean; otherwise it becomes `false`.
 - `review` is kept only when it is a boolean; otherwise it becomes `false`.
 - `quizAnswers` is rebuilt from numeric answer indexes only.
-- `completedAt`, `readAt`, and `quizUpdatedAt` are kept only when they are strings.
+- `completedAt`, `readAt`, `quizUpdatedAt`, and `reviewedAt` are kept only when they are strings.
 - Missing valid fields fall back to default module progress.
 
 Thought normalization:

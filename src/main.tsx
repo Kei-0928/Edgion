@@ -261,10 +261,13 @@ function App() {
   };
 
   const markReviewed = () => {
+    const now = new Date().toISOString();
+
     updateSelectedProgress({
       ...selectedProgress,
       review: true,
-      completedAt: new Date().toISOString(),
+      completedAt: now,
+      reviewedAt: now,
     });
   };
 

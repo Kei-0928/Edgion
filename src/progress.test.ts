@@ -213,6 +213,34 @@ describe("progress helpers", () => {
     ).toBe("lit");
   });
 
+  it("keeps review boolean as the source of truth for mastered knowledge nodes", () => {
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: true,
+          reviewedAt: "2026-04-27T12:00:00+09:00",
+          quizAnswers: {},
+        },
+        emptyThought,
+      ).state,
+    ).toBe("mastered");
+
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: false,
+          reviewedAt: "2026-04-27T12:00:00+09:00",
+          quizAnswers: {},
+        },
+        emptyThought,
+      ).state,
+    ).toBe("lit");
+  });
+
   it("finds the first read module that has not been reviewed", () => {
     const secondModule = {
       ...moduleFixture,
@@ -242,6 +270,19 @@ describe("progress helpers", () => {
         "module-a": {
           read: true,
           review: true,
+          quizAnswers: {},
+        },
+      }),
+    ).toBeUndefined();
+  });
+
+  it("keeps reviewed modules out of next-review suggestions without requiring reviewedAt", () => {
+    expect(
+      getNextReviewModule([moduleFixture], {
+        "module-a": {
+          read: true,
+          review: true,
+          readAt: "2026-04-27T08:00:00+09:00",
           quizAnswers: {},
         },
       }),
