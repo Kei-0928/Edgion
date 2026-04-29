@@ -47,6 +47,7 @@ This roadmap keeps the current MVP stable while making the path to iOS explicit.
 ### Store Operations
 
 - Join the Apple Developer Program before TestFlight.
+- Track user-owned submission tasks in `docs/user-owned-app-store-checklist.md`.
 - Prepare app icon assets, screenshots, age rating, description, support URL, and privacy details.
 - Use TestFlight to gather feedback before App Store submission.
 - Review Apple App Store guidelines before adding user accounts, paid features, or user-generated sharing.

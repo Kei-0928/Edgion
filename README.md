@@ -46,6 +46,8 @@ Local storage keys:
 
 The path from Web/PWA MVP to TestFlight and App Store readiness is tracked in [docs/app-store-roadmap.md](docs/app-store-roadmap.md).
 
+User-owned App Store submission tasks are tracked in [docs/user-owned-app-store-checklist.md](docs/user-owned-app-store-checklist.md).
+
 App Store Connect metadata preparation is drafted in [docs/app-store-metadata.md](docs/app-store-metadata.md).
 
 Support contact decisions for App Store readiness are tracked in [docs/support-contact-decision.md](docs/support-contact-decision.md).
