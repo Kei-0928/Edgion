@@ -53,6 +53,7 @@ export type NewsModule = {
   summary: string;
   readingTime: string;
   difficulty: "Starter" | "Core" | "Deep";
+  lastReviewedAt: string;
   leadQuestion: string;
   backgroundSections: BackgroundSection[];
   timeline: TimelineItem[];

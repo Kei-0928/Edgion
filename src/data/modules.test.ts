@@ -22,6 +22,11 @@ const expectHttpUrl = (value: string, label: string) => {
   expect(url.protocol, label).toBe("https:");
 };
 
+const expectIsoDate = (value: string, label: string) => {
+  expect(value, label).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  expect(Number.isNaN(new Date(`${value}T00:00:00+09:00`).getTime()), label).toBe(false);
+};
+
 describe("built-in news modules", () => {
   it("keeps module identifiers unique and stable enough for local progress", () => {
     const ids = newsModules.map((module) => module.id);
@@ -39,6 +44,7 @@ describe("built-in news modules", () => {
       expect(["Starter", "Core", "Deep"], `${module.id} difficulty`).toContain(
         module.difficulty,
       );
+      expectIsoDate(module.lastReviewedAt, `${module.id} lastReviewedAt`);
       expectNonEmptyString(module.leadQuestion, `${module.id} leadQuestion`);
     }
   });

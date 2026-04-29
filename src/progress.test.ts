@@ -16,6 +16,7 @@ const moduleFixture: NewsModule = {
   summary: "Progress集計用のテスト教材。",
   readingTime: "5分",
   difficulty: "Starter",
+  lastReviewedAt: "2026-04-29",
   leadQuestion: "どう考える？",
   backgroundSections: [],
   timeline: [],

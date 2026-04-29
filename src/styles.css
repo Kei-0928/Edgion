@@ -702,6 +702,23 @@ p {
   margin-bottom: 0;
 }
 
+.content-reviewed-at,
+.source-reviewed-chip {
+  display: inline-flex;
+  width: fit-content;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.content-reviewed-at {
+  margin-top: 8px;
+}
+
+.source-reviewed-chip {
+  margin-left: auto;
+}
+
 .background-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -42,6 +42,7 @@ export const newsModules: NewsModule[] = [
       "各地で猛暑日が増えるなか、自治体は学校、街路、公共施設の設計を見直し始めています。気候変動を自分の暮らしの制度として考えます。",
     readingTime: "7分",
     difficulty: "Starter",
+    lastReviewedAt: "2026-04-29",
     leadQuestion: "都市は暑さに合わせて、どこまで生活のルールを変えるべき？",
     backgroundSections: [
       {
@@ -136,6 +137,7 @@ export const newsModules: NewsModule[] = [
       "生成AIを学習に使う動きが広がる一方、丸写し、評価、公平性への不安もあります。学校制度の目的から考え直します。",
     readingTime: "8分",
     difficulty: "Core",
+    lastReviewedAt: "2026-04-29",
     leadQuestion: "AIを禁止するより、使い方を学ぶほうがよいのだろうか？",
     backgroundSections: [
       {
@@ -230,6 +232,7 @@ export const newsModules: NewsModule[] = [
       "地方の人口減少は、交通、医療、学校、税収に影響します。個人の移住問題ではなく、公共サービスの設計として捉えます。",
     readingTime: "9分",
     difficulty: "Deep",
+    lastReviewedAt: "2026-04-29",
     leadQuestion: "人口が減る地域で、守るサービスと変えるサービスをどう選ぶ？",
     backgroundSections: [
       {
@@ -329,6 +332,7 @@ export const newsModules: NewsModule[] = [
       "まだ食べられる食品が捨てられる一方で、値引き販売や寄付の仕組みも広がっています。買い物の選択を、環境、福祉、流通の制度から考えます。",
     readingTime: "7分",
     difficulty: "Starter",
+    lastReviewedAt: "2026-04-29",
     leadQuestion: "安く買う、寄付する、捨てないを両立するには、どんな仕組みが必要？",
     backgroundSections: [
       {
@@ -434,6 +438,7 @@ export const newsModules: NewsModule[] = [
       "成年年齢が18歳になり、スマホ、部屋、クレジット、サービス契約を自分で選べる範囲が広がりました。自由と責任を、消費者トラブルの制度から考えます。",
     readingTime: "8分",
     difficulty: "Core",
+    lastReviewedAt: "2026-04-29",
     leadQuestion: "18歳から自分で契約できる社会では、どんな支えと学びが必要？",
     backgroundSections: [
       {
@@ -539,6 +544,7 @@ export const newsModules: NewsModule[] = [
       "選挙権年齢が18歳になり、高校生や大学生も政治の選択に参加できるようになりました。投票の制度、住民票、主権者教育を手がかりに、一票の意味を考えます。",
     readingTime: "8分",
     difficulty: "Core",
+    lastReviewedAt: "2026-04-29",
     leadQuestion: "若い世代の一票は、社会のどんな決め方を変えられる？",
     backgroundSections: [
       {

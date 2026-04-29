@@ -76,6 +76,19 @@ const sectionIcons = {
   debate: MessageSquareText,
 };
 
+const formatSourceReviewedAt = (dateString: string) => {
+  const date = new Date(`${dateString}T00:00:00+09:00`);
+
+  if (Number.isNaN(date.getTime())) {
+    return dateString;
+  }
+
+  return date.toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "long",
+  });
+};
+
 const formatSavedAt = (isoDate: string | undefined) => {
   if (!isoDate) {
     return "まだメモは保存されていません";
@@ -670,6 +683,9 @@ function LearnView({
           <p className="eyebrow">{module.category}</p>
           <h2>{module.title}</h2>
           <p>{module.summary}</p>
+          <small className="content-reviewed-at">
+            出典確認: {formatSourceReviewedAt(module.lastReviewedAt)}
+          </small>
         </div>
         <div className="header-actions">
           <button className="primary-button" onClick={onMarkRead} type="button">
@@ -734,6 +750,9 @@ function LearnView({
         <div className="section-title">
           <ExternalLink size={19} />
           <h3>参考にした公的情報</h3>
+          <span className="source-reviewed-chip">
+            出典確認: {formatSourceReviewedAt(module.lastReviewedAt)}
+          </span>
         </div>
         <div className="source-list">
           {module.sourceNotes.map((source) => (
