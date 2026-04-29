@@ -114,6 +114,7 @@ The following require explicit approval before implementation:
 ### v0.4: Prepare For iOS Packaging
 
 - Evaluate Capacitor as the first iOS packaging path.
+- Keep `docs/native-readiness-brief.md`, `docs/web-runtime-boundaries.md`, and `docs/local-state-contract.md` aligned with the current Web/PWA implementation.
 - Confirm routing, base path, service worker behavior, and local storage behavior in a native shell.
 - Prepare iOS icon and splash assets.
 - Check safe-area spacing and keyboard behavior on iPhone.

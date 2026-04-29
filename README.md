@@ -50,6 +50,8 @@ App Store Connect metadata preparation is drafted in [docs/app-store-metadata.md
 
 PWA and HTML metadata readiness notes are tracked in [docs/pwa-metadata-audit.md](docs/pwa-metadata-audit.md).
 
+Native readiness planning starts in [docs/native-readiness-brief.md](docs/native-readiness-brief.md), with Web runtime boundaries in [docs/web-runtime-boundaries.md](docs/web-runtime-boundaries.md) and local state persistence rules in [docs/local-state-contract.md](docs/local-state-contract.md).
+
 Content creation rules for safe, original learning modules are tracked in [docs/content-guidelines.md](docs/content-guidelines.md).
 
 New built-in module drafts can start from [docs/module-template.md](docs/module-template.md).
