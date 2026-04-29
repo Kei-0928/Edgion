@@ -2,7 +2,7 @@
 
 ## Product Direction
 
-Edgion is a mobile-first learning app that helps Japanese learners understand news through background knowledge, quizzes, thought-tree notes, and progress reflection. The current stage is a Web/PWA MVP. The long-term target is TestFlight and Apple App Store readiness.
+Edgion is a mobile-first learning app that helps Japanese learners grow social understanding through background-first civic and news learning. It is not a live news feed or news consumption app: built-in topics become background knowledge, quizzes, thought-tree notes, and a Progress Insight Map / `社会理解の地図` that reflects local learning activity across modules. The current stage is a Web/PWA MVP. The long-term target is TestFlight and Apple App Store readiness.
 
 ## Current Implementation
 

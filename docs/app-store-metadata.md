@@ -11,7 +11,7 @@ This draft prepares App Store Connect text and review notes before any Apple Dev
 
 ## Current Product Summary
 
-Edgion is a Japanese news literacy learning app. It uses built-in original background modules, short quizzes, and thought-tree notes to help learners understand civic topics and form their own opinions.
+Edgion is a Japanese news literacy learning app focused on growing social understanding rather than streaming large volumes of news. It uses built-in original background modules, short quizzes, thought-tree notes, and a Progress Insight Map to help learners understand civic topics and form their own opinions.
 
 Current MVP behavior:
 
@@ -37,23 +37,26 @@ Current MVP behavior:
 
 ### Promotional Text Candidate
 
-ニュースの背景、クイズ、思考ツリーで、社会の話題を自分の言葉で考える練習ができます。
+ニュースの背景、クイズ、思考ツリー、社会理解の地図で、社会の話題を自分の言葉で考える練習ができます。
 
 ### Description Candidate
 
-Edgionは、ニュースの背景知識を学び、自分の考えを育てるための学習アプリです。
+Edgionは、ニュースを消費するのではなく、社会の背景知識と自分の考えを育てるための学習アプリです。
 
 ニュースをただ読むだけでなく、歴史、制度、関係者、論点を整理し、短いクイズと思考ツリーで理解を確かめます。社会の話題について、すぐに結論を出すのではなく、背景を知り、根拠を探し、反対意見も見ながら、自分の言葉で考えることを目指します。
+
+Progress画面では、読んだ教材、解いたクイズ、残した思考メモ、復習済みの教材をもとに、社会理解の広がりを小さなInsight Mapとして確認できます。
 
 主な機能:
 
 - 日本語の背景解説教材
 - 理解を確認する短いクイズ
 - 主張、理由、根拠、反対意見、次の問いを書く思考ツリー
+- 学びの広がりを確認するInsight Map / 社会理解の地図
 - 読了、クイズ、復習、メモ数を確認できるProgress画面
 - アカウントなしで使えるローカル保存
 
-現在のMVPでは、ログイン、課金、広告、分析、通知、クラウド同期、ライブニュース取得は行いません。学習データは利用者の端末内に保存され、Progress画面からリセットできます。
+現在のMVPでは、ログイン、課金、広告、分析、通知、クラウド同期、ライブニュース取得は行いません。学習データは利用者の端末内に保存され、Progress画面からEdgion内の学習記録をリセットできます。
 
 ### Keywords Candidate
 
@@ -69,7 +72,7 @@ Before submission, confirm the final keyword byte count and avoid duplicating th
 
 Before submission, confirm whether the support page needs a more direct contact method. Apple describes the Support URL as a page where users can reach the developer about issues, feedback, and feature requests.
 
-Track the support contact decision in `docs/support-contact-decision.md` before treating the Support URL candidate as final.
+Track the support contact decision in `docs/support-contact-decision.md` before treating the Support URL or Privacy Policy URL candidates as final. The current public support page is acceptable for Web/PWA transparency, but it is not yet a final App Store support-contact decision.
 
 ## Age Rating Preparation
 
@@ -127,7 +130,7 @@ Suggested first screenshot set:
 - Learn view showing background cards.
 - Quiz view after answering a question.
 - Thought Tree view with sample notes.
-- Progress view showing read, quiz, thought activity, and the Insight Map / `社会理解の地図`.
+- Progress view showing `既読`, `クイズ`, `思考ノード`, `全期間復習`, and the Insight Map / `社会理解の地図` as a local learning-activity map.
 - Support / Privacy page if reviewers need a visible privacy surface.
 
 Capture rules:
