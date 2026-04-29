@@ -51,6 +51,7 @@ Codex can run local preview and browser checks, but the project owner should ver
 - Bottom navigation and primary actions are not hidden by safe-area insets.
 - Thought Tree text entry remains usable with the iOS keyboard open.
 - Progress shows the Insight Map / `社会理解の地図` without text overlap, and node taps open the expected Learn or Review flow.
+- Mark one module as reviewed, close and reopen Safari or the home-screen app, then confirm the reviewed state and Insight Map status still appear.
 - Local learning data persists after closing and reopening the app or browser.
 - Local learning data reset works and does not clear unrelated browser data.
 - Offline launch or reload shows the cached app shell or another recoverable state.

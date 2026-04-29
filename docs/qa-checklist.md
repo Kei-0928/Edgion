@@ -109,6 +109,30 @@ Use this record when checking the production build locally. Codex can run these 
 - Safe-area spacing keeps bottom navigation and primary actions visible.
 - Thought Tree text entry remains usable while the iOS keyboard is open.
 
+### Owner Real iPhone QA Record
+
+Use this with the public GitHub Pages URL only. This does not require App Store Connect, TestFlight, signing, certificates, or an Apple Developer Program account.
+
+- Date:
+- Commit or visible app version:
+- iPhone model:
+- iOS version:
+- Safari result: Pass / Needs fixes / Blocked
+- Home-screen PWA result: Pass / Needs fixes / Blocked
+- Notes:
+
+Checks:
+
+- Open `https://kei-0928.github.io/Edgion/` in Safari and confirm Home loads without a blank screen.
+- Add to Home Screen, launch from the icon, and confirm it opens as the expected Edgion app.
+- In Progress, confirm `社会理解の地図` shows all six Insight Map nodes without text overlap.
+- Tap one untouched Insight Map node and confirm it opens Learn; tap one active or reviewed node and confirm it opens Review.
+- Create read, quiz, review, and Thought Tree activity, close Safari or the home-screen app, reopen, and confirm local learning data persists.
+- Use `学習データをリセット`, confirm Edgion learning progress is reset, and confirm unrelated Safari/browser data is not affected.
+- Turn on Airplane Mode after one successful online load, reopen or reload, and confirm the cached app shell or another recoverable state appears.
+- Return online, refresh once, and confirm the latest deployed build appears.
+- Open the support/privacy page from the app and confirm the Support and Privacy information is reachable and describes local-only learning data behavior.
+
 ### Latest Local Result
 
 - Date: 2026-04-30
