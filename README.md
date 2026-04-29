@@ -48,6 +48,8 @@ The path from Web/PWA MVP to TestFlight and App Store readiness is tracked in [d
 
 App Store Connect metadata preparation is drafted in [docs/app-store-metadata.md](docs/app-store-metadata.md).
 
+Support contact decisions for App Store readiness are tracked in [docs/support-contact-decision.md](docs/support-contact-decision.md).
+
 PWA and HTML metadata readiness notes are tracked in [docs/pwa-metadata-audit.md](docs/pwa-metadata-audit.md).
 
 Native readiness planning starts in [docs/native-readiness-brief.md](docs/native-readiness-brief.md), with Web runtime boundaries in [docs/web-runtime-boundaries.md](docs/web-runtime-boundaries.md) and local state persistence rules in [docs/local-state-contract.md](docs/local-state-contract.md).

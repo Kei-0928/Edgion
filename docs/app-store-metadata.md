@@ -69,6 +69,8 @@ Before submission, confirm the final keyword byte count and avoid duplicating th
 
 Before submission, confirm whether the support page needs a more direct contact method. Apple describes the Support URL as a page where users can reach the developer about issues, feedback, and feature requests.
 
+Track the support contact decision in `docs/support-contact-decision.md` before treating the Support URL candidate as final.
+
 ## Age Rating Preparation
 
 Apple determines the final age rating from the App Store Connect questionnaire. Based on the current MVP, prepare answers around these facts:
