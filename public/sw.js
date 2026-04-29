@@ -1,4 +1,4 @@
-const CACHE_NAME = "edgion-shell-v5";
+const CACHE_NAME = "edgion-shell-v6";
 const BASE_PATH = "/Edgion/";
 const APP_SHELL = [
   BASE_PATH,
@@ -39,17 +39,17 @@ self.addEventListener("fetch", (event) => {
   }
 
   const url = new URL(event.request.url);
-  const isAppNavigation =
-    event.request.mode === "navigate" ||
-    url.pathname === BASE_PATH ||
-    url.pathname === `${BASE_PATH}index.html`;
+  const isAppShellNavigation =
+    url.pathname === BASE_PATH || url.pathname === `${BASE_PATH}index.html`;
+  const isScopedNavigation =
+    event.request.mode === "navigate" && url.pathname.startsWith(BASE_PATH);
 
   if (url.origin !== self.location.origin) {
     event.respondWith(fetch(event.request));
     return;
   }
 
-  if (isAppNavigation) {
+  if (isAppShellNavigation) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
@@ -63,6 +63,26 @@ self.addEventListener("fetch", (event) => {
         .catch(() =>
           caches
             .match(BASE_PATH)
+            .then((cached) => cached ?? caches.match(`${BASE_PATH}index.html`)),
+        ),
+    );
+    return;
+  }
+
+  if (isScopedNavigation) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          }
+          return response;
+        })
+        .catch(() =>
+          caches
+            .match(event.request)
+            .then((cached) => cached ?? caches.match(BASE_PATH))
             .then((cached) => cached ?? caches.match(`${BASE_PATH}index.html`)),
         ),
     );
