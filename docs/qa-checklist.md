@@ -82,7 +82,12 @@ Use this record when checking the production build locally. Codex can run these 
 - `/Edgion/manifest.webmanifest` returns HTTP 200.
 - `/Edgion/sw.js` returns HTTP 200 and is not served from an old cached worker.
 - `/Edgion/support.html` returns HTTP 200.
+- Built `/Edgion/assets/*.js` and `/Edgion/assets/*.css` return HTTP 200.
 - After one browser reload, Home still appears and no service-worker console errors are observed.
+
+### Manual Or Tooling-Dependent Local Checks
+
+- Cache Storage contains the active `edgion-shell-*` cache with the shell files and built JS/CSS assets.
 - After the first successful online load, offline reload shows the cached app shell or another recoverable state.
 
 ### Conditional Regression Checks
@@ -103,14 +108,16 @@ Use this record when checking the production build locally. Codex can run these 
 ### Latest Local Result
 
 - Date: 2026-04-29
-- Commit: `4cd55e3`
+- Commit: `9bb8b2f`
 - Preview URL: `http://127.0.0.1:4173/Edgion/`
 - Tester: Codex
 - Result: Blocked
 - Notes:
-  - `npm run build` passed before preview.
-  - `/Edgion/`, `/Edgion/manifest.webmanifest`, `/Edgion/sw.js`, and `/Edgion/support.html` returned HTTP 200 in production preview.
+  - `npm test`, `npm run lint`, and `npm run build` passed before preview.
+  - `/Edgion/`, `/Edgion/manifest.webmanifest`, `/Edgion/sw.js`, `/Edgion/support.html`, built JS, and built CSS returned HTTP 200 in production preview.
+  - `sw.js` served `edgion-shell-v7` and is configured to precache built JS/CSS assets found in `index.html`.
   - The app opened with title `Edgion`.
+  - Browser navigation from `/Edgion/` to `/Edgion/support.html` and back to `/Edgion/` kept the app shell available.
   - Browser reload kept the app available and showed the main navigation.
   - No browser console errors were observed after load and reload.
   - Offline reload and Cache Storage contents could not be verified with the current browser automation surface, so this record remains blocked.
