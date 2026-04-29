@@ -63,6 +63,59 @@ Use this checklist before publishing important MVP updates. It focuses on the cu
 - If the app was previously installed or cached, reload once and confirm the latest app shell appears.
 - Confirm `manifest.webmanifest` and `sw.js` are reachable under `/Edgion/`.
 
+## Local PWA Cache QA Record
+
+Use this record when checking the production build locally. Codex can run these checks on the preview server; real iPhone install behavior remains a user-owned check.
+
+- Date:
+- Commit:
+- Preview URL:
+- Tester:
+- Result: Pass / Needs fixes / Blocked
+- Notes:
+
+### Local Checks Codex Can Run
+
+- `npm run build` passes.
+- `npm run preview -- --host 127.0.0.1 --port 4173` serves the production build.
+- `/Edgion/` returns HTTP 200 and loads without a blank screen.
+- `/Edgion/manifest.webmanifest` returns HTTP 200.
+- `/Edgion/sw.js` returns HTTP 200 and is not served from an old cached worker.
+- `/Edgion/support.html` returns HTTP 200.
+- After one browser reload, Home still appears and no service-worker console errors are observed.
+- After the first successful online load, offline reload shows the cached app shell or another recoverable state.
+
+### Conditional Regression Checks
+
+- After a service-worker cache version change, old `edgion-` caches are removed and the latest shell appears after refresh.
+
+### User-Only Real iPhone Checks
+
+- Safari opens the public GitHub Pages URL without a blank screen.
+- Add to Home Screen creates the expected icon, name, and artwork.
+- The home-screen app opens in standalone display mode.
+- Offline launch from the home-screen icon shows the cached app shell or a recoverable state.
+- Returning online and refreshing once shows the latest deployed build.
+- A previously installed or cached build does not keep serving stale content after deployment.
+- Safe-area spacing keeps bottom navigation and primary actions visible.
+- Thought Tree text entry remains usable while the iOS keyboard is open.
+
+### Latest Local Result
+
+- Date: 2026-04-29
+- Commit: `4cd55e3`
+- Preview URL: `http://127.0.0.1:4173/Edgion/`
+- Tester: Codex
+- Result: Blocked
+- Notes:
+  - `npm run build` passed before preview.
+  - `/Edgion/`, `/Edgion/manifest.webmanifest`, `/Edgion/sw.js`, and `/Edgion/support.html` returned HTTP 200 in production preview.
+  - The app opened with title `Edgion`.
+  - Browser reload kept the app available and showed the main navigation.
+  - No browser console errors were observed after load and reload.
+  - Offline reload and Cache Storage contents could not be verified with the current browser automation surface, so this record remains blocked.
+  - Installed PWA behavior and iOS Safari Add to Home Screen remain user-only real-device checks.
+
 ## Mobile Layout
 
 - Check at around 390px width.
