@@ -1031,7 +1031,7 @@ function ProgressView({
   const nextUnreadModule = newsModules.find(
     (module) => !getModuleProgress(progress, module.id).read,
   );
-  const nextReviewModule = getNextReviewModule(newsModules, progress);
+  const nextReviewModule = getNextReviewModule(newsModules, progress, range, referenceDate);
   const nextLearningModule = nextUnreadModule ?? newsModules[0];
 
   return (
@@ -1069,7 +1069,11 @@ function ProgressView({
         <Metric icon={BookOpen} label="既読" value={readLibraryValue} />
         <Metric icon={CircleHelp} label="クイズ" value={quizValue} />
         <Metric icon={Brain} label="思考ノード" value={`${visibleStats.thoughtCount}`} />
-        <Metric icon={RotateCcw} label="復習済み" value={`${reviewedCount}/${newsModules.length}`} />
+        <Metric
+          icon={RotateCcw}
+          label="全期間復習"
+          value={`${reviewedCount}/${newsModules.length}`}
+        />
       </div>
 
       <article className="log-summary">

@@ -30,15 +30,6 @@ export const getScore = (module: NewsModule, moduleProgress: ModuleProgress) =>
     return moduleProgress.quizAnswers[item.id] === item.answerIndex ? score + 1 : score;
   }, 0);
 
-export const getNextReviewModule = (
-  modules: NewsModule[],
-  progress: Record<string, ModuleProgress>,
-) =>
-  modules.find((module) => {
-    const moduleProgress = getModuleProgress(progress, module.id);
-    return moduleProgress.read && !moduleProgress.review;
-  });
-
 export const countThoughtFields = (thought: ThoughtNode | undefined) =>
   thought ? Object.values(thought).filter((value) => value.trim().length > 0).length : 0;
 
@@ -70,6 +61,22 @@ export const isInRange = (
 
   return range === "today" ? sameDay(date, referenceDate) : sameMonth(date, referenceDate);
 };
+
+export const getNextReviewModule = (
+  modules: NewsModule[],
+  progress: Record<string, ModuleProgress>,
+  range: ProgressRange = "all",
+  referenceDate = new Date(),
+) =>
+  modules.find((module) => {
+    const moduleProgress = getModuleProgress(progress, module.id);
+    const readDate = moduleProgress.readAt ?? moduleProgress.completedAt;
+    return (
+      moduleProgress.read &&
+      !moduleProgress.review &&
+      isInRange(readDate, range, referenceDate)
+    );
+  });
 
 export const getProgressStats = (
   modules: NewsModule[],
@@ -113,7 +120,8 @@ export const getProgressStats = (
         }, 0);
 
   const thoughtCount = modules.reduce((total, module) => {
-    if (!isInRange(thoughtMeta[module.id]?.updatedAt, range, referenceDate)) {
+    const thoughtUpdatedAt = thoughtMeta[module.id]?.updatedAt;
+    if (!thoughtUpdatedAt || !isInRange(thoughtUpdatedAt, range, referenceDate)) {
       return total;
     }
 

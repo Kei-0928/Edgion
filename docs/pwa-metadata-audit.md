@@ -32,6 +32,8 @@ Already present:
 - Apple standalone capable flag.
 - Apple status bar style.
 - Open Graph site name, title, description, type, and image.
+- Canonical URL for the public GitHub Pages build.
+- Open Graph URL for the public GitHub Pages build.
 - Manifest link.
 - PNG favicon.
 - Apple touch icon.
@@ -40,8 +42,7 @@ Current notes:
 
 - The app already has the minimum metadata needed for a stable Web/PWA MVP.
 - `og:image` uses `%BASE_URL%icon-512.png`, which is appropriate for the GitHub Pages base path after Vite processing.
-- There is no canonical URL yet.
-- There is no explicit `og:url` yet.
+- `canonical` and `og:url` point to `https://kei-0928.github.io/Edgion/`.
 - There are no Apple startup images. This is acceptable for the MVP because startup images are fragile across device sizes and should be verified on real iPhones before adding.
 
 ### `public/manifest.webmanifest`
@@ -50,6 +51,7 @@ Already present:
 
 - `name`
 - `short_name`
+- `id`
 - `description`
 - `start_url`
 - `scope`
@@ -63,7 +65,7 @@ Already present:
 
 Current notes:
 
-- `start_url` and `scope` are fixed to `/Edgion/`, matching the current GitHub Pages deployment.
+- `id`, `start_url`, and `scope` are fixed to `/Edgion/`, matching the current GitHub Pages deployment.
 - Icon paths are also fixed to `/Edgion/`.
 - The manifest is intentionally simple and stable.
 
@@ -86,39 +88,17 @@ Current notes:
 
 These can be considered as small follow-up tasks after review.
 
-### Add Manifest `id`
-
-Candidate:
-
-```json
-"id": "/Edgion/"
-```
+### Verify Offline And Cache Behavior
 
 Reason:
 
-- Gives the installed web app a stable identity separate from incidental `start_url` changes.
+- `sw.js` caches the app shell and runtime assets after successful requests, but Vite's hashed JS and CSS are not listed directly in `APP_SHELL`.
+- App Store readiness depends on avoiding blank screens after reloads, updates, and home-screen launches.
 
 Risk:
 
-- Low, but install identity should be checked on Chrome/Android and iOS Safari where support differs.
-
-### Add Canonical And Open Graph URL
-
-Candidate:
-
-```html
-<link rel="canonical" href="https://kei-0928.github.io/Edgion/" />
-<meta property="og:url" content="https://kei-0928.github.io/Edgion/" />
-```
-
-Reason:
-
-- Makes public sharing metadata more explicit.
-
-Risk:
-
-- Low for the public GitHub Pages build.
-- If the app later moves domains, these values must be updated.
+- Medium until tested on local preview, deployed GitHub Pages, and real iOS Safari.
+- If the public URL or Vite output changes, service worker behavior should be retested.
 
 ### Split Icon Purpose Entries
 
@@ -188,17 +168,19 @@ Risk:
 
 ## Recommended Next Small Task
 
-Add the low-risk public URL metadata to `index.html`:
-
-- `canonical`
-- `og:url`
+Run a focused local PWA cache check:
 
 Expected impact:
 
 - No runtime behavior change.
-- Helps public preview sharing and search metadata.
-- Safe to verify with `npm test`, `npm run lint`, `npm run build`, and a local browser smoke check.
+- Confirms whether the current service worker avoids blank screens after a production preview load.
+- Provides evidence for any future service worker cache change.
 
-Before editing:
+Suggested checks:
 
-- Confirm the public URL remains `https://kei-0928.github.io/Edgion/`.
+- Build with `npm run build`.
+- Serve with `npm run preview -- --host 127.0.0.1 --port 4173`.
+- Load `/Edgion/` once in the browser.
+- Confirm `sw.js` and `manifest.webmanifest` are reachable under `/Edgion/`.
+- Reload the app and confirm Home still appears.
+- Record any cache or console errors in `docs/qa-checklist.md`.

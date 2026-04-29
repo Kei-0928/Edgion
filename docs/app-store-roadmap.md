@@ -51,6 +51,48 @@ This roadmap keeps the current MVP stable while making the path to iOS explicit.
 - Use TestFlight to gather feedback before App Store submission.
 - Review Apple App Store guidelines before adding user accounts, paid features, or user-generated sharing.
 
+## Monetization Strategy
+
+The preferred monetization path is trust-first freemium. Edgion should remain useful and safe as a free, accountless learning app before any paid feature is introduced.
+
+### Recommended Sequence
+
+1. Keep the first App Store candidate free.
+   - Include enough built-in modules to show the learning loop.
+   - Preserve the current no-login, no-ads, no-tracking posture.
+   - Use the free release to validate onboarding, lesson clarity, retention, and support needs.
+
+2. Add paid content only after the learning value is proven.
+   - Prefer one-time paid lesson packs before subscriptions.
+   - Good pack themes include elections and politics, AI and society, everyday economics, law and contracts, and climate and cities.
+   - Any paid digital content on iOS requires a separate In-App Purchase design review before implementation.
+
+3. Consider subscriptions only when content operations are repeatable.
+   - A subscription makes sense after Edgion can reliably add new modules, review source notes, and maintain quality.
+   - Subscription value should come from new lessons, deeper quizzes, review loops, or curated learning paths.
+
+4. Consider school, tutoring, or inquiry-learning partnerships later.
+   - B2B can be stronger than individual consumer revenue, but it likely requires login, class management, dashboards, exports, or cloud storage.
+   - Treat this as a later product line because it would trigger authentication, database, privacy, and support design work.
+
+### What To Avoid Early
+
+- Avoid advertising as the first revenue model.
+- Avoid analytics or tracking for monetization until there is a dedicated privacy review.
+- Avoid adding payment, subscription, or external commerce flows without explicit approval.
+- Avoid locking the core learning loop behind payment before App Store trust, content quality, and retention are proven.
+
+### Revenue Guardrails
+
+The following require explicit approval before implementation:
+
+- In-App Purchase products.
+- Subscriptions.
+- Paid app pricing.
+- External payment links or purchase flows.
+- Analytics, attribution, ads, or tracking.
+- Account login, cloud sync, or paid entitlements.
+
 ## Prioritized Roadmap
 
 ### v0.2: Stabilize The Web MVP
@@ -114,4 +156,4 @@ Small, safe changes can proceed when they preserve the current MVP behavior:
 
 ## Next Recommended Task
 
-Add a lightweight review mode for completed modules. Keep it local-only and reuse existing module data so it improves retention without introducing accounts, analytics, notifications, or native iOS setup.
+Evaluate the iOS packaging path before adding native tooling. Start with a local design document that compares Capacitor, a native rewrite, and staying Web/PWA-only for longer. Do not install Capacitor, create an Xcode project, or touch signing, Bundle ID, App Store Connect, or TestFlight settings without explicit approval.

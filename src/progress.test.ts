@@ -106,6 +106,37 @@ describe("progress helpers", () => {
     ).toBeUndefined();
   });
 
+  it("finds review candidates inside the selected range", () => {
+    const referenceDate = new Date("2026-04-27T12:00:00+09:00");
+    const secondModule = {
+      ...moduleFixture,
+      id: "module-b",
+      title: "今日の復習候補",
+    };
+
+    expect(
+      getNextReviewModule(
+        [moduleFixture, secondModule],
+        {
+          "module-a": {
+            read: true,
+            review: false,
+            readAt: "2026-04-26T12:00:00+09:00",
+            quizAnswers: {},
+          },
+          "module-b": {
+            read: true,
+            review: false,
+            readAt: "2026-04-27T08:00:00+09:00",
+            quizAnswers: {},
+          },
+        },
+        "today",
+        referenceDate,
+      ),
+    ).toEqual(secondModule);
+  });
+
   it("checks date ranges against a fixed reference date", () => {
     const referenceDate = new Date("2026-04-27T12:00:00+09:00");
 
@@ -153,5 +184,24 @@ describe("progress helpers", () => {
       quizTotal: 2,
       thoughtCount: 2,
     });
+  });
+
+  it("does not count thought notes without thought metadata", () => {
+    const stats = getProgressStats(
+      [moduleFixture],
+      {},
+      {
+        "module-a": {
+          ...emptyThought,
+          claim: "メタデータがない古いメモ",
+          reasons: "日時を推測しない",
+        },
+      },
+      {},
+      "all",
+      new Date("2026-04-27T12:00:00+09:00"),
+    );
+
+    expect(stats.thoughtCount).toBe(0);
   });
 });
