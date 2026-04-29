@@ -96,6 +96,8 @@ The following require explicit approval before implementation:
 
 ## Prioritized Roadmap
 
+The package version shown in the app can lag behind this roadmap. The current `package.json` version is the shipped app version, while the sections below describe readiness stages.
+
 ### v0.2: Stabilize The Web MVP
 
 - Add this roadmap and keep README aligned.
@@ -104,6 +106,25 @@ The following require explicit approval before implementation:
 - Improve Progress copy and empty states.
 - Add a visible way to reset local learning data.
 - Continue checking `npm run lint` and `npm run build` before publishing.
+
+Status: code/docs foundation is substantially complete on the local `codex/app-store-readiness-foundations` branch, but v0.2 is a roadmap stage, not the current package version. The app still reports package version `0.1.0` from `package.json` through `__APP_VERSION__`.
+
+Evidence:
+
+- Six built-in modules are present with source notes and `lastReviewedAt` review dates.
+- First-run onboarding, Progress empty states, Review flow, and local learning-data reset are implemented.
+- Support/privacy, QA, metadata, packaging, native-readiness, runtime-boundary, and local-state planning docs exist.
+- Tests cover module structure, storage helpers, progress helpers, support-page copy, and PWA assets.
+- `npm test`, `npm run lint`, and `npm run build` are part of the pre-publish workflow.
+
+This does not mean the app is TestFlight-ready or App Store-ready. Native packaging, App Store Connect, Bundle ID, signing, TestFlight distribution, final App Store screenshots, final privacy policy wording, and final age-rating answers remain out of scope until explicitly approved.
+
+Owner-only blockers before calling v0.2 complete:
+
+- Public GitHub Pages deployment has the latest local changes.
+- Manual QA in `docs/qa-checklist.md` passes on the public URL.
+- At least one real iPhone Safari check confirms layout, local storage, and basic PWA behavior.
+- The owner confirms the support contact direction is acceptable for a Web/PWA milestone.
 
 ### v0.3: Strengthen Learning Loops
 
