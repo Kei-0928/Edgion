@@ -32,6 +32,7 @@ import {
   getNextReviewModule,
   getProgressStats,
   getScore,
+  hasQuizActivity,
   isInRange,
 } from "./progress";
 import type { ProgressRange, ProgressStats } from "./progress";
@@ -188,6 +189,14 @@ function App() {
   };
 
   const resetModule = () => {
+    const confirmed = window.confirm(
+      `「${selectedModule.title}」の学習データをリセットします。既読、クイズ結果、思考メモは元に戻せません。`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     setProgress((current) => ({
       ...current,
       [selectedModule.id]: defaultProgress(),
@@ -1027,7 +1036,8 @@ function ProgressView({
     (module) => getModuleProgress(progress, module.id).review,
   ).length;
   const hasActivity =
-    visibleStats.readCount + visibleStats.quizCorrect + visibleStats.thoughtCount > 0;
+    visibleStats.readCount + visibleStats.thoughtCount > 0 ||
+    hasQuizActivity(newsModules, progress, range, referenceDate);
   const nextUnreadModule = newsModules.find(
     (module) => !getModuleProgress(progress, module.id).read,
   );

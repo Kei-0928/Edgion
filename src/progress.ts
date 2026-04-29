@@ -78,6 +78,20 @@ export const getNextReviewModule = (
     );
   });
 
+export const hasQuizActivity = (
+  modules: NewsModule[],
+  progress: Record<string, ModuleProgress>,
+  range: ProgressRange,
+  referenceDate = new Date(),
+) =>
+  modules.some((module) => {
+    const moduleProgress = getModuleProgress(progress, module.id);
+    return (
+      Object.keys(moduleProgress.quizAnswers).length > 0 &&
+      isInRange(moduleProgress.quizUpdatedAt ?? moduleProgress.completedAt, range, referenceDate)
+    );
+  });
+
 export const getProgressStats = (
   modules: NewsModule[],
   progress: Record<string, ModuleProgress>,

@@ -4,6 +4,7 @@ import {
   getNextReviewModule,
   getProgressStats,
   getScore,
+  hasQuizActivity,
   isInRange,
 } from "./progress";
 import type { NewsModule, ThoughtNode } from "./types";
@@ -135,6 +136,26 @@ describe("progress helpers", () => {
         referenceDate,
       ),
     ).toEqual(secondModule);
+  });
+
+  it("detects quiz activity even when answers are incorrect", () => {
+    expect(
+      hasQuizActivity(
+        [moduleFixture],
+        {
+          "module-a": {
+            read: false,
+            review: false,
+            quizUpdatedAt: "2026-04-27T09:00:00+09:00",
+            quizAnswers: {
+              q1: 1,
+            },
+          },
+        },
+        "today",
+        new Date("2026-04-27T12:00:00+09:00"),
+      ),
+    ).toBe(true);
   });
 
   it("checks date ranges against a fixed reference date", () => {

@@ -62,7 +62,7 @@ Older thought notes without `thoughtMeta` only appear in the `all` view if futur
 The Progress empty state appears when:
 
 ```ts
-readCount + quizCorrect + thoughtCount === 0
+readCount + thoughtCount === 0 && there is no quiz activity in the selected range
 ```
 
 When empty, the UI shows a small call to action that sends the learner back to the Learn view for the currently selected module.
@@ -76,3 +76,9 @@ The Progress reset action clears learning data after a confirmation dialog:
 - Thought metadata.
 
 It does not clear onboarding state, service worker caches, or app deployment data.
+
+The header reset action clears only the selected module after a confirmation dialog:
+
+- The selected module's progress record.
+- The selected module's thought-tree notes.
+- The selected module's thought metadata.
