@@ -10,6 +10,7 @@ Use this template when drafting a new built-in `NewsModule`. Keep the explanatio
 - `summary`: 1 to 2 sentences that explain why the topic matters.
 - `readingTime`: expected reading time, such as `7分`.
 - `difficulty`: `Starter`, `Core`, or `Deep`.
+- `lastReviewedAt`: source/content review date in `YYYY-MM-DD` format.
 - `leadQuestion`: one open question that invites judgment.
 
 ## Background Sections
@@ -74,6 +75,8 @@ Use the shared `thoughtPrompts` unless a module truly needs custom prompts. The 
 
 Add at least 2 reliable source notes. Prefer official, primary, or institutional sources.
 
+Update `lastReviewedAt` when the module's source notes and factual claims are checked. This date is shown to learners as `出典確認`.
+
 ```ts
 sourceNotes: [
   {
@@ -95,5 +98,6 @@ Before adding the module to `src/data/modules.ts`, confirm:
 - The lead question has more than one reasonable answer.
 - Quiz explanations teach, even if the learner guessed.
 - Source notes support factual claims.
+- `lastReviewedAt` reflects the latest source/content review date.
 - The tone is accessible without becoming careless.
 - The module does not require authentication, live APIs, or private data.

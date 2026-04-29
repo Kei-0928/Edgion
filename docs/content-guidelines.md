@@ -32,6 +32,7 @@ Each module should include:
 - A glossary of key terms.
 - Two to three quiz items with explanations.
 - Thought prompts that ask learners to build their own position.
+- A module-level `lastReviewedAt` date for the latest source/content review.
 
 Use [module-template.md](module-template.md) when drafting a new built-in module.
 
@@ -43,6 +44,7 @@ For future modules, keep lightweight source notes during writing:
 - Prefer government pages, public statistics, laws, institutional reports, and reputable educational materials.
 - When using news articles, use them as topic signals, not as text to copy.
 - Record source URLs in each module's `sourceNotes` field.
+- Update `lastReviewedAt` when source notes and factual claims are reviewed.
 - Show learner-facing source notes concisely in Learn, without replacing the original explanation with a link list.
 
 ## Quiz Rules
@@ -69,4 +71,5 @@ Before adding a new module, check:
 - Does the debate section include a real tradeoff?
 - Do quiz explanations help even when the learner guessed wrong?
 - Are claims traceable to reliable source notes?
+- Is `lastReviewedAt` current for the source review being published?
 - Is the tone accessible without becoming careless?
