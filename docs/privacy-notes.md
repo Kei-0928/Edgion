@@ -35,6 +35,12 @@ Learners can reset local learning data from the Progress screen. This clears pro
 
 The reset action does not clear onboarding completion because onboarding is not part of the learning record.
 
+The reset action only affects the current browser or webview storage for Edgion. It does not clear data from other browsers, devices, browser profiles, or external websites opened from source links.
+
+## Support Request Privacy
+
+The public support page should ask users not to include sensitive personal information, private thought-tree notes, health information, school information, or other information unnecessary for support.
+
 ## External Links
 
 Learn modules may show source-note links to official or public information pages. Opening those links takes the learner to an external website, where that website's own privacy practices apply.
@@ -63,5 +69,6 @@ Before TestFlight or App Store submission, confirm:
 - The privacy policy matches the actual app behavior.
 - App Store privacy nutrition labels match the implementation.
 - The support URL and privacy policy URL are stable public pages.
+- The public page clearly states when it is only an MVP privacy summary and not the final App Store privacy policy.
 - Local data reset behavior is documented clearly enough for reviewers and learners.
 - Any support contact listed publicly has been approved for that purpose.
