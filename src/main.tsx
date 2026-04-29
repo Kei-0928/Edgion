@@ -31,6 +31,7 @@ import {
   getModuleProgress,
   getNextReviewModule,
   getProgressStats,
+  getReviewNextSteps,
   getScore,
   hasQuizActivity,
   isInRange,
@@ -953,6 +954,7 @@ function ReviewView({
   const score = getScore(module, progress);
   const thoughtCount = countThoughtFields(thought);
   const hasQuizAnswers = Object.keys(progress.quizAnswers).length > 0;
+  const nextSteps = getReviewNextSteps(module, progress, thought);
   const thoughtEntries = module.thoughtPrompts.map((prompt) => ({
     ...prompt,
     value: thought[prompt.label].trim(),
@@ -971,6 +973,21 @@ function ReviewView({
           <span>{progress.review ? "復習済み" : "復習済みにする"}</span>
         </button>
       </div>
+
+      <article className="review-next-card">
+        <div className="section-title">
+          <RotateCcw size={19} />
+          <h3>次の一手</h3>
+        </div>
+        <div className="review-step-list">
+          {nextSteps.map((step) => (
+            <div className={`review-step ${step.status}`} key={step.label}>
+              <span>{step.label}</span>
+              <p>{step.detail}</p>
+            </div>
+          ))}
+        </div>
+      </article>
 
       <div className="review-grid">
         <article className="review-card">

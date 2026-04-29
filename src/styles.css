@@ -1040,6 +1040,48 @@ p {
   margin-top: 2px;
 }
 
+.review-next-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f7fbff;
+}
+
+.review-step-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.review-step {
+  min-height: 98px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+}
+
+.review-step.done {
+  border-color: rgb(51 122 92 / 0.34);
+  background: #f5fbf5;
+}
+
+.review-step span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.review-step p {
+  margin-bottom: 0;
+  color: #3f4655;
+  font-size: 0.87rem;
+}
+
 .review-thought-list {
   display: grid;
   gap: 10px;
@@ -1297,6 +1339,7 @@ p {
   .onboarding-panel,
   .onboarding-steps,
   .review-grid,
+  .review-step-list,
   .source-list,
   .thought-layout {
     grid-template-columns: 1fr;

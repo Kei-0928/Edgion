@@ -15,6 +15,12 @@ export type ProgressStats = {
   thoughtCount: number;
 };
 
+export type ReviewNextStep = {
+  label: string;
+  detail: string;
+  status: "todo" | "done";
+};
+
 export const getModuleProgress = (
   progress: Record<string, ModuleProgress>,
   moduleId: string,
@@ -91,6 +97,64 @@ export const hasQuizActivity = (
       isInRange(moduleProgress.quizUpdatedAt ?? moduleProgress.completedAt, range, referenceDate)
     );
   });
+
+export const getReviewNextSteps = (
+  module: NewsModule,
+  moduleProgress: ModuleProgress,
+  thought: ThoughtNode | undefined,
+): ReviewNextStep[] => {
+  const answeredCount = Object.keys(moduleProgress.quizAnswers).length;
+  const thoughtCount = countThoughtFields(thought);
+  const quizComplete = answeredCount >= module.quizItems.length;
+  const thoughtReady = thoughtCount >= 3;
+
+  return [
+    moduleProgress.read
+      ? {
+          label: "背景",
+          detail: "要点は読了済みです。",
+          status: "done",
+        }
+      : {
+          label: "背景",
+          detail: "背景を一度読むと、復習の土台ができます。",
+          status: "todo",
+        },
+    quizComplete
+      ? {
+          label: "クイズ",
+          detail: "全問に回答済みです。",
+          status: "done",
+        }
+      : {
+          label: "クイズ",
+          detail: `${module.quizItems.length}問中${answeredCount}問に回答済みです。`,
+          status: "todo",
+        },
+    thoughtReady
+      ? {
+          label: "思考メモ",
+          detail: "意見を見直す材料がそろっています。",
+          status: "done",
+        }
+      : {
+          label: "思考メモ",
+          detail: `5項目中${thoughtCount}項目を記入済みです。`,
+          status: "todo",
+        },
+    moduleProgress.review
+      ? {
+          label: "復習",
+          detail: "この教材は復習済みです。",
+          status: "done",
+        }
+      : {
+          label: "復習",
+          detail: "最後に復習済みにするとProgressへ反映されます。",
+          status: "todo",
+        },
+  ];
+};
 
 export const getProgressStats = (
   modules: NewsModule[],

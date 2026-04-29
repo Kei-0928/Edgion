@@ -3,6 +3,7 @@ import {
   countThoughtFields,
   getNextReviewModule,
   getProgressStats,
+  getReviewNextSteps,
   getScore,
   hasQuizActivity,
   isInRange,
@@ -157,6 +158,89 @@ describe("progress helpers", () => {
         new Date("2026-04-27T12:00:00+09:00"),
       ),
     ).toBe(true);
+  });
+
+  it("summarizes next review steps for incomplete learning activity", () => {
+    expect(
+      getReviewNextSteps(
+        moduleFixture,
+        {
+          read: false,
+          review: false,
+          quizAnswers: {
+            q1: 0,
+          },
+        },
+        {
+          ...emptyThought,
+          claim: "賛成",
+        },
+      ),
+    ).toEqual([
+      {
+        label: "背景",
+        detail: "背景を一度読むと、復習の土台ができます。",
+        status: "todo",
+      },
+      {
+        label: "クイズ",
+        detail: "2問中1問に回答済みです。",
+        status: "todo",
+      },
+      {
+        label: "思考メモ",
+        detail: "5項目中1項目を記入済みです。",
+        status: "todo",
+      },
+      {
+        label: "復習",
+        detail: "最後に復習済みにするとProgressへ反映されます。",
+        status: "todo",
+      },
+    ]);
+  });
+
+  it("summarizes completed review steps", () => {
+    expect(
+      getReviewNextSteps(
+        moduleFixture,
+        {
+          read: true,
+          review: true,
+          quizAnswers: {
+            q1: 0,
+            q2: 1,
+          },
+        },
+        {
+          ...emptyThought,
+          claim: "賛成",
+          reasons: "生活への影響が大きい",
+          evidence: "統計を確認したい",
+        },
+      ),
+    ).toEqual([
+      {
+        label: "背景",
+        detail: "要点は読了済みです。",
+        status: "done",
+      },
+      {
+        label: "クイズ",
+        detail: "全問に回答済みです。",
+        status: "done",
+      },
+      {
+        label: "思考メモ",
+        detail: "意見を見直す材料がそろっています。",
+        status: "done",
+      },
+      {
+        label: "復習",
+        detail: "この教材は復習済みです。",
+        status: "done",
+      },
+    ]);
   });
 
   it("checks date ranges against a fixed reference date", () => {
