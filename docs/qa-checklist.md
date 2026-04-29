@@ -127,8 +127,14 @@ Checks:
 - Add to Home Screen, launch from the icon, and confirm it opens as the expected Edgion app.
 - In Progress, confirm `社会理解の地図` shows all six Insight Map nodes without text overlap.
 - Tap one untouched Insight Map node and confirm it opens Learn; tap one active or reviewed node and confirm it opens Review.
-- Create read, quiz, review, and Thought Tree activity, close Safari or the home-screen app, reopen, and confirm local learning data persists.
+- From reset learning data, confirm all six Insight Map nodes show `未着手`, `着手 0/6`, and `復習済み 0`.
+- Tap one untouched node, mark the module read, return to Progress, and confirm the node shows `背景読了` and `着手 1/6`.
+- Answer all quiz questions for the same module, return to Progress, and confirm the node shows `確認済み`.
+- Enter one Thought Tree field for the same module, return to Progress, and confirm the node shows `考えあり`.
+- Open Review, tap `復習済みにする`, return to Progress, and confirm the node shows `復習済み` and the counter shows `復習済み 1`.
+- Close Safari or the home-screen app, reopen, and confirm the reviewed state and local learning data persist.
 - Use `学習データをリセット`, confirm Edgion learning progress is reset, and confirm unrelated Safari/browser data is not affected.
+- After reset and reopen, confirm the Insight Map returns to six `未着手` nodes, `着手 0/6`, and `復習済み 0`.
 - Turn on Airplane Mode after one successful online load, reopen or reload, and confirm the cached app shell or another recoverable state appears.
 - Return online, refresh once, and confirm the latest deployed build appears.
 - Open the support/privacy page from the app and confirm the Support and Privacy information is reachable and describes local-only learning data behavior.
