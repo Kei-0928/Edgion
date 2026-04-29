@@ -75,6 +75,8 @@ Track the support contact decision in `docs/support-contact-decision.md` before 
 
 Apple determines the final age rating from the App Store Connect questionnaire. Based on the current MVP, prepare answers around these facts:
 
+This section is preparation only; the project owner must answer the App Store Connect age-rating questionnaire based on the exact submitted build.
+
 - Educational content only.
 - No user-generated public posting.
 - No social networking.
@@ -90,6 +92,30 @@ Apple determines the final age rating from the App Store Connect questionnaire. 
 Open question before submission:
 
 - Whether youth-oriented civic/news topics require a higher age suitability choice because some real-world topics may mention disasters, politics, conflict, or public safety in an educational context.
+
+### Current Content Themes To Consider
+
+The built-in modules are educational explainers, but they touch real civic and life topics:
+
+- Climate and heat-risk policy.
+- School use of generative AI.
+- Population decline and local public services.
+- Food loss, donation, and household purchasing choices.
+- 18-year-old adulthood and consumer contracts.
+- Youth voting and political participation.
+
+These topics are intended for news literacy and civic learning. They should be described as educational content, not as social networking, political campaigning, unrestricted news browsing, crisis alerts, or legal advice.
+
+### Owner Age Rating Checklist
+
+Before answering the App Store Connect questionnaire, the project owner should confirm against the actual submitted build:
+
+- No user-generated public sharing has been added.
+- No unrestricted web browsing has been added; source links open as external references.
+- No live news feed, emergency alerting, or real-time political campaign content has been added.
+- No legal, medical, financial, or safety advice feature has been added.
+- No payments, in-app purchases, ads, tracking, analytics, or gambling-like mechanics have been added.
+- Any future module about violence, disasters, self-harm, drugs, sexuality, or other sensitive topics is reviewed separately before submission.
 
 ## Screenshot Plan
 

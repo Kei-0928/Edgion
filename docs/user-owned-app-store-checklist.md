@@ -23,7 +23,7 @@ These actions require the project owner and should not be delegated to Codex wit
 
 - Enroll in or confirm access to the Apple Developer Program.
 - Create or confirm the App Store Connect app record.
-- Choose the app name, SKU, primary language, category, age rating answers, and availability.
+- Choose the app name, SKU, primary language, category, age rating answers, and availability after reviewing the exact submitted content and features.
 - Choose or approve the Bundle ID.
 - Configure certificates, signing, provisioning profiles, and Xcode team settings.
 - Create TestFlight builds and manage tester access.
@@ -39,6 +39,7 @@ Before treating a build as submission-ready, confirm:
 - Public page explains how local learning data can be reset.
 - App Store privacy nutrition labels match the implementation.
 - Copyright and content-rights answers match the built-in learning modules and source-note approach.
+- Age rating answers match the actual submitted build and current built-in module themes.
 
 ## Real Device QA Needed
 
@@ -63,6 +64,15 @@ Prepare and owner-approve:
 - App description, subtitle, keywords, promotional text, and release notes.
 - Reviewer notes explaining that the current app has no login, payment, analytics, ads, cloud sync, push notifications, or live news feed.
 - A short support plan for incoming user feedback after release.
+
+## Age Rating Review
+
+Before answering App Store Connect age rating questions, owner-confirm:
+
+- The submitted build still has no public posting, chat, social networking, unrestricted web browsing, ads, tracking, payments, gambling, or live news feed.
+- Built-in modules are educational explainers about civic and life topics, not political campaigning, legal advice, emergency alerts, or real-time news coverage.
+- Current topics include climate policy, school AI use, population decline, food loss, consumer contracts, and youth voting.
+- Any future module involving violence, disasters, self-harm, drugs, sexuality, or other sensitive topics receives a separate content and age-rating review.
 
 ## Monetization Guardrails
 
