@@ -289,6 +289,20 @@ describe("progress helpers", () => {
     ).toBeUndefined();
   });
 
+  it("keeps review boolean as the source of truth for next-review suggestions", () => {
+    expect(
+      getNextReviewModule([moduleFixture], {
+        "module-a": {
+          read: true,
+          review: false,
+          reviewedAt: "2026-04-27T08:00:00+09:00",
+          readAt: "2026-04-27T08:00:00+09:00",
+          quizAnswers: {},
+        },
+      }),
+    ).toEqual(moduleFixture);
+  });
+
   it("finds review candidates inside the selected range", () => {
     const referenceDate = new Date("2026-04-27T12:00:00+09:00");
     const secondModule = {

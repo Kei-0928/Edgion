@@ -34,7 +34,7 @@ Deployment is handled by GitHub Actions.
 
 ## Design notes
 
-The MVP intentionally uses built-in sample modules instead of live news APIs. The UI reads from a `NewsModule[]` data structure, so RSS, editorial CMS content, or a News API can be introduced later without redesigning the learning flow.
+The MVP intentionally uses built-in sample modules instead of live news APIs. The UI reads from a `NewsModule[]` data structure, so future editorial CMS, RSS, or news API work should still produce reviewed learning modules with source notes rather than an unfiltered live news feed.
 
 Local storage keys:
 
