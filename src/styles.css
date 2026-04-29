@@ -422,6 +422,12 @@ p {
   background: rgb(31 122 95 / 0.08);
 }
 
+.module-tag.source-review {
+  color: #5f4b1f;
+  border-color: rgb(194 132 18 / 0.24);
+  background: rgb(255 247 226 / 0.9);
+}
+
 .module-chip.active {
   border-color: rgb(31 122 95 / 0.7);
   background: #f2fff9;

@@ -89,6 +89,16 @@ const formatSourceReviewedAt = (dateString: string) => {
   });
 };
 
+const formatSourceReviewedMonth = (dateString: string) => {
+  const date = new Date(`${dateString}T00:00:00+09:00`);
+
+  if (Number.isNaN(date.getTime())) {
+    return dateString;
+  }
+
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}`;
+};
+
 const formatSavedAt = (isoDate: string | undefined) => {
   if (!isoDate) {
     return "まだメモは保存されていません";
@@ -517,6 +527,9 @@ function ModulePicker({
                 <span className="module-tag">{module.difficulty}</span>
                 <span className={moduleProgress.read ? "module-tag read" : "module-tag"}>
                   {moduleProgress.read ? "既読" : "未読"}
+                </span>
+                <span className="module-tag source-review">
+                  確認 {formatSourceReviewedMonth(module.lastReviewedAt)}
                 </span>
               </span>
               <small>
