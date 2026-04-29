@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   countThoughtFields,
+  getKnowledgeNodeStatus,
   getNextReviewModule,
   getProgressStats,
   getReviewNextSteps,
@@ -72,6 +73,144 @@ describe("progress helpers", () => {
         evidence: "統計を確認したい",
       }),
     ).toBe(2);
+  });
+
+  it("maps module activity to knowledge node states", () => {
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: false,
+          review: false,
+          quizAnswers: {},
+        },
+        emptyThought,
+      ),
+    ).toEqual({ state: "locked", label: "未着手", level: 0 });
+
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: false,
+          quizAnswers: {},
+        },
+        emptyThought,
+      ),
+    ).toEqual({ state: "lit", label: "背景読了", level: 1 });
+
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: false,
+          quizAnswers: {
+            q1: 0,
+            q2: 1,
+          },
+        },
+        emptyThought,
+      ),
+    ).toEqual({ state: "strengthened", label: "確認済み", level: 2 });
+
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: false,
+          quizAnswers: {
+            q1: 0,
+            q2: 1,
+          },
+        },
+        {
+          ...emptyThought,
+          claim: "自分の考え",
+        },
+      ),
+    ).toEqual({ state: "personalized", label: "考えあり", level: 3 });
+
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: true,
+          quizAnswers: {},
+        },
+        emptyThought,
+      ),
+    ).toEqual({ state: "mastered", label: "復習済み", level: 4 });
+  });
+
+  it("keeps knowledge node state precedence stable", () => {
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: true,
+          quizAnswers: {},
+        },
+        {
+          ...emptyThought,
+          claim: "復習済みが最優先",
+        },
+      ).state,
+    ).toBe("mastered");
+
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: false,
+          quizAnswers: {
+            q1: 1,
+            q2: 0,
+          },
+        },
+        {
+          ...emptyThought,
+          claim: "クイズ結果より自分のメモを優先",
+        },
+      ).state,
+    ).toBe("personalized");
+
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: false,
+          quizAnswers: {
+            q1: 1,
+            q2: 0,
+          },
+        },
+        emptyThought,
+      ).state,
+    ).toBe("strengthened");
+
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: false,
+          quizAnswers: {
+            q1: 0,
+          },
+        },
+        {
+          ...emptyThought,
+          claim: "   ",
+        },
+      ).state,
+    ).toBe("lit");
   });
 
   it("finds the first read module that has not been reviewed", () => {

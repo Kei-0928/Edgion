@@ -28,6 +28,7 @@ import {
 import { newsModules } from "./data/modules";
 import {
   countThoughtFields,
+  getKnowledgeNodeStatus,
   getModuleProgress,
   getNextReviewModule,
   getProgressStats,
@@ -36,7 +37,7 @@ import {
   hasQuizActivity,
   isInRange,
 } from "./progress";
-import type { ProgressRange, ProgressStats } from "./progress";
+import type { KnowledgeNodeStatus, ProgressRange, ProgressStats } from "./progress";
 import {
   defaultProgress,
   emptyThought,
@@ -1135,6 +1136,13 @@ function ProgressView({
         />
       </div>
 
+      <KnowledgePanel
+        progress={progress}
+        thoughts={thoughts}
+        onOpenModule={onOpenModule}
+        onStartModule={onStartModule}
+      />
+
       <article className="log-summary">
         <strong>{rangeLabel}のふり返り</strong>
         <p>
@@ -1249,6 +1257,97 @@ function ProgressView({
   );
 }
 
+function KnowledgePanel({
+  progress,
+  thoughts,
+  onOpenModule,
+  onStartModule,
+}: {
+  progress: Record<string, ModuleProgress>;
+  thoughts: Record<string, ThoughtNode>;
+  onOpenModule: (moduleId: string) => void;
+  onStartModule: (moduleId: string) => void;
+}) {
+  const nodes = newsModules.map((module) => {
+    const moduleProgress = getModuleProgress(progress, module.id);
+    const status = getKnowledgeNodeStatus(module, moduleProgress, thoughts[module.id]);
+
+    return {
+      module,
+      moduleProgress,
+      status,
+    };
+  });
+  const masteredCount = nodes.filter(({ status }) => status.state === "mastered").length;
+  const activeCount = nodes.filter(({ status }) => status.state !== "locked").length;
+
+  return (
+    <section className="knowledge-panel" aria-labelledby="knowledge-panel-title">
+      <div className="knowledge-panel-header">
+        <div>
+          <p className="eyebrow">Insight Map</p>
+          <h3 id="knowledge-panel-title">社会理解の地図</h3>
+          <p>
+            全期間の学習ログから、背景を読み、問いを解き、自分の考えを残したテーマを見える化します。
+          </p>
+        </div>
+        <div
+          className="knowledge-panel-score"
+          aria-label={`着手${activeCount}件、復習済み${masteredCount}件`}
+        >
+          <Map size={18} />
+          <span>着手 {activeCount}/{newsModules.length}</span>
+          <span>復習済み {masteredCount}</span>
+        </div>
+      </div>
+
+      <div className="knowledge-node-grid">
+        {nodes.map(({ module, moduleProgress, status }) => (
+          <KnowledgeNode
+            key={module.id}
+            module={module}
+            opensReview={moduleProgress.read || status.state !== "locked"}
+            status={status}
+            onOpen={() =>
+              moduleProgress.read || status.state !== "locked"
+                ? onOpenModule(module.id)
+                : onStartModule(module.id)
+            }
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function KnowledgeNode({
+  module,
+  opensReview,
+  status,
+  onOpen,
+}: {
+  module: NewsModule;
+  opensReview: boolean;
+  status: KnowledgeNodeStatus;
+  onOpen: () => void;
+}) {
+  return (
+    <button
+      className={`knowledge-node ${status.state}`}
+      onClick={onOpen}
+      type="button"
+      aria-label={`${module.title}: ${status.label}。${opensReview ? "復習を開く" : "教材を開く"}`}
+    >
+      <span className="knowledge-node-orb" aria-hidden="true" />
+      <span className="knowledge-node-copy">
+        <span className="knowledge-node-category">{module.category}</span>
+        <strong>{module.title}</strong>
+        <span>{status.label}</span>
+      </span>
+    </button>
+  );
+}
+
 function Metric({
   icon: Icon,
   label,
@@ -1268,11 +1367,20 @@ function Metric({
 }
 
 function ProgressBar({ label, value }: { label: string; value: number }) {
+  const safeValue = Math.min(100, value);
+
   return (
     <div className="progress-bar-row">
       <span>{label}</span>
-      <div className="progress-track">
-        <div className="progress-fill" style={{ width: `${Math.min(100, value)}%` }} />
+      <div
+        className="progress-track"
+        role="progressbar"
+        aria-label={`${label} progress`}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(safeValue)}
+      >
+        <div className="progress-fill" style={{ width: `${safeValue}%` }} />
       </div>
     </div>
   );

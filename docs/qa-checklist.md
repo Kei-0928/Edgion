@@ -51,6 +51,9 @@ Use this checklist before publishing important MVP updates. It focuses on the cu
 - Check `今日`, `今月`, and `全期間`.
 - Confirm empty states show `教材を読む`.
 - Confirm `教材を読む` opens Learn.
+- Confirm `社会理解の地図` shows six Knowledge Panel nodes with status labels.
+- Confirm Knowledge Panel nodes fit on a small iPhone viewport without text overlap.
+- Confirm tapping an untouched Knowledge Panel node opens Learn and tapping an active node opens Review.
 - Confirm module cards show read, reviewed, quiz, and thought activity states.
 - Confirm `学習データをリセット` shows a confirmation dialog before clearing learning data.
 - After confirming reset, verify read, quiz, and thought counts return to zero.

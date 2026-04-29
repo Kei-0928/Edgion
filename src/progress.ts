@@ -21,6 +21,37 @@ export type ReviewNextStep = {
   status: "todo" | "done";
 };
 
+export type KnowledgeNodeState = "locked" | "lit" | "strengthened" | "personalized" | "mastered";
+
+export type KnowledgeNodeStatus = {
+  state: KnowledgeNodeState;
+  label: string;
+  level: number;
+};
+
+const knowledgeNodeStatus: Record<KnowledgeNodeState, Omit<KnowledgeNodeStatus, "state">> = {
+  locked: {
+    label: "未着手",
+    level: 0,
+  },
+  lit: {
+    label: "背景読了",
+    level: 1,
+  },
+  strengthened: {
+    label: "確認済み",
+    level: 2,
+  },
+  personalized: {
+    label: "考えあり",
+    level: 3,
+  },
+  mastered: {
+    label: "復習済み",
+    level: 4,
+  },
+};
+
 export const getModuleProgress = (
   progress: Record<string, ModuleProgress>,
   moduleId: string,
@@ -38,6 +69,28 @@ export const getScore = (module: NewsModule, moduleProgress: ModuleProgress) =>
 
 export const countThoughtFields = (thought: ThoughtNode | undefined) =>
   thought ? Object.values(thought).filter((value) => value.trim().length > 0).length : 0;
+
+export const getKnowledgeNodeStatus = (
+  module: NewsModule,
+  moduleProgress: ModuleProgress,
+  thought: ThoughtNode | undefined,
+): KnowledgeNodeStatus => {
+  const answeredCount = Object.keys(moduleProgress.quizAnswers).length;
+  const state = moduleProgress.review
+    ? "mastered"
+    : countThoughtFields(thought) > 0
+      ? "personalized"
+      : answeredCount >= module.quizItems.length
+        ? "strengthened"
+        : moduleProgress.read
+          ? "lit"
+          : "locked";
+
+  return {
+    state,
+    ...knowledgeNodeStatus[state],
+  };
+};
 
 const sameDay = (date: Date, reference: Date) =>
   date.getFullYear() === reference.getFullYear() &&
