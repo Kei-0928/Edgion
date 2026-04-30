@@ -70,12 +70,13 @@ Edgion is a mobile-first learning app that helps Japanese learners grow social u
 - Added a seventh built-in module about disaster information and evacuation decisions, with official source notes from the Cabinet Office, JMA, and MLIT/GSI hazard map portal.
 - Added an App Store screenshot guide with capture order, fictional sample notes, local-state setup, and QA checks.
 - Added an eighth built-in module about minimum wage and part-time work rules, with official source notes from the Ministry of Health, Labour and Welfare.
+- Expanded the support-contact decision note with an option comparison, recommended first App Store support-email path, and decision record template.
 
 ## Next Safe Task Candidates
 
 - Record public GitHub Pages and real iPhone QA for the Insight Map once the latest local branch is deployed.
 - Confirm the GitHub Pages workflow still deploys successfully after the action-version update.
-- Choose the official support contact method before treating the App Store Support URL as final.
+- Project owner: choose the official support contact method before treating the App Store Support URL as final. The recommended first option is a dedicated support email address.
 - Capture App Store screenshot candidates from the public Web/PWA build, using only fictional sample notes.
 - Add one more youth-relevant built-in module after source review.
 - Draft one new built-in module with source notes using the module template.
