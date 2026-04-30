@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   countThoughtFields,
+  getAnsweredQuizCount,
   getKnowledgeNodeStatus,
   getNextReviewModule,
   getProgressStats,
@@ -8,6 +9,7 @@ import {
   getScore,
   hasQuizActivity,
   isInRange,
+  markModuleReviewed,
 } from "./progress";
 import type { NewsModule, ThoughtNode } from "./types";
 
@@ -73,6 +75,19 @@ describe("progress helpers", () => {
         evidence: "統計を確認したい",
       }),
     ).toBe(2);
+  });
+
+  it("counts only current quiz items as answered", () => {
+    expect(
+      getAnsweredQuizCount(moduleFixture, {
+        read: false,
+        review: false,
+        quizAnswers: {
+          q1: 0,
+          stale: 1,
+        },
+      }),
+    ).toBe(1);
   });
 
   it("maps module activity to knowledge node states", () => {
@@ -211,6 +226,53 @@ describe("progress helpers", () => {
         },
       ).state,
     ).toBe("lit");
+
+    expect(
+      getKnowledgeNodeStatus(
+        moduleFixture,
+        {
+          read: true,
+          review: false,
+          quizAnswers: {
+            stale1: 0,
+            stale2: 1,
+          },
+        },
+        emptyThought,
+      ).state,
+    ).toBe("lit");
+  });
+
+  it("marks modules reviewed without rewriting previous completion timestamps", () => {
+    const reviewed = markModuleReviewed(
+      {
+        read: true,
+        review: false,
+        completedAt: "2026-04-26T08:00:00+09:00",
+        quizAnswers: {},
+      },
+      "2026-04-27T12:00:00+09:00",
+    );
+
+    expect(reviewed).toEqual({
+      read: true,
+      review: true,
+      completedAt: "2026-04-26T08:00:00+09:00",
+      reviewedAt: "2026-04-27T12:00:00+09:00",
+      quizAnswers: {},
+    });
+  });
+
+  it("keeps already reviewed records unchanged when reviewed again", () => {
+    const existing = {
+      read: true,
+      review: true,
+      completedAt: "2026-04-26T08:00:00+09:00",
+      reviewedAt: "2026-04-26T09:00:00+09:00",
+      quizAnswers: {},
+    };
+
+    expect(markModuleReviewed(existing, "2026-04-27T12:00:00+09:00")).toBe(existing);
   });
 
   it("keeps review boolean as the source of truth for mastered knowledge nodes", () => {
@@ -363,6 +425,7 @@ describe("progress helpers", () => {
           review: false,
           quizAnswers: {
             q1: 0,
+            stale: 1,
           },
         },
         {

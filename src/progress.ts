@@ -70,12 +70,30 @@ export const getScore = (module: NewsModule, moduleProgress: ModuleProgress) =>
 export const countThoughtFields = (thought: ThoughtNode | undefined) =>
   thought ? Object.values(thought).filter((value) => value.trim().length > 0).length : 0;
 
+export const getAnsweredQuizCount = (module: NewsModule, moduleProgress: ModuleProgress) =>
+  module.quizItems.filter((item) => Object.hasOwn(moduleProgress.quizAnswers, item.id)).length;
+
+export const markModuleReviewed = (
+  moduleProgress: ModuleProgress,
+  reviewedAt: string,
+): ModuleProgress => {
+  if (moduleProgress.review) {
+    return moduleProgress;
+  }
+
+  return {
+    ...moduleProgress,
+    review: true,
+    reviewedAt,
+  };
+};
+
 export const getKnowledgeNodeStatus = (
   module: NewsModule,
   moduleProgress: ModuleProgress,
   thought: ThoughtNode | undefined,
 ): KnowledgeNodeStatus => {
-  const answeredCount = Object.keys(moduleProgress.quizAnswers).length;
+  const answeredCount = getAnsweredQuizCount(module, moduleProgress);
   const state = moduleProgress.review
     ? "mastered"
     : countThoughtFields(thought) > 0
@@ -156,7 +174,7 @@ export const getReviewNextSteps = (
   moduleProgress: ModuleProgress,
   thought: ThoughtNode | undefined,
 ): ReviewNextStep[] => {
-  const answeredCount = Object.keys(moduleProgress.quizAnswers).length;
+  const answeredCount = getAnsweredQuizCount(module, moduleProgress);
   const thoughtCount = countThoughtFields(thought);
   const quizComplete = answeredCount >= module.quizItems.length;
   const thoughtReady = thoughtCount >= 3;

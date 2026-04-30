@@ -31,11 +31,13 @@ import {
   getKnowledgeNodeStatus,
   getModuleProgress,
   getNextReviewModule,
+  getAnsweredQuizCount,
   getProgressStats,
   getReviewNextSteps,
   getScore,
   hasQuizActivity,
   isInRange,
+  markModuleReviewed,
 } from "./progress";
 import type { KnowledgeNodeStatus, ProgressRange, ProgressStats } from "./progress";
 import {
@@ -261,14 +263,7 @@ function App() {
   };
 
   const markReviewed = () => {
-    const now = new Date().toISOString();
-
-    updateSelectedProgress({
-      ...selectedProgress,
-      review: true,
-      completedAt: now,
-      reviewedAt: now,
-    });
+    updateSelectedProgress(markModuleReviewed(selectedProgress, new Date().toISOString()));
   };
 
   return (
@@ -798,7 +793,7 @@ function QuizView({
   onOpenReview: () => void;
 }) {
   const score = getScore(module, progress);
-  const answeredCount = Object.keys(progress.quizAnswers).length;
+  const answeredCount = getAnsweredQuizCount(module, progress);
   const reviewLabel = answeredCount >= module.quizItems.length ? "Reviewでまとめる" : "Reviewへ";
 
   return (

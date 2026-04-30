@@ -62,10 +62,17 @@ Edgion is a mobile-first learning app that helps Japanese learners grow social u
 - Added a Progress shortcut to continue with the next unread module.
 - Added the first Progress Insight Map / Knowledge Panel MVP so the six modules appear as knowledge nodes.
 - Added `reviewedAt` metadata for newly completed review actions while keeping existing review records compatible.
+- Updated the GitHub Pages deploy workflow toward Node 24-compatible action majors to reduce future deployment warning risk.
+- Added App Store metadata preparation details: official reference links, support-contact decision record, screenshot capture record, and reviewer verification steps.
+- Added preliminary App Store privacy-answer notes for the current local-only MVP.
+- Hardened Insight Map and Review quiz-completion logic so stale local quiz keys do not count as completed current quiz items.
+- Made review completion idempotent so re-marking a reviewed module does not rewrite older activity timestamps.
 
 ## Next Safe Task Candidates
 
 - Record public GitHub Pages and real iPhone QA for the Insight Map once the latest local branch is deployed.
+- Confirm the GitHub Pages workflow still deploys successfully after the action-version update.
+- Choose the official support contact method before treating the App Store Support URL as final.
 - Add one more youth-relevant built-in module after source review.
 - Draft one new built-in module with source notes using the module template.
 - Add focused tests for review-state display logic if the Progress UI grows more complex.
