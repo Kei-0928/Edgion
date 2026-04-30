@@ -139,6 +139,18 @@ Checks:
 - Return online, refresh once, and confirm the latest deployed build appears.
 - Open the support/privacy page from the app and confirm the Support and Privacy information is reachable and describes local-only learning data behavior.
 
+### Latest Owner Real iPhone Result
+
+- Date: 2026-04-30
+- Commit or visible app version: deployed after merge commit `f25a858`
+- iPhone model:
+- iOS version:
+- Safari result: Pass for Insight Map visibility
+- Home-screen PWA result:
+- Notes:
+  - The project owner confirmed on a real iPhone that Progress shows `社会理解の地図`.
+  - Remaining owner-device checks still include node-state progression, persistence after close/reopen, reset behavior, Add to Home Screen behavior, and offline/cache behavior.
+
 ### Latest Local Result
 
 - Date: 2026-04-30
