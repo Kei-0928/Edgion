@@ -111,7 +111,7 @@ Status: code/docs foundation is substantially complete on the local `codex/app-s
 
 Evidence:
 
-- Seven built-in modules are present with source notes and `lastReviewedAt` review dates.
+- Eight built-in modules are present with source notes and `lastReviewedAt` review dates.
 - First-run onboarding, Progress empty states, Review flow, and local learning-data reset are implemented.
 - Support/privacy, QA, metadata, packaging, native-readiness, runtime-boundary, and local-state planning docs exist.
 - Tests cover module structure, storage helpers, progress helpers, support-page copy, and PWA assets.

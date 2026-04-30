@@ -162,14 +162,14 @@ Checks:
   - `npm test`, `npm run lint`, and `npm run build` passed before preview.
   - `npm test` passed 41 tests after adding quiz-count and review-timestamp regression coverage.
   - `/Edgion/`, `/Edgion/manifest.webmanifest`, `/Edgion/sw.js`, `/Edgion/support.html`, built JS, and built CSS returned HTTP 200 in production preview.
-  - `sw.js` served `edgion-shell-v7` and is configured to precache built JS/CSS assets found in `index.html`.
+  - `sw.js` served `edgion-shell-v8` and is configured to precache built JS/CSS assets found in `index.html`.
   - The app opened with title `Edgion`.
   - Browser navigation from `/Edgion/` to `/Edgion/support.html` and back to `/Edgion/` kept the app shell available.
   - Browser reload kept the app available and showed the main navigation.
-  - Home showed dynamic copy for `7本のニュース背景教材`.
-  - The module picker showed 7 built-in modules, including `防災情報と避難判断の読み解き方`.
-  - Progress showed `社会理解の地図` with 7 Insight Map nodes and status labels.
-  - The Insight Map score showed `着手 0/7` and `復習済み 0` after reset-state preview.
+  - Home showed dynamic copy for `8本のニュース背景教材`.
+  - The module picker showed 8 built-in modules, including `最低賃金とアルバイトのルール`.
+  - Progress showed `社会理解の地図` with 8 Insight Map nodes and status labels.
+  - The Insight Map score showed `着手 0/8` and `復習済み 0` after reset-state preview.
   - The first Insight Map node exposed the accessible label `猛暑対策で変わる都市のルール: 未着手。教材を開く`.
   - At a narrow mobile viewport, Insight Map nodes stacked without observed text overlap.
   - Tapping an untouched Insight Map node opened the module learning view.

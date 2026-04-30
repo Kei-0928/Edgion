@@ -76,8 +76,9 @@ Before answering App Store Connect age rating questions, owner-confirm:
 
 - The submitted build still has no public posting, chat, social networking, unrestricted web browsing, ads, tracking, payments, gambling, or live news feed.
 - Built-in modules are educational explainers about civic and life topics, not political campaigning, legal advice, emergency alerts, or real-time news coverage.
-- Current topics include climate policy, school AI use, population decline, food loss, consumer contracts, youth voting, and educational disaster-information literacy.
+- Current topics include climate policy, school AI use, population decline, food loss, consumer contracts, youth voting, educational disaster-information literacy, and minimum-wage / part-time work-rule literacy.
 - The disaster-information module is educational preparedness content, not live alerts, crisis instructions, or emergency guidance. Before submission, confirm this topic is reflected accurately in age-rating answers and review notes.
+- The minimum-wage module is general educational content about labor rules, not individualized legal advice. Before submission, confirm this is reflected accurately in age-rating answers and review notes.
 - Any future module involving violence, graphic injury, self-harm, drugs, sexuality, partisan campaigning, or other sensitive real-world topics receives a separate content and age-rating review.
 
 ## Monetization Guardrails

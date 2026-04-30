@@ -21,7 +21,7 @@ Prepare this first iPhone portrait set before App Store submission. Recheck Appl
 
 | Order | Screen | Purpose | State to show |
 | --- | --- | --- | --- |
-| 1 | Home | First impression and learning-library value | Select a youth-relevant module and show the 7-module library count |
+| 1 | Home | First impression and learning-library value | Select a youth-relevant module and show the 8-module library count |
 | 2 | Learn | Background-first learning | Show section cards and public source review date |
 | 3 | Quiz | Lightweight understanding check | Show one answered question with explanation |
 | 4 | Thought Tree | Learner reflection | Show clearly fictional notes only |
@@ -36,6 +36,7 @@ Use built-in topics that make the product feel broad without looking like breaki
 - `学校で生成AIをどう使うか` for Learn or Quiz.
 - `18歳選挙権と一票の使い方` for Thought Tree or Review.
 - `防災情報と避難判断の読み解き方` for Home or module picker breadth.
+- `最低賃金とアルバイトのルール` for youth-relevant everyday economics.
 - `猛暑対策で変わる都市のルール` for Insight Map starting point.
 
 Avoid using the disaster-information module in a way that looks like live emergency guidance. It should appear as educational preparedness and public-information literacy.
@@ -67,8 +68,8 @@ Use the app UI where possible:
 
 Expected Progress screenshot state:
 
-- Module count: 7.
-- Insight Map nodes: 7.
+- Module count: 8.
+- Insight Map nodes: 8.
 - At least three visible node states.
 - At least one reviewed node.
 - No personal data.
