@@ -149,7 +149,7 @@ Checks:
 - Home-screen PWA result:
 - Notes:
   - The project owner confirmed on a real iPhone that Progress shows `社会理解の地図`.
-  - Remaining owner-device checks still include node-state progression, persistence after close/reopen, reset behavior, Add to Home Screen behavior, and offline/cache behavior.
+  - The project owner later confirmed that all owner-device QA checks in this section passed, including node-state progression, persistence after close/reopen, reset behavior, Add to Home Screen behavior, and offline/cache behavior.
 
 ### Latest Local Result
 
