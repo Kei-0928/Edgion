@@ -41,7 +41,7 @@ Any change to the public base path must update the manifest. Unlike `index.html`
 `public/sw.js` is a hand-written service worker tied to `/Edgion/`.
 
 - `BASE_PATH` is hard-coded to `/Edgion/`.
-- `CACHE_NAME` is `edgion-shell-v7`.
+- `CACHE_NAME` is `edgion-shell-v8`.
 - The install step pre-caches:
   - `/Edgion/`
   - `/Edgion/index.html`

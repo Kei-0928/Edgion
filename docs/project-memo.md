@@ -69,6 +69,7 @@ Edgion is a mobile-first learning app that helps Japanese learners grow social u
 - Made review completion idempotent so re-marking a reviewed module does not rewrite older activity timestamps.
 - Added a seventh built-in module about disaster information and evacuation decisions, with official source notes from the Cabinet Office, JMA, and MLIT/GSI hazard map portal.
 - Added an App Store screenshot guide with capture order, fictional sample notes, local-state setup, and QA checks.
+- Added an eighth built-in module about minimum wage and part-time work rules, with official source notes from the Ministry of Health, Labour and Welfare.
 
 ## Next Safe Task Candidates
 
