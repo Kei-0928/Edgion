@@ -52,9 +52,9 @@ Codex can run local preview and browser checks, but the project owner should ver
 - Thought Tree text entry remains usable with the iOS keyboard open.
 - Progress shows the Insight Map / `社会理解の地図` without text overlap, and node taps open the expected Learn or Review flow.
 - Starting from reset learning data, one Insight Map node can move through `未着手`, `背景読了`, `確認済み`, `考えあり`, and `復習済み`.
-- Insight Map counters update during that flow, including `着手 1/6` and `復習済み 1`.
+- Insight Map counters update during that flow, including `着手 1/{教材数}` and `復習済み 1`.
 - Mark one module as reviewed, close and reopen Safari or the home-screen app, then confirm the reviewed state and Insight Map status still appear.
-- After learning data reset, the Insight Map returns to six `未着手` nodes, `着手 0/6`, and `復習済み 0`.
+- After learning data reset, the Insight Map returns to all `未着手` nodes, `着手 0/{教材数}`, and `復習済み 0`.
 - Local learning data persists after closing and reopening the app or browser.
 - Local learning data reset works and does not clear unrelated browser data.
 - Offline launch or reload shows the cached app shell or another recoverable state.
@@ -76,8 +76,9 @@ Before answering App Store Connect age rating questions, owner-confirm:
 
 - The submitted build still has no public posting, chat, social networking, unrestricted web browsing, ads, tracking, payments, gambling, or live news feed.
 - Built-in modules are educational explainers about civic and life topics, not political campaigning, legal advice, emergency alerts, or real-time news coverage.
-- Current topics include climate policy, school AI use, population decline, food loss, consumer contracts, and youth voting.
-- Any future module involving violence, disasters, self-harm, drugs, sexuality, or other sensitive topics receives a separate content and age-rating review.
+- Current topics include climate policy, school AI use, population decline, food loss, consumer contracts, youth voting, and educational disaster-information literacy.
+- The disaster-information module is educational preparedness content, not live alerts, crisis instructions, or emergency guidance. Before submission, confirm this topic is reflected accurately in age-rating answers and review notes.
+- Any future module involving violence, graphic injury, self-harm, drugs, sexuality, partisan campaigning, or other sensitive real-world topics receives a separate content and age-rating review.
 
 ## Monetization Guardrails
 

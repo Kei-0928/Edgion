@@ -122,8 +122,9 @@ The built-in modules are educational explainers, but they touch real civic and l
 - Food loss, donation, and household purchasing choices.
 - 18-year-old adulthood and consumer contracts.
 - Youth voting and political participation.
+- Disaster-information literacy and evacuation-decision background.
 
-These topics are intended for news literacy and civic learning. They should be described as educational content, not as social networking, political campaigning, unrestricted news browsing, crisis alerts, or legal advice.
+These topics are intended for news literacy and civic learning. The disaster-information module is educational preparedness content about reading public information, not live alerts or emergency instructions. The app should be described as educational content, not as social networking, political campaigning, unrestricted news browsing, crisis alerts, emergency guidance, or legal advice.
 
 ### Owner Age Rating Checklist
 
@@ -134,7 +135,8 @@ Before answering the App Store Connect questionnaire, the project owner should c
 - No live news feed, emergency alerting, or real-time political campaign content has been added.
 - No legal, medical, financial, or safety advice feature has been added.
 - No payments, in-app purchases, ads, tracking, analytics, or gambling-like mechanics have been added.
-- Any future module about violence, disasters, self-harm, drugs, sexuality, or other sensitive topics is reviewed separately before submission.
+- The disaster-information module remains non-graphic, educational, and not framed as live emergency guidance.
+- Any future module about violence, graphic injury, self-harm, drugs, sexuality, partisan campaigning, or other sensitive topics is reviewed separately before submission.
 
 ## Screenshot Plan
 

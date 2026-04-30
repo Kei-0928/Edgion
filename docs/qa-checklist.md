@@ -52,7 +52,7 @@ Use this checklist before publishing important MVP updates. It focuses on the cu
 - Check `今日`, `今月`, and `全期間`.
 - Confirm empty states show `教材を読む`.
 - Confirm `教材を読む` opens Learn.
-- Confirm `社会理解の地図` shows six Knowledge Panel nodes with status labels.
+- Confirm `社会理解の地図` shows one Knowledge Panel node for each built-in module with status labels.
 - Confirm Knowledge Panel nodes fit on a small iPhone viewport without text overlap.
 - Confirm tapping an untouched Knowledge Panel node opens Learn and tapping an active node opens Review.
 - Confirm module cards show read, reviewed, quiz, and thought activity states.
@@ -125,16 +125,16 @@ Checks:
 
 - Open `https://kei-0928.github.io/Edgion/` in Safari and confirm Home loads without a blank screen.
 - Add to Home Screen, launch from the icon, and confirm it opens as the expected Edgion app.
-- In Progress, confirm `社会理解の地図` shows all six Insight Map nodes without text overlap.
+- In Progress, confirm `社会理解の地図` shows all built-in Insight Map nodes without text overlap.
 - Tap one untouched Insight Map node and confirm it opens Learn; tap one active or reviewed node and confirm it opens Review.
-- From reset learning data, confirm all six Insight Map nodes show `未着手`, `着手 0/6`, and `復習済み 0`.
-- Tap one untouched node, mark the module read, return to Progress, and confirm the node shows `背景読了` and `着手 1/6`.
+- From reset learning data, confirm all Insight Map nodes show `未着手`, `着手 0/{教材数}`, and `復習済み 0`.
+- Tap one untouched node, mark the module read, return to Progress, and confirm the node shows `背景読了` and `着手 1/{教材数}`.
 - Answer all quiz questions for the same module, return to Progress, and confirm the node shows `確認済み`.
 - Enter one Thought Tree field for the same module, return to Progress, and confirm the node shows `考えあり`.
 - Open Review, tap `復習済みにする`, return to Progress, and confirm the node shows `復習済み` and the counter shows `復習済み 1`.
 - Close Safari or the home-screen app, reopen, and confirm the reviewed state and local learning data persist.
 - Use `学習データをリセット`, confirm Edgion learning progress is reset, and confirm unrelated Safari/browser data is not affected.
-- After reset and reopen, confirm the Insight Map returns to six `未着手` nodes, `着手 0/6`, and `復習済み 0`.
+- After reset and reopen, confirm the Insight Map returns to all `未着手` nodes, `着手 0/{教材数}`, and `復習済み 0`.
 - Turn on Airplane Mode after one successful online load, reopen or reload, and confirm the cached app shell or another recoverable state appears.
 - Return online, refresh once, and confirm the latest deployed build appears.
 - Open the support/privacy page from the app and confirm the Support and Privacy information is reachable and describes local-only learning data behavior.
@@ -154,7 +154,7 @@ Checks:
 ### Latest Local Result
 
 - Date: 2026-04-30
-- Commit: working tree after deploy workflow, App Store metadata, privacy, and Progress helper hardening updates
+- Commit: working tree after adding the disaster-information built-in module
 - Preview URL: `http://127.0.0.1:4175/Edgion/`
 - Tester: Codex
 - Result: Pass for local production preview / Blocked for real iPhone and offline cache storage checks
@@ -166,7 +166,10 @@ Checks:
   - The app opened with title `Edgion`.
   - Browser navigation from `/Edgion/` to `/Edgion/support.html` and back to `/Edgion/` kept the app shell available.
   - Browser reload kept the app available and showed the main navigation.
-  - Progress showed `社会理解の地図` with six Insight Map nodes and status labels.
+  - Home showed dynamic copy for `7本のニュース背景教材`.
+  - The module picker showed 7 built-in modules, including `防災情報と避難判断の読み解き方`.
+  - Progress showed `社会理解の地図` with 7 Insight Map nodes and status labels.
+  - The Insight Map score showed `着手 0/7` and `復習済み 0` after reset-state preview.
   - The first Insight Map node exposed the accessible label `猛暑対策で変わる都市のルール: 未着手。教材を開く`.
   - At a narrow mobile viewport, Insight Map nodes stacked without observed text overlap.
   - Tapping an untouched Insight Map node opened the module learning view.

@@ -57,16 +57,17 @@ Edgion is a mobile-first learning app that helps Japanese learners grow social u
 - Updated the QA checklist to cover filters, Review, version display, and local cache behavior.
 - Added a built-in module about 18-year-old adulthood, contracts, and consumer trouble.
 - Added a built-in module about 18-year-old voting rights and civic participation.
-- Refined Home and Progress copy to reflect the six-module learning library.
+- Refined Home and Progress copy to reflect the built-in learning library.
 - Added unread/read filters and an empty state to the module picker.
 - Added a Progress shortcut to continue with the next unread module.
-- Added the first Progress Insight Map / Knowledge Panel MVP so the six modules appear as knowledge nodes.
+- Added the first Progress Insight Map / Knowledge Panel MVP so built-in modules appear as knowledge nodes.
 - Added `reviewedAt` metadata for newly completed review actions while keeping existing review records compatible.
 - Updated the GitHub Pages deploy workflow toward Node 24-compatible action majors to reduce future deployment warning risk.
 - Added App Store metadata preparation details: official reference links, support-contact decision record, screenshot capture record, and reviewer verification steps.
 - Added preliminary App Store privacy-answer notes for the current local-only MVP.
 - Hardened Insight Map and Review quiz-completion logic so stale local quiz keys do not count as completed current quiz items.
 - Made review completion idempotent so re-marking a reviewed module does not rewrite older activity timestamps.
+- Added a seventh built-in module about disaster information and evacuation decisions, with official source notes from the Cabinet Office, JMA, and MLIT/GSI hazard map portal.
 
 ## Next Safe Task Candidates
 

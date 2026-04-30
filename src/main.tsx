@@ -666,7 +666,7 @@ function HomeView({
           <h3>{selectedModule.leadQuestion}</h3>
         </div>
         <p>
-          Edgionは、6本のニュース背景教材を起点に、背景知識、確認クイズ、意見の骨組みまで一つの流れで扱います。
+          Edgionは、{newsModules.length}本のニュース背景教材を起点に、背景知識、確認クイズ、意見の骨組みまで一つの流れで扱います。
         </p>
       </div>
 
