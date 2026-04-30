@@ -72,3 +72,17 @@ Before TestFlight or App Store submission, confirm:
 - The public page clearly states when it is only an MVP privacy summary and not the final App Store privacy policy.
 - Local data reset behavior is documented clearly enough for reviewers and learners.
 - Any support contact listed publicly has been approved for that purpose.
+
+## Preliminary App Privacy Answers
+
+This is a draft for the current local-only MVP. The project owner must recheck App Store Connect against the exact submitted build before answering.
+
+Candidate answer for the current MVP:
+
+- Data collected from this app: No.
+- Tracking: No.
+- Third-party advertising: No.
+- Analytics or crash reporting SDKs: No.
+- Account data, contact information, location, identifiers, purchases, user content, or diagnostics transmitted to Edgion: No.
+
+Important caveat: Edgion stores learning progress, quiz answers, review state, and thought-tree notes locally in browser or webview `localStorage`. In the current MVP these records are not sent to Edgion, Apple, or a third-party service by the app. If authentication, cloud sync, analytics, crash reporting, payments, support forms, push notifications, or external APIs are added, these draft answers must be discarded and rewritten.

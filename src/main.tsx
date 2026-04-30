@@ -31,11 +31,13 @@ import {
   getKnowledgeNodeStatus,
   getModuleProgress,
   getNextReviewModule,
+  getAnsweredQuizCount,
   getProgressStats,
   getReviewNextSteps,
   getScore,
   hasQuizActivity,
   isInRange,
+  markModuleReviewed,
 } from "./progress";
 import type { KnowledgeNodeStatus, ProgressRange, ProgressStats } from "./progress";
 import {
@@ -261,14 +263,7 @@ function App() {
   };
 
   const markReviewed = () => {
-    const now = new Date().toISOString();
-
-    updateSelectedProgress({
-      ...selectedProgress,
-      review: true,
-      completedAt: now,
-      reviewedAt: now,
-    });
+    updateSelectedProgress(markModuleReviewed(selectedProgress, new Date().toISOString()));
   };
 
   return (
@@ -798,7 +793,7 @@ function QuizView({
   onOpenReview: () => void;
 }) {
   const score = getScore(module, progress);
-  const answeredCount = Object.keys(progress.quizAnswers).length;
+  const answeredCount = getAnsweredQuizCount(module, progress);
   const reviewLabel = answeredCount >= module.quizItems.length ? "Reviewでまとめる" : "Reviewへ";
 
   return (
@@ -957,7 +952,8 @@ function ReviewView({
 }) {
   const score = getScore(module, progress);
   const thoughtCount = countThoughtFields(thought);
-  const hasQuizAnswers = Object.keys(progress.quizAnswers).length > 0;
+  const answeredCount = getAnsweredQuizCount(module, progress);
+  const hasQuizAnswers = answeredCount > 0;
   const nextSteps = getReviewNextSteps(module, progress, thought);
   const thoughtEntries = module.thoughtPrompts.map((prompt) => ({
     ...prompt,
@@ -1013,7 +1009,7 @@ function ReviewView({
           </div>
           <p>
             {hasQuizAnswers
-              ? `${module.quizItems.length}問中 ${score}問正解。解説をもう一度見ると、制度や論点のつながりを固めやすくなります。`
+              ? `${answeredCount}問に回答し、${score}問正解。解説をもう一度見ると、制度や論点のつながりを固めやすくなります。`
               : "まだクイズに答えていません。背景を読んだあとに試すと、理解の抜けを見つけやすくなります。"}
           </p>
           <button className="ghost-button review-action" onClick={onOpenQuiz} type="button">

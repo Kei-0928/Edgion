@@ -154,18 +154,20 @@ Checks:
 ### Latest Local Result
 
 - Date: 2026-04-30
-- Commit: `7a16c4d`
-- Preview URL: `http://127.0.0.1:4174/Edgion/`
+- Commit: working tree after deploy workflow, App Store metadata, privacy, and Progress helper hardening updates
+- Preview URL: `http://127.0.0.1:4175/Edgion/`
 - Tester: Codex
 - Result: Pass for local production preview / Blocked for real iPhone and offline cache storage checks
 - Notes:
   - `npm test`, `npm run lint`, and `npm run build` passed before preview.
+  - `npm test` passed 41 tests after adding quiz-count and review-timestamp regression coverage.
   - `/Edgion/`, `/Edgion/manifest.webmanifest`, `/Edgion/sw.js`, `/Edgion/support.html`, built JS, and built CSS returned HTTP 200 in production preview.
   - `sw.js` served `edgion-shell-v7` and is configured to precache built JS/CSS assets found in `index.html`.
   - The app opened with title `Edgion`.
   - Browser navigation from `/Edgion/` to `/Edgion/support.html` and back to `/Edgion/` kept the app shell available.
   - Browser reload kept the app available and showed the main navigation.
   - Progress showed `社会理解の地図` with six Insight Map nodes and status labels.
+  - The first Insight Map node exposed the accessible label `猛暑対策で変わる都市のルール: 未着手。教材を開く`.
   - At a narrow mobile viewport, Insight Map nodes stacked without observed text overlap.
   - Tapping an untouched Insight Map node opened the module learning view.
   - Marking a module reviewed persisted after reload and appeared again in Progress.

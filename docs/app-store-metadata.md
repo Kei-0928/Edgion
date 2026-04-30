@@ -4,10 +4,13 @@ This draft prepares App Store Connect text and review notes before any Apple Dev
 
 ## Source References
 
-- Apple App Store Connect Help: App information, including name, subtitle, privacy policy URL, category, content rights, and age rating.
-- Apple App Store Connect Help: Platform version information, including description, keywords, support URL, marketing URL, copyright, and version notes.
-- Apple App Store Connect Help: Screenshot specifications.
-- Apple App Store Connect Help: Set an app age rating.
+Last checked: 2026-04-30.
+
+- Apple App Store Connect Help: [App information](https://developer.apple.com/help/app-store-connect/reference/app-information), including name, subtitle, privacy policy URL, category, content rights, and age rating.
+- Apple App Store Connect Help: [Platform version information](https://developer.apple.com/help/app-store-connect/reference/app-review-information), including description, keywords, support URL, marketing URL, copyright, and version notes.
+- Apple App Store Connect Help: [Screenshot specifications](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/).
+- Apple App Store Connect Help: [Set an app age rating](https://developer.apple.com/help/app-store-connect/manage-your-apps-availability/set-an-app-age-rating).
+- Apple App Store Connect Help: [App privacy](https://developer.apple.com/help/app-store-connect/reference/app-information/app-privacy/) and [manage app privacy](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy).
 
 ## Current Product Summary
 
@@ -73,6 +76,19 @@ Before submission, confirm the final keyword byte count and avoid duplicating th
 Before submission, confirm whether the support page needs a more direct contact method. Apple describes the Support URL as a page where users can reach the developer about issues, feedback, and feature requests.
 
 Track the support contact decision in `docs/support-contact-decision.md` before treating the Support URL or Privacy Policy URL candidates as final. The current public support page is acceptable for Web/PWA transparency, but it is not yet a final App Store support-contact decision.
+
+### Support Contact Decision Record
+
+This record must be completed by the project owner before the Support URL is treated as App Store-ready.
+
+| Field | Current value |
+| --- | --- |
+| Chosen support method | Not decided |
+| Public contact surface | GitHub repository link on `support.html` |
+| Final Support URL approved | No |
+| Final Privacy Policy URL approved | No |
+| Owner approval date | Not recorded |
+| Sensitive-info warning present | Yes, in current support/privacy copy |
 
 ## Age Rating Preparation
 
@@ -141,6 +157,19 @@ Capture rules:
 - Keep any sample thought notes clearly fictional and suitable for young learners.
 - Re-check screenshot pixel requirements immediately before upload.
 
+### Screenshot Capture Record
+
+Use this table when preparing final store screenshots. Do not include real learner notes or private data.
+
+| Candidate | Screen | Device size | Language | Sample data | Result |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Home / selected module | iPhone portrait, exact size TBD | Japanese | Built-in module only | Not captured |
+| 2 | Learn / background cards | iPhone portrait, exact size TBD | Japanese | Built-in module only | Not captured |
+| 3 | Quiz / answered state | iPhone portrait, exact size TBD | Japanese | Fictional quiz state | Not captured |
+| 4 | Thought Tree | iPhone portrait, exact size TBD | Japanese | Fictional notes only | Not captured |
+| 5 | Progress / Insight Map | iPhone portrait, exact size TBD | Japanese | Fictional local progress | Not captured |
+| 6 | Support / Privacy | iPhone portrait, exact size TBD | Japanese | Public page only | Not captured |
+
 ## Review Notes Draft
 
 Potential App Review note:
@@ -148,6 +177,16 @@ Potential App Review note:
 Edgion is a learning app for Japanese news literacy. The current version works without login, payment, analytics, ads, push notifications, cloud sync, or live news feeds. Learning progress and thought-tree notes are stored locally on the device. The Support / Privacy page explains current data behavior and reset options.
 
 If the app is wrapped in a native shell later, include any reviewer instructions for opening the app, resetting local data, and verifying that no account is required.
+
+Suggested reviewer verification steps:
+
+1. Launch Edgion and confirm the app opens without login or account creation.
+2. Open a built-in module, mark the background as read, answer the quiz, and add a short fictional Thought Tree note.
+3. Open Progress and confirm the Insight Map / `社会理解の地図` updates from local learning activity.
+4. Open Review and tap `復習済みにする`, then confirm Progress shows the reviewed state.
+5. Use `学習データをリセット` from Progress to confirm local learning data can be cleared.
+6. Open the Support / Privacy page and confirm it explains local-only learning data behavior.
+7. Note that source-note links open external public websites outside Edgion.
 
 ## Submission Blockers To Confirm
 

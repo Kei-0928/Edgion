@@ -116,6 +116,7 @@ Evidence:
 - Support/privacy, QA, metadata, packaging, native-readiness, runtime-boundary, and local-state planning docs exist.
 - Tests cover module structure, storage helpers, progress helpers, support-page copy, and PWA assets.
 - `npm test`, `npm run lint`, and `npm run build` are part of the pre-publish workflow.
+- GitHub Pages deploy workflow has been updated toward Node 24-compatible action majors to reduce future CI/deploy deprecation risk.
 
 This does not mean the app is TestFlight-ready or App Store-ready. Native packaging, App Store Connect, Bundle ID, signing, TestFlight distribution, final App Store screenshots, final privacy policy wording, and final age-rating answers remain out of scope until explicitly approved.
 
@@ -135,6 +136,11 @@ Owner-only blockers before calling v0.2 complete:
 - Add content source notes to modules.
 
 Status: the Review loop, source notes, reviewed-state persistence, and a first Progress Insight Map MVP are implemented locally. The Insight Map currently uses the existing six modules as knowledge nodes and derives state from local read, quiz, thought, and review data without a new storage key. Daily or weekly goals remain deferred because they need a separate product decision and should not introduce notifications.
+
+Additional hardening:
+
+- Insight Map and Review quiz-completion logic count only quiz IDs that still belong to the current built-in module, so stale local quiz keys do not make a node look complete.
+- Review completion records `reviewedAt` without rewriting older learning activity timestamps.
 
 ### v0.4: Prepare For iOS Packaging
 
