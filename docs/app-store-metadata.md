@@ -142,6 +142,8 @@ Before answering the App Store Connect questionnaire, the project owner should c
 
 Apple requires screenshots for the device families the app supports. For an iPhone-first candidate, prepare one to ten portrait screenshots for the required iPhone display sizes listed by Apple at the time of submission.
 
+Detailed capture guidance is tracked in `docs/app-store-screenshot-guide.md`.
+
 Suggested first screenshot set:
 
 - Home with onboarding or selected module summary.
@@ -149,6 +151,7 @@ Suggested first screenshot set:
 - Quiz view after answering a question.
 - Thought Tree view with sample notes.
 - Progress view showing `既読`, `クイズ`, `思考ノード`, `全期間復習`, and the Insight Map / `社会理解の地図` as a local learning-activity map.
+- Review view showing next steps and a reviewed learning loop.
 - Support / Privacy page if reviewers need a visible privacy surface.
 
 Capture rules:
@@ -170,7 +173,8 @@ Use this table when preparing final store screenshots. Do not include real learn
 | 3 | Quiz / answered state | iPhone portrait, exact size TBD | Japanese | Fictional quiz state | Not captured |
 | 4 | Thought Tree | iPhone portrait, exact size TBD | Japanese | Fictional notes only | Not captured |
 | 5 | Progress / Insight Map | iPhone portrait, exact size TBD | Japanese | Fictional local progress | Not captured |
-| 6 | Support / Privacy | iPhone portrait, exact size TBD | Japanese | Public page only | Not captured |
+| 6 | Review / next steps | iPhone portrait, exact size TBD | Japanese | Fictional local progress | Not captured |
+| 7 | Support / Privacy | iPhone portrait, exact size TBD | Japanese | Public page only | Not captured |
 
 ## Review Notes Draft
 
