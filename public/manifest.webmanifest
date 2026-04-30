@@ -1,6 +1,7 @@
 {
   "name": "Edgion",
   "short_name": "Edgion",
+  "id": "/Edgion/",
   "description": "ニュースの背景知識を楽しく学び、考える力を育てる学習アプリ。",
   "start_url": "/Edgion/",
   "scope": "/Edgion/",

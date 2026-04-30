@@ -2,7 +2,7 @@
 
 ## Product Direction
 
-Edgion is a mobile-first learning app that helps Japanese learners understand news through background knowledge, quizzes, thought-tree notes, and progress reflection. The current stage is a Web/PWA MVP. The long-term target is TestFlight and Apple App Store readiness.
+Edgion is a mobile-first learning app that helps Japanese learners grow social understanding through background-first civic and news learning. It is not a live news feed or news consumption app: built-in topics become background knowledge, quizzes, thought-tree notes, and a Progress Insight Map / `社会理解の地図` that reflects local learning activity across modules. The current stage is a Web/PWA MVP. The long-term target is TestFlight and Apple App Store readiness.
 
 ## Current Implementation
 
@@ -60,10 +60,12 @@ Edgion is a mobile-first learning app that helps Japanese learners understand ne
 - Refined Home and Progress copy to reflect the six-module learning library.
 - Added unread/read filters and an empty state to the module picker.
 - Added a Progress shortcut to continue with the next unread module.
+- Added the first Progress Insight Map / Knowledge Panel MVP so the six modules appear as knowledge nodes.
+- Added `reviewedAt` metadata for newly completed review actions while keeping existing review records compatible.
 
 ## Next Safe Task Candidates
 
+- Record public GitHub Pages and real iPhone QA for the Insight Map once the latest local branch is deployed.
 - Add one more youth-relevant built-in module after source review.
 - Draft one new built-in module with source notes using the module template.
 - Add focused tests for review-state display logic if the Progress UI grows more complex.
-- Add focused tests for storage helpers if the current localStorage behavior grows.

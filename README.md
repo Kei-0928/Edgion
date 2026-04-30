@@ -1,12 +1,13 @@
 # Edgion
 
-Edgion is a mobile-first learning app for building news literacy in Japanese. It turns a news topic into background knowledge, short quizzes, and a thought tree so learners can understand context and form their own opinions.
+Edgion is a mobile-first learning app for building news literacy in Japanese. It is designed around growing social understanding rather than streaming large volumes of news: each topic becomes background knowledge, short quizzes, a thought tree, and a Progress Insight Map so learners can understand context and form their own opinions.
 
 ## Features
 
 - Background-first news modules with history, institutions, stakeholders, and debate points
 - Short quiz loops with explanations
 - Thought tree notes for claim, reasons, evidence, counterpoints, and next questions
+- Progress Insight Map that shows how learning activity expands across modules
 - Local progress persistence with `localStorage`
 - PWA manifest and a simple service worker for the app shell
 
@@ -33,7 +34,7 @@ Deployment is handled by GitHub Actions.
 
 ## Design notes
 
-The MVP intentionally uses built-in sample modules instead of live news APIs. The UI reads from a `NewsModule[]` data structure, so RSS, editorial CMS content, or a News API can be introduced later without redesigning the learning flow.
+The MVP intentionally uses built-in sample modules instead of live news APIs. The UI reads from a `NewsModule[]` data structure, so future editorial CMS, RSS, or news API work should still produce reviewed learning modules with source notes rather than an unfiltered live news feed.
 
 Local storage keys:
 
@@ -45,6 +46,18 @@ Local storage keys:
 ## Roadmap
 
 The path from Web/PWA MVP to TestFlight and App Store readiness is tracked in [docs/app-store-roadmap.md](docs/app-store-roadmap.md).
+
+User-owned App Store submission tasks are tracked in [docs/user-owned-app-store-checklist.md](docs/user-owned-app-store-checklist.md).
+
+App Store Connect metadata preparation is drafted in [docs/app-store-metadata.md](docs/app-store-metadata.md).
+
+Support contact decisions for App Store readiness are tracked in [docs/support-contact-decision.md](docs/support-contact-decision.md).
+
+PWA and HTML metadata readiness notes are tracked in [docs/pwa-metadata-audit.md](docs/pwa-metadata-audit.md).
+
+Native readiness planning starts in [docs/native-readiness-brief.md](docs/native-readiness-brief.md), with Web runtime boundaries in [docs/web-runtime-boundaries.md](docs/web-runtime-boundaries.md) and local state persistence rules in [docs/local-state-contract.md](docs/local-state-contract.md).
+
+Packaging options for the iOS path are compared in [docs/packaging-options-decision.md](docs/packaging-options-decision.md).
 
 Content creation rules for safe, original learning modules are tracked in [docs/content-guidelines.md](docs/content-guidelines.md).
 

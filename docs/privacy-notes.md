@@ -10,7 +10,7 @@ Edgion currently works without an account, backend server, analytics service, pa
 
 The MVP stores these local keys:
 
-- `edgion.progress.v1`: read state, quiz answers, review state, and activity timestamps.
+- `edgion.progress.v1`: read state, quiz answers, review state, and activity timestamps including review timestamps.
 - `edgion.thoughts.v1`: the learner's thought-tree notes.
 - `edgion.thoughtMeta.v1`: thought-tree update timestamps.
 - `edgion.onboarding.v1`: whether the first-run onboarding has been completed.
@@ -34,6 +34,12 @@ The current MVP does not collect or transmit:
 Learners can reset local learning data from the Progress screen. This clears progress, quiz results, review state, thought notes, and thought metadata from the current browser storage.
 
 The reset action does not clear onboarding completion because onboarding is not part of the learning record.
+
+The reset action only affects the current browser or webview storage for Edgion. It does not clear data from other browsers, devices, browser profiles, or external websites opened from source links.
+
+## Support Request Privacy
+
+The public support page should ask users not to include sensitive personal information, private thought-tree notes, health information, school information, or other information unnecessary for support.
 
 ## External Links
 
@@ -63,5 +69,6 @@ Before TestFlight or App Store submission, confirm:
 - The privacy policy matches the actual app behavior.
 - App Store privacy nutrition labels match the implementation.
 - The support URL and privacy policy URL are stable public pages.
+- The public page clearly states when it is only an MVP privacy summary and not the final App Store privacy policy.
 - Local data reset behavior is documented clearly enough for reviewers and learners.
 - Any support contact listed publicly has been approved for that purpose.

@@ -28,12 +28,16 @@ import {
 import { newsModules } from "./data/modules";
 import {
   countThoughtFields,
+  getKnowledgeNodeStatus,
   getModuleProgress,
+  getNextReviewModule,
   getProgressStats,
+  getReviewNextSteps,
   getScore,
+  hasQuizActivity,
   isInRange,
 } from "./progress";
-import type { ProgressRange, ProgressStats } from "./progress";
+import type { KnowledgeNodeStatus, ProgressRange, ProgressStats } from "./progress";
 import {
   defaultProgress,
   emptyThought,
@@ -72,6 +76,29 @@ const sectionIcons = {
   system: Layers3,
   stakeholders: Sprout,
   debate: MessageSquareText,
+};
+
+const formatSourceReviewedAt = (dateString: string) => {
+  const date = new Date(`${dateString}T00:00:00+09:00`);
+
+  if (Number.isNaN(date.getTime())) {
+    return dateString;
+  }
+
+  return date.toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "long",
+  });
+};
+
+const formatSourceReviewedMonth = (dateString: string) => {
+  const date = new Date(`${dateString}T00:00:00+09:00`);
+
+  if (Number.isNaN(date.getTime())) {
+    return dateString;
+  }
+
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}`;
 };
 
 const formatSavedAt = (isoDate: string | undefined) => {
@@ -187,6 +214,14 @@ function App() {
   };
 
   const resetModule = () => {
+    const confirmed = window.confirm(
+      `「${selectedModule.title}」の学習データをリセットします。既読、クイズ結果、思考メモは元に戻せません。`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     setProgress((current) => ({
       ...current,
       [selectedModule.id]: defaultProgress(),
@@ -226,10 +261,13 @@ function App() {
   };
 
   const markReviewed = () => {
+    const now = new Date().toISOString();
+
     updateSelectedProgress({
       ...selectedProgress,
       review: true,
-      completedAt: new Date().toISOString(),
+      completedAt: now,
+      reviewedAt: now,
     });
   };
 
@@ -495,6 +533,9 @@ function ModulePicker({
                 <span className={moduleProgress.read ? "module-tag read" : "module-tag"}>
                   {moduleProgress.read ? "既読" : "未読"}
                 </span>
+                <span className="module-tag source-review">
+                  確認 {formatSourceReviewedMonth(module.lastReviewedAt)}
+                </span>
               </span>
               <small>
                 {module.readingTime} · {score}/{module.quizItems.length}
@@ -660,6 +701,9 @@ function LearnView({
           <p className="eyebrow">{module.category}</p>
           <h2>{module.title}</h2>
           <p>{module.summary}</p>
+          <small className="content-reviewed-at">
+            出典確認: {formatSourceReviewedAt(module.lastReviewedAt)}
+          </small>
         </div>
         <div className="header-actions">
           <button className="primary-button" onClick={onMarkRead} type="button">
@@ -724,6 +768,9 @@ function LearnView({
         <div className="section-title">
           <ExternalLink size={19} />
           <h3>参考にした公的情報</h3>
+          <span className="source-reviewed-chip">
+            出典確認: {formatSourceReviewedAt(module.lastReviewedAt)}
+          </span>
         </div>
         <div className="source-list">
           {module.sourceNotes.map((source) => (
@@ -911,6 +958,7 @@ function ReviewView({
   const score = getScore(module, progress);
   const thoughtCount = countThoughtFields(thought);
   const hasQuizAnswers = Object.keys(progress.quizAnswers).length > 0;
+  const nextSteps = getReviewNextSteps(module, progress, thought);
   const thoughtEntries = module.thoughtPrompts.map((prompt) => ({
     ...prompt,
     value: thought[prompt.label].trim(),
@@ -929,6 +977,21 @@ function ReviewView({
           <span>{progress.review ? "復習済み" : "復習済みにする"}</span>
         </button>
       </div>
+
+      <article className="review-next-card">
+        <div className="section-title">
+          <RotateCcw size={19} />
+          <h3>次の一手</h3>
+        </div>
+        <div className="review-step-list">
+          {nextSteps.map((step) => (
+            <div className={`review-step ${step.status}`} key={step.label}>
+              <span>{step.label}</span>
+              <p>{step.detail}</p>
+            </div>
+          ))}
+        </div>
+      </article>
 
       <div className="review-grid">
         <article className="review-card">
@@ -1022,11 +1085,16 @@ function ProgressView({
       ? `${visibleStats.quizCorrect}`
       : `${visibleStats.quizCorrect}/${visibleStats.quizTotal}`;
   const readLibraryValue = `${visibleStats.readCount}/${newsModules.length}`;
+  const reviewedCount = newsModules.filter(
+    (module) => getModuleProgress(progress, module.id).review,
+  ).length;
   const hasActivity =
-    visibleStats.readCount + visibleStats.quizCorrect + visibleStats.thoughtCount > 0;
+    visibleStats.readCount + visibleStats.thoughtCount > 0 ||
+    hasQuizActivity(newsModules, progress, range, referenceDate);
   const nextUnreadModule = newsModules.find(
     (module) => !getModuleProgress(progress, module.id).read,
   );
+  const nextReviewModule = getNextReviewModule(newsModules, progress, range, referenceDate);
   const nextLearningModule = nextUnreadModule ?? newsModules[0];
 
   return (
@@ -1064,15 +1132,28 @@ function ProgressView({
         <Metric icon={BookOpen} label="既読" value={readLibraryValue} />
         <Metric icon={CircleHelp} label="クイズ" value={quizValue} />
         <Metric icon={Brain} label="思考ノード" value={`${visibleStats.thoughtCount}`} />
-        <Metric icon={Layers3} label="教材数" value={`${newsModules.length}`} />
+        <Metric
+          icon={RotateCcw}
+          label="全期間復習"
+          value={`${reviewedCount}/${newsModules.length}`}
+        />
       </div>
+
+      <KnowledgePanel
+        progress={progress}
+        thoughts={thoughts}
+        onOpenModule={onOpenModule}
+        onStartModule={onStartModule}
+      />
 
       <article className="log-summary">
         <strong>{rangeLabel}のふり返り</strong>
         <p>
-          {hasActivity
-            ? `${newsModules.length}本の教材のうち、${visibleStats.readCount}本に読んだログがあります。次は未読のテーマを一つ選ぶと、教養の範囲が広がります。`
-            : `まだこの期間のログはありません。${newsModules.length}本の教材から気になるテーマを一つ選んで、背景から読んでみましょう。`}
+          {!hasActivity
+            ? `まだこの期間のログはありません。${newsModules.length}本の教材から気になるテーマを一つ選んで、背景から読んでみましょう。`
+            : nextReviewModule
+              ? `${visibleStats.readCount}本に読んだログがあります。次は「${nextReviewModule.title}」を復習すると、考えたことを定着させやすくなります。`
+              : `${newsModules.length}本の教材のうち、${visibleStats.readCount}本に読んだログがあります。次は未読のテーマを一つ選ぶと、教養の範囲が広がります。`}
         </p>
         <div className="log-summary-actions">
           {!hasActivity && (
@@ -1083,6 +1164,16 @@ function ProgressView({
             >
               <BookOpen size={17} />
               <span>{nextUnreadModule ? "未読教材を読む" : "教材を読む"}</span>
+            </button>
+          )}
+          {hasActivity && nextReviewModule && (
+            <button
+              className="primary-button"
+              onClick={() => onOpenModule(nextReviewModule.id)}
+              type="button"
+            >
+              <RotateCcw size={17} />
+              <span>復習する</span>
             </button>
           )}
           {hasActivity && nextUnreadModule && (
@@ -1169,6 +1260,97 @@ function ProgressView({
   );
 }
 
+function KnowledgePanel({
+  progress,
+  thoughts,
+  onOpenModule,
+  onStartModule,
+}: {
+  progress: Record<string, ModuleProgress>;
+  thoughts: Record<string, ThoughtNode>;
+  onOpenModule: (moduleId: string) => void;
+  onStartModule: (moduleId: string) => void;
+}) {
+  const nodes = newsModules.map((module) => {
+    const moduleProgress = getModuleProgress(progress, module.id);
+    const status = getKnowledgeNodeStatus(module, moduleProgress, thoughts[module.id]);
+
+    return {
+      module,
+      moduleProgress,
+      status,
+    };
+  });
+  const masteredCount = nodes.filter(({ status }) => status.state === "mastered").length;
+  const activeCount = nodes.filter(({ status }) => status.state !== "locked").length;
+
+  return (
+    <section className="knowledge-panel" aria-labelledby="knowledge-panel-title">
+      <div className="knowledge-panel-header">
+        <div>
+          <p className="eyebrow">Insight Map</p>
+          <h3 id="knowledge-panel-title">社会理解の地図</h3>
+          <p>
+            全期間の学習ログから、背景を読み、問いを解き、自分の考えを残したテーマを見える化します。
+          </p>
+        </div>
+        <div
+          className="knowledge-panel-score"
+          aria-label={`着手${activeCount}件、復習済み${masteredCount}件`}
+        >
+          <Map size={18} />
+          <span>着手 {activeCount}/{newsModules.length}</span>
+          <span>復習済み {masteredCount}</span>
+        </div>
+      </div>
+
+      <div className="knowledge-node-grid">
+        {nodes.map(({ module, moduleProgress, status }) => (
+          <KnowledgeNode
+            key={module.id}
+            module={module}
+            opensReview={moduleProgress.read || status.state !== "locked"}
+            status={status}
+            onOpen={() =>
+              moduleProgress.read || status.state !== "locked"
+                ? onOpenModule(module.id)
+                : onStartModule(module.id)
+            }
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function KnowledgeNode({
+  module,
+  opensReview,
+  status,
+  onOpen,
+}: {
+  module: NewsModule;
+  opensReview: boolean;
+  status: KnowledgeNodeStatus;
+  onOpen: () => void;
+}) {
+  return (
+    <button
+      className={`knowledge-node ${status.state}`}
+      onClick={onOpen}
+      type="button"
+      aria-label={`${module.title}: ${status.label}。${opensReview ? "復習を開く" : "教材を開く"}`}
+    >
+      <span className="knowledge-node-orb" aria-hidden="true" />
+      <span className="knowledge-node-copy">
+        <span className="knowledge-node-category">{module.category}</span>
+        <strong>{module.title}</strong>
+        <span>{status.label}</span>
+      </span>
+    </button>
+  );
+}
+
 function Metric({
   icon: Icon,
   label,
@@ -1188,11 +1370,20 @@ function Metric({
 }
 
 function ProgressBar({ label, value }: { label: string; value: number }) {
+  const safeValue = Math.min(100, value);
+
   return (
     <div className="progress-bar-row">
       <span>{label}</span>
-      <div className="progress-track">
-        <div className="progress-fill" style={{ width: `${Math.min(100, value)}%` }} />
+      <div
+        className="progress-track"
+        role="progressbar"
+        aria-label={`${label} progress`}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(safeValue)}
+      >
+        <div className="progress-fill" style={{ width: `${safeValue}%` }} />
       </div>
     </div>
   );

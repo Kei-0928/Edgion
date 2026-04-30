@@ -15,6 +15,43 @@ export type ProgressStats = {
   thoughtCount: number;
 };
 
+export type ReviewNextStep = {
+  label: string;
+  detail: string;
+  status: "todo" | "done";
+};
+
+export type KnowledgeNodeState = "locked" | "lit" | "strengthened" | "personalized" | "mastered";
+
+export type KnowledgeNodeStatus = {
+  state: KnowledgeNodeState;
+  label: string;
+  level: number;
+};
+
+const knowledgeNodeStatus: Record<KnowledgeNodeState, Omit<KnowledgeNodeStatus, "state">> = {
+  locked: {
+    label: "未着手",
+    level: 0,
+  },
+  lit: {
+    label: "背景読了",
+    level: 1,
+  },
+  strengthened: {
+    label: "確認済み",
+    level: 2,
+  },
+  personalized: {
+    label: "考えあり",
+    level: 3,
+  },
+  mastered: {
+    label: "復習済み",
+    level: 4,
+  },
+};
+
 export const getModuleProgress = (
   progress: Record<string, ModuleProgress>,
   moduleId: string,
@@ -32,6 +69,28 @@ export const getScore = (module: NewsModule, moduleProgress: ModuleProgress) =>
 
 export const countThoughtFields = (thought: ThoughtNode | undefined) =>
   thought ? Object.values(thought).filter((value) => value.trim().length > 0).length : 0;
+
+export const getKnowledgeNodeStatus = (
+  module: NewsModule,
+  moduleProgress: ModuleProgress,
+  thought: ThoughtNode | undefined,
+): KnowledgeNodeStatus => {
+  const answeredCount = Object.keys(moduleProgress.quizAnswers).length;
+  const state = moduleProgress.review
+    ? "mastered"
+    : countThoughtFields(thought) > 0
+      ? "personalized"
+      : answeredCount >= module.quizItems.length
+        ? "strengthened"
+        : moduleProgress.read
+          ? "lit"
+          : "locked";
+
+  return {
+    state,
+    ...knowledgeNodeStatus[state],
+  };
+};
 
 const sameDay = (date: Date, reference: Date) =>
   date.getFullYear() === reference.getFullYear() &&
@@ -60,6 +119,94 @@ export const isInRange = (
   }
 
   return range === "today" ? sameDay(date, referenceDate) : sameMonth(date, referenceDate);
+};
+
+export const getNextReviewModule = (
+  modules: NewsModule[],
+  progress: Record<string, ModuleProgress>,
+  range: ProgressRange = "all",
+  referenceDate = new Date(),
+) =>
+  modules.find((module) => {
+    const moduleProgress = getModuleProgress(progress, module.id);
+    const readDate = moduleProgress.readAt ?? moduleProgress.completedAt;
+    return (
+      moduleProgress.read &&
+      !moduleProgress.review &&
+      isInRange(readDate, range, referenceDate)
+    );
+  });
+
+export const hasQuizActivity = (
+  modules: NewsModule[],
+  progress: Record<string, ModuleProgress>,
+  range: ProgressRange,
+  referenceDate = new Date(),
+) =>
+  modules.some((module) => {
+    const moduleProgress = getModuleProgress(progress, module.id);
+    return (
+      Object.keys(moduleProgress.quizAnswers).length > 0 &&
+      isInRange(moduleProgress.quizUpdatedAt ?? moduleProgress.completedAt, range, referenceDate)
+    );
+  });
+
+export const getReviewNextSteps = (
+  module: NewsModule,
+  moduleProgress: ModuleProgress,
+  thought: ThoughtNode | undefined,
+): ReviewNextStep[] => {
+  const answeredCount = Object.keys(moduleProgress.quizAnswers).length;
+  const thoughtCount = countThoughtFields(thought);
+  const quizComplete = answeredCount >= module.quizItems.length;
+  const thoughtReady = thoughtCount >= 3;
+
+  return [
+    moduleProgress.read
+      ? {
+          label: "背景",
+          detail: "要点は読了済みです。",
+          status: "done",
+        }
+      : {
+          label: "背景",
+          detail: "背景を一度読むと、復習の土台ができます。",
+          status: "todo",
+        },
+    quizComplete
+      ? {
+          label: "クイズ",
+          detail: "全問に回答済みです。",
+          status: "done",
+        }
+      : {
+          label: "クイズ",
+          detail: `${module.quizItems.length}問中${answeredCount}問に回答済みです。`,
+          status: "todo",
+        },
+    thoughtReady
+      ? {
+          label: "思考メモ",
+          detail: "意見を見直す材料がそろっています。",
+          status: "done",
+        }
+      : {
+          label: "思考メモ",
+          detail: `5項目中${thoughtCount}項目を記入済みです。`,
+          status: "todo",
+        },
+    moduleProgress.review
+      ? {
+          label: "復習",
+          detail: "この教材は復習済みです。",
+          status: "done",
+        }
+      : {
+          label: "復習",
+          detail: "最後に復習済みにするとProgressへ反映されます。",
+          status: "todo",
+        },
+  ];
 };
 
 export const getProgressStats = (
@@ -104,7 +251,8 @@ export const getProgressStats = (
         }, 0);
 
   const thoughtCount = modules.reduce((total, module) => {
-    if (!isInRange(thoughtMeta[module.id]?.updatedAt, range, referenceDate)) {
+    const thoughtUpdatedAt = thoughtMeta[module.id]?.updatedAt;
+    if (!thoughtUpdatedAt || !isInRange(thoughtUpdatedAt, range, referenceDate)) {
       return total;
     }
 

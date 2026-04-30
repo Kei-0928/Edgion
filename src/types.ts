@@ -53,6 +53,7 @@ export type NewsModule = {
   summary: string;
   readingTime: string;
   difficulty: "Starter" | "Core" | "Deep";
+  lastReviewedAt: string;
   leadQuestion: string;
   backgroundSections: BackgroundSection[];
   timeline: TimelineItem[];
@@ -69,6 +70,7 @@ export type ModuleProgress = {
   completedAt?: string;
   readAt?: string;
   quizUpdatedAt?: string;
+  reviewedAt?: string;
 };
 
 export type ProgressState = Record<string, ModuleProgress>;

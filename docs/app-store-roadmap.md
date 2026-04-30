@@ -47,11 +47,56 @@ This roadmap keeps the current MVP stable while making the path to iOS explicit.
 ### Store Operations
 
 - Join the Apple Developer Program before TestFlight.
+- Track user-owned submission tasks in `docs/user-owned-app-store-checklist.md`.
 - Prepare app icon assets, screenshots, age rating, description, support URL, and privacy details.
 - Use TestFlight to gather feedback before App Store submission.
 - Review Apple App Store guidelines before adding user accounts, paid features, or user-generated sharing.
 
+## Monetization Strategy
+
+The preferred monetization path is trust-first freemium. Edgion should remain useful and safe as a free, accountless learning app before any paid feature is introduced.
+
+### Recommended Sequence
+
+1. Keep the first App Store candidate free.
+   - Include enough built-in modules to show the learning loop.
+   - Preserve the current no-login, no-ads, no-tracking posture.
+   - Use the free release to validate onboarding, lesson clarity, retention, and support needs.
+
+2. Add paid content only after the learning value is proven.
+   - Prefer one-time paid lesson packs before subscriptions.
+   - Good pack themes include elections and politics, AI and society, everyday economics, law and contracts, and climate and cities.
+   - Any paid digital content on iOS requires a separate In-App Purchase design review before implementation.
+
+3. Consider subscriptions only when content operations are repeatable.
+   - A subscription makes sense after Edgion can reliably add new modules, review source notes, and maintain quality.
+   - Subscription value should come from new lessons, deeper quizzes, review loops, or curated learning paths.
+
+4. Consider school, tutoring, or inquiry-learning partnerships later.
+   - B2B can be stronger than individual consumer revenue, but it likely requires login, class management, dashboards, exports, or cloud storage.
+   - Treat this as a later product line because it would trigger authentication, database, privacy, and support design work.
+
+### What To Avoid Early
+
+- Avoid advertising as the first revenue model.
+- Avoid analytics or tracking for monetization until there is a dedicated privacy review.
+- Avoid adding payment, subscription, or external commerce flows without explicit approval.
+- Avoid locking the core learning loop behind payment before App Store trust, content quality, and retention are proven.
+
+### Revenue Guardrails
+
+The following require explicit approval before implementation:
+
+- In-App Purchase products.
+- Subscriptions.
+- Paid app pricing.
+- External payment links or purchase flows.
+- Analytics, attribution, ads, or tracking.
+- Account login, cloud sync, or paid entitlements.
+
 ## Prioritized Roadmap
+
+The package version shown in the app can lag behind this roadmap. The current `package.json` version is the shipped app version, while the sections below describe readiness stages.
 
 ### v0.2: Stabilize The Web MVP
 
@@ -62,16 +107,40 @@ This roadmap keeps the current MVP stable while making the path to iOS explicit.
 - Add a visible way to reset local learning data.
 - Continue checking `npm run lint` and `npm run build` before publishing.
 
+Status: code/docs foundation is substantially complete on the local `codex/app-store-readiness-foundations` branch, but v0.2 is a roadmap stage, not the current package version. The app still reports package version `0.1.0` from `package.json` through `__APP_VERSION__`.
+
+Evidence:
+
+- Six built-in modules are present with source notes and `lastReviewedAt` review dates.
+- First-run onboarding, Progress empty states, Review flow, and local learning-data reset are implemented.
+- Support/privacy, QA, metadata, packaging, native-readiness, runtime-boundary, and local-state planning docs exist.
+- Tests cover module structure, storage helpers, progress helpers, support-page copy, and PWA assets.
+- `npm test`, `npm run lint`, and `npm run build` are part of the pre-publish workflow.
+
+This does not mean the app is TestFlight-ready or App Store-ready. Native packaging, App Store Connect, Bundle ID, signing, TestFlight distribution, final App Store screenshots, final privacy policy wording, and final age-rating answers remain out of scope until explicitly approved.
+
+Owner-only blockers before calling v0.2 complete:
+
+- Public GitHub Pages deployment has the latest local changes.
+- Manual QA in `docs/qa-checklist.md` passes on the public URL.
+- At least one real iPhone Safari check confirms layout, local storage, and basic PWA behavior.
+- The owner confirms the support contact direction is acceptable for a Web/PWA milestone.
+
 ### v0.3: Strengthen Learning Loops
 
 - Add a simple review mode for previously read modules.
+- Add a Progress-based Insight Map that shows how the learner's social understanding grows across modules.
 - Add optional daily or weekly learning goals without notifications.
 - Improve thought tree summaries so learners can revisit their opinion.
 - Add content source notes to modules.
 
+Status: the Review loop, source notes, reviewed-state persistence, and a first Progress Insight Map MVP are implemented locally. The Insight Map currently uses the existing six modules as knowledge nodes and derives state from local read, quiz, thought, and review data without a new storage key. Daily or weekly goals remain deferred because they need a separate product decision and should not introduce notifications.
+
 ### v0.4: Prepare For iOS Packaging
 
 - Evaluate Capacitor as the first iOS packaging path.
+- Use `docs/packaging-options-decision.md` as the current packaging decision record.
+- Keep `docs/native-readiness-brief.md`, `docs/web-runtime-boundaries.md`, and `docs/local-state-contract.md` aligned with the current Web/PWA implementation.
 - Confirm routing, base path, service worker behavior, and local storage behavior in a native shell.
 - Prepare iOS icon and splash assets.
 - Check safe-area spacing and keyboard behavior on iPhone.
@@ -114,4 +183,4 @@ Small, safe changes can proceed when they preserve the current MVP behavior:
 
 ## Next Recommended Task
 
-Add a lightweight review mode for completed modules. Keep it local-only and reuse existing module data so it improves retention without introducing accounts, analytics, notifications, or native iOS setup.
+Evaluate the iOS packaging path before adding native tooling. Start with a local design document that compares Capacitor, a native rewrite, and staying Web/PWA-only for longer. Do not install Capacitor, create an Xcode project, or touch signing, Bundle ID, App Store Connect, or TestFlight settings without explicit approval.
