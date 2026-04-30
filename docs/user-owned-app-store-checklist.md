@@ -12,6 +12,7 @@ Use this before moving from the Web/PWA MVP into a TestFlight or App Store submi
   - Dedicated support email, support form, or another maintained public support surface.
   - Avoid personal contact details that should not be public.
   - Ask users not to include sensitive personal information in support requests.
+  - Recommended first choice: a dedicated support email address controlled by the project owner.
 - Confirm the final public Support URL and Privacy Policy URL.
 - Decide whether the first App Store candidate remains free-only.
 - Approve any future native packaging path before tooling is installed.
