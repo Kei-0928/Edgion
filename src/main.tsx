@@ -952,7 +952,8 @@ function ReviewView({
 }) {
   const score = getScore(module, progress);
   const thoughtCount = countThoughtFields(thought);
-  const hasQuizAnswers = Object.keys(progress.quizAnswers).length > 0;
+  const answeredCount = getAnsweredQuizCount(module, progress);
+  const hasQuizAnswers = answeredCount > 0;
   const nextSteps = getReviewNextSteps(module, progress, thought);
   const thoughtEntries = module.thoughtPrompts.map((prompt) => ({
     ...prompt,
@@ -1008,7 +1009,7 @@ function ReviewView({
           </div>
           <p>
             {hasQuizAnswers
-              ? `${module.quizItems.length}問中 ${score}問正解。解説をもう一度見ると、制度や論点のつながりを固めやすくなります。`
+              ? `${answeredCount}問に回答し、${score}問正解。解説をもう一度見ると、制度や論点のつながりを固めやすくなります。`
               : "まだクイズに答えていません。背景を読んだあとに試すと、理解の抜けを見つけやすくなります。"}
           </p>
           <button className="ghost-button review-action" onClick={onOpenQuiz} type="button">
