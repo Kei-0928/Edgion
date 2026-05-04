@@ -47,7 +47,7 @@ Current writers use ISO strings from `new Date().toISOString()` for timestamps.
 
 - Marking a module read sets `read`, `readAt`, and `completedAt`.
 - Answering a quiz sets `quizAnswers[quizId]`, `completedAt`, and `quizUpdatedAt`.
-- Marking review complete sets `review`, `completedAt`, and `reviewedAt`.
+- Marking review complete sets `review` and `reviewedAt`. It intentionally does not rewrite `completedAt`, so reviewing an old module does not make older read or quiz activity look like today's activity.
 
 `reviewedAt` was added after the first review-loop MVP. Older `review: true` records may not have it, and code should not infer it from `completedAt` because `completedAt` has also been used for read and quiz activity.
 

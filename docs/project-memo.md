@@ -73,6 +73,7 @@ Edgion is a mobile-first learning app that helps Japanese learners grow social u
 - Expanded the support-contact decision note with an option comparison, recommended first App Store support-email path, and decision record template.
 - Expanded the App Store review notes draft with reviewer access notes, reset path, verification steps, and safe fictional sample text.
 - Improved Progress accessibility with pressed-state range tabs, module-specific progressbar labels, and clearer all-modules-read summary copy.
+- Synced the local-state contract and Progress spec with the current idempotent review timestamp behavior.
 
 ## Next Safe Task Candidates
 

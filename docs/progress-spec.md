@@ -61,7 +61,7 @@ Older thought notes without `thoughtMeta` only appear in the `all` view if futur
 
 Review completion is stored as `review: true`. Newer records also store `reviewedAt` as the ISO timestamp for the review action.
 
-Current Progress and Insight Map displays treat review state as all-time because older records can be reviewed without `reviewedAt`. Do not infer `reviewedAt` from `completedAt`; that field may refer to read, quiz, or review activity depending on when the record was written.
+Current Progress and Insight Map displays treat review state as all-time because older records can be reviewed without `reviewedAt`. Do not infer `reviewedAt` from `completedAt`; that field may refer to read or quiz activity in current records and may refer to review activity in older records. Current review completion intentionally preserves any existing `completedAt` value.
 
 ## Empty State
 
@@ -71,7 +71,7 @@ The Progress empty state appears when:
 readCount + thoughtCount === 0 && there is no quiz activity in the selected range
 ```
 
-When empty, the UI shows a small call to action that sends the learner back to the Learn view for the currently selected module.
+When empty, the UI shows a small call to action. If unread modules remain, it opens the next unread module. If all modules are already read, it opens the module list so the learner can revisit or review existing topics.
 
 ## Reset Behavior
 
