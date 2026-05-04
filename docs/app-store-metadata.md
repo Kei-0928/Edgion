@@ -180,21 +180,39 @@ Use this table when preparing final store screenshots. Do not include real learn
 
 ## Review Notes Draft
 
-Potential App Review note:
+Potential App Review note to paste into App Store Connect after native packaging is approved:
 
 Edgion is a learning app for Japanese news literacy. The current version works without login, payment, analytics, ads, push notifications, cloud sync, or live news feeds. Learning progress and thought-tree notes are stored locally on the device. The Support / Privacy page explains current data behavior and reset options.
 
+The app includes built-in educational modules only. It does not stream live news, provide emergency alerts, offer individualized legal advice, or collect user-submitted public content.
+
 If the app is wrapped in a native shell later, include any reviewer instructions for opening the app, resetting local data, and verifying that no account is required.
+
+### Reviewer Access Notes
+
+- Account required: No.
+- Login credentials: Not applicable.
+- Payment or subscription required: No.
+- Network required after initial load: No live content feed is required; external source links may open public websites outside Edgion.
+- Reset path: Open Progress and use `学習データをリセット`.
+- Support / Privacy path: Use the in-app Support / Privacy link or open `support.html` in the app bundle/webview.
 
 Suggested reviewer verification steps:
 
 1. Launch Edgion and confirm the app opens without login or account creation.
-2. Open a built-in module, mark the background as read, answer the quiz, and add a short fictional Thought Tree note.
-3. Open Progress and confirm the Insight Map / `社会理解の地図` updates from local learning activity.
-4. Open Review and tap `復習済みにする`, then confirm Progress shows the reviewed state.
-5. Use `学習データをリセット` from Progress to confirm local learning data can be cleared.
-6. Open the Support / Privacy page and confirm it explains local-only learning data behavior.
-7. Note that source-note links open external public websites outside Edgion.
+2. Open a built-in module such as `学校で生成AIをどう使うか` or `最低賃金とアルバイトのルール`.
+3. Mark the background as read, answer the quiz, and add a short fictional Thought Tree note.
+4. Open Progress and confirm the Insight Map / `社会理解の地図` updates from local learning activity.
+5. Open Review and tap `復習済みにする`, then confirm Progress shows the reviewed state.
+6. Use `学習データをリセット` from Progress to confirm local learning data can be cleared.
+7. Open the Support / Privacy page and confirm it explains local-only learning data behavior.
+8. Note that source-note links open external public websites outside Edgion.
+
+Reviewer-safe fictional note:
+
+- `最低賃金のしくみを知ると、時給だけでなく働く条件も確認したくなる。`
+
+Do not include personal learner notes, school names, addresses, health details, or real support requests in reviewer screenshots or review notes.
 
 ## Submission Blockers To Confirm
 
