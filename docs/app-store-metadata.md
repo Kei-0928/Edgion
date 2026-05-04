@@ -178,6 +178,8 @@ Use this table when preparing final store screenshots. Do not include real learn
 | 6 | Review / next steps | iPhone portrait, exact size TBD | Japanese | Fictional local progress | Not captured |
 | 7 | Support / Privacy | iPhone portrait, exact size TBD | Japanese | Public page only | Not captured |
 
+Sample-state setup should follow `docs/app-store-screenshot-guide.md` and use only visible app UI. Do not capture personal notes, real learner data, browser history, account details, or App Store Connect screens.
+
 ## Review Notes Draft
 
 Potential App Review note to paste into App Store Connect after native packaging is approved:

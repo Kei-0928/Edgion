@@ -66,6 +66,28 @@ Use the app UI where possible:
 5. Mark one module reviewed.
 6. Return to Progress and confirm the Insight Map shows a mix of `未着手`, `背景読了`, `確認済み`, `考えあり`, and `復習済み`.
 
+### Recommended No-Code Setup Sequence
+
+Use this sequence when preparing screenshots through the visible UI. It avoids DevTools, scripts, copied private notes, and any localStorage editing.
+
+1. Open a fresh browser profile, simulator, or installed PWA state for the candidate build.
+2. Open Progress and run `学習データをリセット`.
+3. Select `最低賃金とアルバイトのルール`.
+4. Open Learn and tap `既読にする`.
+5. Open Quiz and answer all questions. It is acceptable for screenshots if one answer is incorrect, as long as the explanation is visible and the state is clearly educational.
+6. Open Thought Tree and enter the fictional notes from this guide.
+7. Open Review and tap `復習済みにする`.
+8. Select `学校で生成AIをどう使うか`, open Learn, and tap `既読にする`.
+9. Open Quiz for the same module and answer at least one question.
+10. Select `18歳選挙権と一票の使い方`, open Learn, and tap `既読にする`.
+11. Return to Progress and confirm the Insight Map has:
+    - one `復習済み` node,
+    - one `確認済み` or quiz-active node,
+    - one `背景読了` node,
+    - remaining `未着手` nodes.
+
+If the native wrapper is approved later, repeat this sequence in the actual TestFlight build instead of reusing Web/PWA screenshots.
+
 Expected Progress screenshot state:
 
 - Module count: 8.
@@ -84,6 +106,7 @@ Before treating screenshots as final:
 - Confirm the app version and visual state match the submitted build.
 - Confirm the Support / Privacy page is reachable from the same build.
 - Confirm screenshots do not imply login, payments, live news, emergency alerts, or cloud sync.
+- Confirm all Thought Tree text is copied from this guide or another owner-approved fictional note.
 
 ## Asset Policy
 
