@@ -82,6 +82,7 @@ Use this record when checking the production build locally. Codex can run these 
 
 - `npm run build` passes.
 - `npm run preview -- --host 127.0.0.1 --port 4173` serves the production build.
+- `npm run smoke:production -- http://127.0.0.1:4173/Edgion/` passes against the preview URL.
 - `/Edgion/` returns HTTP 200 and loads without a blank screen.
 - `/Edgion/manifest.webmanifest` returns HTTP 200.
 - `/Edgion/sw.js` returns HTTP 200 and is not served from an old cached worker.
