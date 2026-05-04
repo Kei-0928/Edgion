@@ -101,8 +101,10 @@ The service worker treats cross-origin requests as network-only pass-through. Ex
 The Web/PWA runtime is browser-local.
 
 - Learning progress, thought-tree notes, thought metadata, and onboarding state are stored in `localStorage`.
+- If local storage writes fail, the app keeps the in-memory session usable and shows a local persistence warning.
 - There is no app server dependency in the current code.
 - Built-in module content ships with the frontend bundle.
+- Storage warnings do not send diagnostics, notes, progress, or identifiers to any external service.
 - The current PWA shell depends on browser support for service workers, Cache Storage, Web App Manifest handling, and standard navigation/fetch behavior.
 
 ## Native Readiness Questions Before Packaging

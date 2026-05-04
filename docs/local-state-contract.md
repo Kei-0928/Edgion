@@ -13,7 +13,7 @@ The current MVP stores local state in `window.localStorage` through `src/storage
 - `edgion.thoughtMeta.v1`: thought-tree metadata by module.
 - `edgion.onboarding.v1`: first-run onboarding completion.
 
-If `window` or `localStorage` is unavailable, load helpers return safe defaults and save helpers do nothing.
+If `window` or `localStorage` is unavailable, load helpers return safe defaults and save helpers report failed writes.
 
 ## Progress Shape
 
@@ -139,9 +139,13 @@ Because React effects save the loaded in-memory state after render, malformed bu
 
 All save helpers serialize with `JSON.stringify` and write with `localStorage.setItem`.
 
-Write errors are swallowed. This keeps the app usable in cases such as private browsing, blocked storage, or quota exhaustion.
+Save helpers return `true` when the write succeeds and `false` when storage is unavailable, blocked, or throws during `localStorage` access or `setItem`.
+
+Write errors are not thrown to the UI layer. This keeps the app usable in cases such as private browsing, blocked storage, or quota exhaustion.
 
 When a write fails, the current in-memory React state can still update for the active session, but persistence across reloads or app restarts is not guaranteed.
+
+The React app tracks write results for progress, thoughts, thought metadata, and onboarding. If any write fails, the app shows a compact `aria-live` warning that learning data may not persist after reload. The warning does not change the storage format and does not transmit any data.
 
 ## Reset Scope
 
@@ -186,4 +190,4 @@ If the web app is wrapped in a native shell, verify local persistence behavior i
 - Run the Progress-screen learning-data reset, restart, and confirm progress, quiz answers, thoughts, and thought metadata were cleared.
 - Confirm onboarding completion remains after learning-data reset.
 - Confirm app updates or shell relaunches do not unexpectedly clear the webview's localStorage for the app origin.
-- Confirm storage failures, if the shell can simulate them, do not crash the app.
+- Confirm storage failures, if the shell can simulate them, do not crash the app and show the local persistence warning.
