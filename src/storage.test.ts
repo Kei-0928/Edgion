@@ -41,6 +41,17 @@ const setWindowStorage = (storage: TestStorage) => {
   });
 };
 
+const setWindowWithThrowingStorage = () => {
+  Object.defineProperty(globalThis, "window", {
+    value: {
+      get localStorage() {
+        throw new Error("storage blocked");
+      },
+    },
+    configurable: true,
+  });
+};
+
 const createFailingStorage = (): TestStorage => ({
   getItem: () => null,
   setItem: () => {
@@ -220,6 +231,19 @@ describe("storage helpers", () => {
     expect(() => saveThoughts({})).not.toThrow();
     expect(() => saveThoughtMeta({})).not.toThrow();
     expect(() => saveOnboardingComplete(true)).not.toThrow();
+    expect(saveProgress({})).toBe(false);
+    expect(saveThoughts({})).toBe(false);
+    expect(saveThoughtMeta({})).toBe(false);
+    expect(saveOnboardingComplete(true)).toBe(false);
+  });
+
+  it("falls back safely when localStorage access itself is blocked", () => {
+    setWindowWithThrowingStorage();
+
+    expect(loadProgress()).toEqual({});
+    expect(loadThoughts()).toEqual({});
+    expect(loadThoughtMeta()).toEqual({});
+    expect(loadOnboardingComplete()).toBe(false);
     expect(saveProgress({})).toBe(false);
     expect(saveThoughts({})).toBe(false);
     expect(saveThoughtMeta({})).toBe(false);
