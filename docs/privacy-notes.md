@@ -17,6 +17,8 @@ The MVP stores these local keys:
 
 These values are used only to restore the learner's progress, support the Review view, and make the Progress screen useful.
 
+If local storage writes fail, Edgion may show an in-app warning that progress or notes may not persist after reload. This warning is calculated locally from storage write results. It does not send diagnostics, thought notes, progress records, or identifiers to Edgion or any third party.
+
 ## Data Not Collected In The MVP
 
 The current MVP does not collect or transmit:
@@ -28,6 +30,7 @@ The current MVP does not collect or transmit:
 - Cloud-synced learning records.
 - User-generated posts or shared public content.
 - Browser history, contacts, photos, or device identifiers.
+- Storage-warning diagnostics or failure reports.
 
 ## User Control
 
