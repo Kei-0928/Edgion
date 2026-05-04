@@ -154,8 +154,8 @@ Checks:
 ### Latest Local Result
 
 - Date: 2026-04-30
-- Commit: working tree after adding the disaster-information built-in module
-- Preview URL: `http://127.0.0.1:4175/Edgion/`
+- Commit: working tree after Progress accessibility polish
+- Preview URL: `http://127.0.0.1:4176/Edgion/`
 - Tester: Codex
 - Result: Pass for local production preview / Blocked for real iPhone and offline cache storage checks
 - Notes:
@@ -171,6 +171,8 @@ Checks:
   - Progress showed `社会理解の地図` with 8 Insight Map nodes and status labels.
   - The Insight Map score showed `着手 0/8` and `復習済み 0` after reset-state preview.
   - The first Insight Map node exposed the accessible label `猛暑対策で変わる都市のルール: 未着手。教材を開く`.
+  - The active Progress range tab exposed `aria-pressed="true"`.
+  - Progress showed 24 progressbar elements for 8 modules, and progressbar labels included the module title.
   - At a narrow mobile viewport, Insight Map nodes stacked without observed text overlap.
   - Tapping an untouched Insight Map node opened the module learning view.
   - Marking a module reviewed persisted after reload and appeared again in Progress.
