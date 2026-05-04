@@ -24,6 +24,23 @@ Build for production:
 npm run build
 ```
 
+Pre-publish checks:
+
+```bash
+npm test
+npm run lint
+npm run build
+```
+
+Local production smoke check:
+
+```bash
+npm run preview -- --host 127.0.0.1 --port 4173
+npm run smoke:production -- http://127.0.0.1:4173/Edgion/
+```
+
+The smoke check verifies the built app shell, manifest, service worker, support page, icons, and hashed JS/CSS assets under the GitHub Pages `/Edgion/` base path.
+
 ## Public preview
 
 GitHub Pages URL:
