@@ -71,6 +71,7 @@ Edgion is a mobile-first learning app that helps Japanese learners grow social u
 - Added an App Store screenshot guide with capture order, fictional sample notes, local-state setup, and QA checks.
 - Added an eighth built-in module about minimum wage and part-time work rules, with official source notes from the Ministry of Health, Labour and Welfare.
 - Expanded the support-contact decision note with an option comparison, recommended first App Store support-email path, and decision record template.
+- Expanded the App Store review notes draft with reviewer access notes, reset path, verification steps, and safe fictional sample text.
 
 ## Next Safe Task Candidates
 
