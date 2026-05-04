@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit && node --check public/sw.js",
+    "smoke:production": "node scripts/smoke-production.mjs",
     "test": "vitest run"
   },
   "dependencies": {
