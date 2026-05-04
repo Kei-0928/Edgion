@@ -1092,6 +1092,19 @@ function ProgressView({
   );
   const nextReviewModule = getNextReviewModule(newsModules, progress, range, referenceDate);
   const nextLearningModule = nextUnreadModule ?? newsModules[0];
+  const allModulesRead = !nextUnreadModule;
+  const allModulesReviewed = reviewedCount === newsModules.length;
+  const summaryText = !hasActivity
+    ? allModulesRead
+      ? `この期間の新しいログはありません。復習や思考メモを見直すと、これまで広げた知識を保ちやすくなります。`
+      : `まだこの期間のログはありません。${newsModules.length}本の教材から気になるテーマを一つ選んで、背景から読んでみましょう。`
+    : nextReviewModule
+      ? `${visibleStats.readCount}本に読んだログがあります。次は「${nextReviewModule.title}」を復習すると、考えたことを定着させやすくなります。`
+      : allModulesRead
+        ? allModulesReviewed
+          ? `${newsModules.length}本すべてが復習済みです。気になる教材を開いて、思考メモを少し書き足してみましょう。`
+          : `${newsModules.length}本すべてが既読です。まだ復習していない教材を見直すと、理解を定着させやすくなります。`
+        : `${newsModules.length}本の教材のうち、${visibleStats.readCount}本に読んだログがあります。次は未読のテーマを一つ選ぶと、教養の範囲が広がります。`;
 
   return (
     <section className="view-grid">
@@ -1114,6 +1127,7 @@ function ProgressView({
           ["all", "全期間"],
         ].map(([id, label]) => (
           <button
+            aria-pressed={range === id}
             className={range === id ? "range-tab active" : "range-tab"}
             key={id}
             onClick={() => setRange(id as ProgressRange)}
@@ -1144,15 +1158,9 @@ function ProgressView({
 
       <article className="log-summary">
         <strong>{rangeLabel}のふり返り</strong>
-        <p>
-          {!hasActivity
-            ? `まだこの期間のログはありません。${newsModules.length}本の教材から気になるテーマを一つ選んで、背景から読んでみましょう。`
-            : nextReviewModule
-              ? `${visibleStats.readCount}本に読んだログがあります。次は「${nextReviewModule.title}」を復習すると、考えたことを定着させやすくなります。`
-              : `${newsModules.length}本の教材のうち、${visibleStats.readCount}本に読んだログがあります。次は未読のテーマを一つ選ぶと、教養の範囲が広がります。`}
-        </p>
+        <p>{summaryText}</p>
         <div className="log-summary-actions">
-          {!hasActivity && (
+          {!hasActivity && nextUnreadModule && (
             <button
               className="primary-button"
               onClick={() => onStartModule(nextLearningModule.id)}
@@ -1160,6 +1168,12 @@ function ProgressView({
             >
               <BookOpen size={17} />
               <span>{nextUnreadModule ? "未読教材を読む" : "教材を読む"}</span>
+            </button>
+          )}
+          {!hasActivity && !nextUnreadModule && (
+            <button className="ghost-button" onClick={onStartLearning} type="button">
+              <Layers3 size={17} />
+              <span>教材一覧を見る</span>
             </button>
           )}
           {hasActivity && nextReviewModule && (
@@ -1182,7 +1196,7 @@ function ProgressView({
               <span>次の未読教材へ</span>
             </button>
           )}
-          {!hasActivity && !nextUnreadModule && (
+          {hasActivity && !nextReviewModule && !nextUnreadModule && (
             <button className="ghost-button" onClick={onStartLearning} type="button">
               <Layers3 size={17} />
               <span>教材一覧を見る</span>
@@ -1244,9 +1258,21 @@ function ProgressView({
                 </button>
               </div>
               <div className="progress-bars">
-                <ProgressBar label="Read" value={readValue} />
-                <ProgressBar label="Quiz" value={quizValueForModule} />
-                <ProgressBar label="Tree" value={thoughtValue} />
+                <ProgressBar
+                  ariaLabel={`${module.title} Read progress`}
+                  label="Read"
+                  value={readValue}
+                />
+                <ProgressBar
+                  ariaLabel={`${module.title} Quiz progress`}
+                  label="Quiz"
+                  value={quizValueForModule}
+                />
+                <ProgressBar
+                  ariaLabel={`${module.title} Tree progress`}
+                  label="Tree"
+                  value={thoughtValue}
+                />
               </div>
             </article>
           );
@@ -1365,7 +1391,15 @@ function Metric({
   );
 }
 
-function ProgressBar({ label, value }: { label: string; value: number }) {
+function ProgressBar({
+  ariaLabel,
+  label,
+  value,
+}: {
+  ariaLabel: string;
+  label: string;
+  value: number;
+}) {
   const safeValue = Math.min(100, value);
 
   return (
@@ -1374,7 +1408,7 @@ function ProgressBar({ label, value }: { label: string; value: number }) {
       <div
         className="progress-track"
         role="progressbar"
-        aria-label={`${label} progress`}
+        aria-label={ariaLabel}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(safeValue)}
