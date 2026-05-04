@@ -1412,7 +1412,7 @@ p {
   }
 
   .main {
-    padding: 22px 18px 90px;
+    padding: 22px 18px calc(90px + env(safe-area-inset-bottom, 0px));
   }
 
   .hero-panel,
@@ -1431,9 +1431,9 @@ p {
 
   .bottom-nav {
     position: fixed;
-    right: 14px;
-    bottom: 14px;
-    left: 14px;
+    right: max(14px, env(safe-area-inset-right, 0px));
+    bottom: max(14px, env(safe-area-inset-bottom, 0px));
+    left: max(14px, env(safe-area-inset-left, 0px));
     z-index: 20;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
