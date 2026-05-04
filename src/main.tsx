@@ -301,6 +301,7 @@ function App() {
             const Icon = item.icon;
             return (
               <button
+                aria-current={activeView === item.id ? "page" : undefined}
                 className={activeView === item.id ? "nav-button active" : "nav-button"}
                 key={item.id}
                 onClick={() => setActiveView(item.id)}
@@ -442,6 +443,7 @@ function App() {
           return (
             <button
               aria-label={item.label}
+              aria-current={activeView === item.id ? "page" : undefined}
               className={activeView === item.id ? "bottom-button active" : "bottom-button"}
               key={item.id}
               onClick={() => setActiveView(item.id)}
@@ -492,6 +494,7 @@ function ModulePicker({
         <div className="filter-group" aria-label="カテゴリ">
           {categories.map((category) => (
             <button
+              aria-pressed={categoryFilter === category}
               className={categoryFilter === category ? "filter-chip active" : "filter-chip"}
               key={category}
               onClick={() => setCategoryFilter(category)}
@@ -504,6 +507,7 @@ function ModulePicker({
         <div className="filter-group" aria-label="難易度">
           {difficulties.map((difficulty) => (
             <button
+              aria-pressed={difficultyFilter === difficulty}
               className={difficultyFilter === difficulty ? "filter-chip active" : "filter-chip"}
               key={difficulty}
               onClick={() => setDifficultyFilter(difficulty)}
@@ -516,6 +520,7 @@ function ModulePicker({
         <div className="filter-group" aria-label="学習状態">
           {readFilters.map((readState) => (
             <button
+              aria-pressed={readFilter === readState}
               className={readFilter === readState ? "filter-chip active" : "filter-chip"}
               key={readState}
               onClick={() => setReadFilter(readState)}
@@ -539,6 +544,7 @@ function ModulePicker({
           const score = getScore(module, moduleProgress);
           return (
             <button
+              aria-pressed={selectedModuleId === module.id}
               className={selectedModuleId === module.id ? "module-chip active" : "module-chip"}
               key={module.id}
               onClick={() => onSelect(module.id)}
@@ -862,6 +868,7 @@ function QuizView({
 
                   return (
                     <button
+                      aria-pressed={isSelected}
                       className={className}
                       key={choice}
                       onClick={() => onAnswer(item.id, choiceIndex)}
