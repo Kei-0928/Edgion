@@ -105,17 +105,19 @@ The package version shown in the app can lag behind this roadmap. The current `p
 - Add a short first-run onboarding flow.
 - Improve Progress copy and empty states.
 - Add a visible way to reset local learning data.
-- Continue checking `npm run lint` and `npm run build` before publishing.
+- Continue checking `npm test`, `npm run lint`, `npm run build`, and local production smoke checks before publishing.
 
-Status: code/docs foundation is substantially complete on the local `codex/app-store-readiness-foundations` branch, but v0.2 is a roadmap stage, not the current package version. The app still reports package version `0.1.0` from `package.json` through `__APP_VERSION__`.
+Status: code/docs foundation is substantially complete on `main`, but v0.2 is a roadmap stage, not the current package version. The app still reports package version `0.1.0` from `package.json` through `__APP_VERSION__`.
 
 Evidence:
 
 - Eight built-in modules are present with source notes and `lastReviewedAt` review dates.
 - First-run onboarding, Progress empty states, Review flow, and local learning-data reset are implemented.
 - Support/privacy, QA, metadata, packaging, native-readiness, runtime-boundary, and local-state planning docs exist.
-- Tests cover module structure, storage helpers, progress helpers, support-page copy, and PWA assets.
-- `npm test`, `npm run lint`, and `npm run build` are part of the pre-publish workflow.
+- Tests cover module structure, storage helpers, progress helpers, support-page copy, PWA assets, `index.html` metadata, and runtime guardrails.
+- `npm test`, `npm run lint`, `npm run build`, and `npm run smoke:production` are part of the documented pre-publish workflow.
+- The app shows a local persistence warning if browser storage writes fail, while keeping learning data local-only.
+- Mobile safe-area spacing and selected control accessibility states have been hardened for iPhone-oriented use.
 - GitHub Pages deploy workflow has been updated toward Node 24-compatible action majors to reduce future CI/deploy deprecation risk.
 
 This does not mean the app is TestFlight-ready or App Store-ready. Native packaging, App Store Connect, Bundle ID, signing, TestFlight distribution, final App Store screenshots, final privacy policy wording, and final age-rating answers remain out of scope until explicitly approved.
