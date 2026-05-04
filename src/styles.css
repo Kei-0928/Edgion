@@ -214,6 +214,17 @@ button {
   margin-bottom: 22px;
 }
 
+.persistence-warning {
+  margin: -6px 0 20px;
+  padding: 12px 14px;
+  color: #713f12;
+  border: 1px solid rgb(217 119 6 / 0.28);
+  border-radius: 8px;
+  background: #fffbeb;
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
 .eyebrow {
   color: var(--green);
   font-size: 0.78rem;

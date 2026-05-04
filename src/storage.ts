@@ -36,13 +36,15 @@ const readJson = <T>(key: string, fallback: T): T => {
 
 const writeJson = <T>(key: string, value: T) => {
   if (!canUseStorage()) {
-    return;
+    return false;
   }
 
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
+    return true;
   } catch {
     // Storage can fail in private browsing or when quota is exceeded. Keep the app usable.
+    return false;
   }
 };
 
