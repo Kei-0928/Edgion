@@ -71,6 +71,15 @@ const navItems: NavigationItem[] = [
 ];
 
 const supportUrl = `${import.meta.env.BASE_URL}support.html`;
+
+type PersistenceArea = "progress" | "thoughts" | "thoughtMeta" | "onboarding";
+
+const initialPersistenceStatus: Record<PersistenceArea, boolean> = {
+  progress: true,
+  thoughts: true,
+  thoughtMeta: true,
+  onboarding: true,
+};
 const appVersion = __APP_VERSION__;
 
 const sectionIcons = {
@@ -129,6 +138,7 @@ function App() {
   const [thoughts, setThoughts] = useState(loadThoughts);
   const [thoughtMeta, setThoughtMeta] = useState(loadThoughtMeta);
   const [showOnboarding, setShowOnboarding] = useState(() => !loadOnboardingComplete());
+  const [persistenceStatus, setPersistenceStatus] = useState(initialPersistenceStatus);
 
   const selectedModule = useMemo(
     () => newsModules.find((module) => module.id === selectedModuleId) ?? newsModules[0],
@@ -143,17 +153,24 @@ function App() {
     () => getProgressStats(newsModules, progress, thoughts, thoughtMeta, "all", progressReferenceDate),
     [progress, progressReferenceDate, thoughts, thoughtMeta],
   );
+  const hasPersistenceWarning = Object.values(persistenceStatus).some((saved) => !saved);
+
+  const updatePersistenceStatus = (area: PersistenceArea, saved: boolean) => {
+    setPersistenceStatus((current) =>
+      current[area] === saved ? current : { ...current, [area]: saved },
+    );
+  };
 
   useEffect(() => {
-    saveProgress(progress);
+    updatePersistenceStatus("progress", saveProgress(progress));
   }, [progress]);
 
   useEffect(() => {
-    saveThoughts(thoughts);
+    updatePersistenceStatus("thoughts", saveThoughts(thoughts));
   }, [thoughts]);
 
   useEffect(() => {
-    saveThoughtMeta(thoughtMeta);
+    updatePersistenceStatus("thoughtMeta", saveThoughtMeta(thoughtMeta));
   }, [thoughtMeta]);
 
   useEffect(() => {
@@ -239,7 +256,7 @@ function App() {
   };
 
   const completeOnboarding = () => {
-    saveOnboardingComplete(true);
+    updatePersistenceStatus("onboarding", saveOnboardingComplete(true));
     setShowOnboarding(false);
   };
 
@@ -326,6 +343,12 @@ function App() {
             </button>
           </div>
         </header>
+
+        {hasPersistenceWarning && (
+          <div className="persistence-warning" role="status" aria-live="polite">
+            学習データをこの端末に保存できません。プライベートブラウズや容量不足の場合、再読み込み後に進捗やメモが戻らないことがあります。
+          </div>
+        )}
 
         <ModulePicker
           selectedModuleId={selectedModule.id}

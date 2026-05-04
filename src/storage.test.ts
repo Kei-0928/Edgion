@@ -205,7 +205,7 @@ describe("storage helpers", () => {
     });
   });
 
-  it("keeps save helpers safe when storage writes fail", () => {
+  it("reports failed writes while keeping save helpers safe", () => {
     setWindowStorage(createFailingStorage());
 
     expect(() =>
@@ -220,6 +220,17 @@ describe("storage helpers", () => {
     expect(() => saveThoughts({})).not.toThrow();
     expect(() => saveThoughtMeta({})).not.toThrow();
     expect(() => saveOnboardingComplete(true)).not.toThrow();
+    expect(saveProgress({})).toBe(false);
+    expect(saveThoughts({})).toBe(false);
+    expect(saveThoughtMeta({})).toBe(false);
+    expect(saveOnboardingComplete(true)).toBe(false);
+  });
+
+  it("reports successful writes", () => {
+    expect(saveProgress({})).toBe(true);
+    expect(saveThoughts({})).toBe(true);
+    expect(saveThoughtMeta({})).toBe(true);
+    expect(saveOnboardingComplete(true)).toBe(true);
   });
 
   it("round trips onboarding completion", () => {
