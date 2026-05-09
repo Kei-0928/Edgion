@@ -63,6 +63,22 @@ Review completion is stored as `review: true`. Newer records also store `reviewe
 
 Current Progress and Insight Map displays treat review state as all-time because older records can be reviewed without `reviewedAt`. Do not infer `reviewedAt` from `completedAt`; that field may refer to read or quiz activity in current records and may refer to review activity in older records. Current review completion intentionally preserves any existing `completedAt` value.
 
+## Insight Map Display
+
+The Insight Map is a derived display only. It does not write a separate map, skill, point, or domain state to storage.
+
+Each built-in module appears once as a node. Nodes are grouped into fixed learning domains such as `政治・公共`, `経済・働く`, `技術・教育`, `社会`, and `環境・都市`. Domain grouping is presentational and deterministic; changing a module's domain should not change the stored learning record.
+
+Node state still comes from the existing module activity:
+
+1. `未着手`: no read, completed quiz, thought note, or review signal.
+2. `背景読了`: module has been marked read.
+3. `確認済み`: all current quiz items for that module have been answered.
+4. `考えあり`: at least one thought-tree field has non-empty text.
+5. `復習済み`: module review is complete.
+
+The visual style can use a branch or panel metaphor, but it should remain an Edgion knowledge map rather than introducing separate RPG mechanics, XP, currencies, or unlock data.
+
 ## Empty State
 
 The Progress empty state appears when:
