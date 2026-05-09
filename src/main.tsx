@@ -14,7 +14,6 @@ import {
   Home,
   Layers3,
   Lightbulb,
-  Map,
   MessageSquareText,
   PanelTop,
   RotateCcw,
@@ -73,12 +72,11 @@ const navItems: NavigationItem[] = [
 const supportUrl = `${import.meta.env.BASE_URL}support.html`;
 
 type PersistenceArea = "progress" | "thoughts" | "thoughtMeta" | "onboarding";
-type InsightBranch = "society" | "technology" | "economy" | "civics" | "environment";
 
 type InsightPanelMeta = {
-  branch: InsightBranch;
-  branchLabel: string;
   shortLabel: string;
+  x: string;
+  y: string;
 };
 
 const initialPersistenceStatus: Record<PersistenceArea, boolean> = {
@@ -89,61 +87,53 @@ const initialPersistenceStatus: Record<PersistenceArea, boolean> = {
 };
 const appVersion = __APP_VERSION__;
 
-const insightBranches: Array<{ id: InsightBranch; label: string }> = [
-  { id: "society", label: "社会" },
-  { id: "civics", label: "政治・公共" },
-  { id: "economy", label: "経済・働く" },
-  { id: "technology", label: "技術・教育" },
-  { id: "environment", label: "環境・都市" },
-];
-
 const insightPanelMeta: Record<string, InsightPanelMeta> = {
   "climate-cities": {
-    branch: "environment",
-    branchLabel: "環境・都市",
-    shortLabel: "猛暑と都市ルール",
+    shortLabel: "猛暑都市",
+    x: "444px",
+    y: "282px",
   },
   "ai-school": {
-    branch: "technology",
-    branchLabel: "技術・教育",
-    shortLabel: "生成AIと学校",
+    shortLabel: "生成AI",
+    x: "360px",
+    y: "86px",
   },
   "population-local": {
-    branch: "civics",
-    branchLabel: "政治・公共",
-    shortLabel: "人口減少のまちづくり",
+    shortLabel: "人口減少",
+    x: "444px",
+    y: "135px",
   },
   "food-loss": {
-    branch: "economy",
-    branchLabel: "経済・働く",
-    shortLabel: "食品ロスと流通",
+    shortLabel: "食品ロス",
+    x: "276px",
+    y: "282px",
   },
   "adult-contracts": {
-    branch: "society",
-    branchLabel: "社会",
-    shortLabel: "18歳成人と契約",
+    shortLabel: "18歳契約",
+    x: "192px",
+    y: "233px",
   },
   "youth-voting": {
-    branch: "civics",
-    branchLabel: "政治・公共",
-    shortLabel: "18歳選挙権",
+    shortLabel: "18歳選挙",
+    x: "276px",
+    y: "135px",
   },
   "disaster-evacuation": {
-    branch: "civics",
-    branchLabel: "政治・公共",
-    shortLabel: "避難判断と防災情報",
+    shortLabel: "防災判断",
+    x: "528px",
+    y: "233px",
   },
   "minimum-wage-part-time": {
-    branch: "economy",
-    branchLabel: "経済・働く",
-    shortLabel: "最低賃金と働くルール",
+    shortLabel: "最低賃金",
+    x: "360px",
+    y: "184px",
   },
 };
 
 const fallbackInsightPanelMeta = (module: NewsModule): InsightPanelMeta => ({
-  branch: "society",
-  branchLabel: "社会",
   shortLabel: module.category.slice(0, 4),
+  x: "360px",
+  y: "184px",
 });
 
 const sectionIcons = {
@@ -1399,73 +1389,31 @@ function KnowledgePanel({
       status,
     };
   });
-  const masteredCount = nodes.filter(({ status }) => status.state === "mastered").length;
-  const activeCount = nodes.filter(({ status }) => status.state !== "locked").length;
-  const activeBranchCount = insightBranches.filter((branch) =>
-    nodes.some(({ panelMeta, status }) => panelMeta.branch === branch.id && status.state !== "locked"),
-  ).length;
-
   return (
     <section className="knowledge-panel" aria-labelledby="knowledge-panel-title">
       <div className="knowledge-panel-header">
         <div>
           <p className="eyebrow">Insight Map</p>
           <h3 id="knowledge-panel-title">社会理解の地図</h3>
-          <p>
-            全期間の学習ログから、背景を読み、問いを解き、自分の考えを残したテーマを見える化します。
-          </p>
-        </div>
-        <div
-          className="knowledge-panel-score"
-          aria-label={`着手${activeCount}件、復習済み${masteredCount}件、領域${activeBranchCount}件`}
-        >
-          <Map size={18} />
-          <span>着手 {activeCount}/{newsModules.length}</span>
-          <span>復習済み {masteredCount}</span>
-          <span>領域 {activeBranchCount}/{insightBranches.length}</span>
         </div>
       </div>
 
-      <div className="knowledge-skill-board" aria-label="分野ごとの社会理解パネル">
-        <div className="knowledge-root-node">
-          <span>社会理解</span>
-          <strong>{activeCount}/{newsModules.length}</strong>
-        </div>
-
-        <div className="knowledge-branch-grid">
-          {insightBranches.map((branch) => {
-            const branchNodes = nodes.filter(({ panelMeta }) => panelMeta.branch === branch.id);
-            const branchActiveCount = branchNodes.filter(
-              ({ status }) => status.state !== "locked",
-            ).length;
-
-            return (
-              <section className={`knowledge-branch ${branch.id}`} key={branch.id}>
-                <div className="knowledge-branch-heading">
-                  <span>{branch.label}</span>
-                  <strong>
-                    {branchActiveCount}/{branchNodes.length}
-                  </strong>
-                </div>
-                <div className="knowledge-branch-path">
-                  {branchNodes.map(({ module, moduleProgress, panelMeta, status }) => (
-                    <KnowledgeNode
-                      key={module.id}
-                      module={module}
-                      opensReview={moduleProgress.read || status.state !== "locked"}
-                      panelMeta={panelMeta}
-                      status={status}
-                      onOpen={() =>
-                        moduleProgress.read || status.state !== "locked"
-                          ? onOpenModule(module.id)
-                          : onStartModule(module.id)
-                      }
-                    />
-                  ))}
-                </div>
-              </section>
-            );
-          })}
+      <div className="knowledge-map-scroll">
+        <div className="knowledge-map-board" aria-label="つながる社会理解パネル">
+          {nodes.map(({ module, moduleProgress, panelMeta, status }) => (
+            <KnowledgeNode
+              key={module.id}
+              module={module}
+              opensReview={moduleProgress.read || status.state !== "locked"}
+              panelMeta={panelMeta}
+              status={status}
+              onOpen={() =>
+                moduleProgress.read || status.state !== "locked"
+                  ? onOpenModule(module.id)
+                  : onStartModule(module.id)
+              }
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -1487,20 +1435,18 @@ function KnowledgeNode({
 }) {
   return (
     <button
-      className={`knowledge-node ${status.state} ${panelMeta.branch}`}
+      className={`knowledge-node ${status.state}`}
       onClick={onOpen}
+      style={
+        {
+          "--map-x": panelMeta.x,
+          "--map-y": panelMeta.y,
+        } as React.CSSProperties
+      }
       type="button"
-      aria-label={`${panelMeta.branchLabel}、${module.title}: ${status.label}。${opensReview ? "復習を開く" : "教材を開く"}`}
+      aria-label={`${module.title}: ${status.label}。${opensReview ? "復習を開く" : "教材を開く"}`}
     >
-      <span className="knowledge-node-tile" aria-hidden="true">
-        <span>{panelMeta.shortLabel.slice(0, 2)}</span>
-      </span>
-      <span className="knowledge-node-copy">
-        <span className="knowledge-node-category">{panelMeta.branchLabel}</span>
-        <strong>{panelMeta.shortLabel}</strong>
-        <small>{module.title}</small>
-        <span>{status.label}</span>
-      </span>
+      <strong>{panelMeta.shortLabel}</strong>
     </button>
   );
 }
